@@ -5,7 +5,6 @@ import forum.repository.UserRepository;
 import forum.service.dto.RegisterDTO;
 import forum.service.dto.UserDTO;
 import forum.service.mapper.UserMapper;
-import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,12 +30,11 @@ public class UserService {
     private UserRepository userRepository;
 
     public void save(RegisterDTO registerDTO){
-        log.debug("Request to save User : {}", registerDTO);
+        log.debug("Request to save user : {}", registerDTO);
 
-        User user = new User();
-        user.setEmail(registerDTO.getEmail());
-        user.setName(registerDTO.getName());
-        user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
+        User user = userMapper.toEntityFromRegisterDTO(registerDTO);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         userRepository.save(user);
     }
 

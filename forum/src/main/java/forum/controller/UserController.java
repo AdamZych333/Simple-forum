@@ -22,6 +22,8 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> getUsers(){
+        log.debug("Request to get users.");
+
         List<UserDTO> userDTOS = userService.getUsers();
 
         return ResponseEntity.ok(userDTOS);

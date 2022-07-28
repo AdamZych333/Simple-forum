@@ -26,7 +26,7 @@ public class SecurityController {
     public ResponseEntity<Void> register(
             @RequestBody @Validated RegisterDTO registerDTO
     ) throws URISyntaxException {
-        log.debug("REST request to save User : {}", registerDTO);
+        log.debug("Request to save user : {}", registerDTO);
 
         userService.save(registerDTO);
 
