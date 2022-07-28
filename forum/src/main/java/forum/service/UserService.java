@@ -45,4 +45,12 @@ public class UserService {
 
         return userMapper.toDto(users);
     }
+
+    public void setToken(String email, String token){
+        User user = userRepository.findByEmail(email);
+
+        user.setToken(token);
+
+        userRepository.save(user);
+    }
 }
