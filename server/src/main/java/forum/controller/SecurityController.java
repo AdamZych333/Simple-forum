@@ -63,10 +63,7 @@ public class SecurityController {
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
             String token = jwtTokenProvider.createToken(userDetails);
 
-            TokenDTO response = new TokenDTO();
-            response.setToken(token);
-
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(new TokenDTO(token));
         } catch (Exception e) {
             throw new BadCredentialsException("Invalid login/password supplied");
         }

@@ -1,6 +1,8 @@
 package forum.service.dto;
 
 import com.sun.istack.NotNull;
+import forum.service.annotation.validation.ValidEmail;
+import forum.service.annotation.validation.ValidPassword;
 
 public class RegisterDTO {
 
@@ -8,9 +10,11 @@ public class RegisterDTO {
     private String name;
 
     @NotNull
+    @ValidEmail
     private String email;
 
     @NotNull
+    @ValidPassword
     private String password;
 
     public String getName() {
