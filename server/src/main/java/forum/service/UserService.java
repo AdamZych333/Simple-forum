@@ -30,12 +30,11 @@ public class UserService {
     private UserRepository userRepository;
 
     public void save(RegisterDTO registerDTO){
-        log.debug("Request to save User : {}", registerDTO);
+        log.debug("Request to save user : {}", registerDTO);
 
-        User user = new User();
-        user.setEmail(registerDTO.getEmail());
-        user.setName(registerDTO.getName());
+        User user = userMapper.toEntityFromRegisterDTO(registerDTO);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         userRepository.save(user);
     }
 
@@ -46,4 +45,5 @@ public class UserService {
 
         return userMapper.toDto(users);
     }
+
 }

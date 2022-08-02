@@ -2,7 +2,6 @@ package forum.service;
 
 import forum.entity.User;
 import forum.repository.UserRepository;
-import forum.service.exception.TokenNotFoundException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -23,14 +22,6 @@ public class CustomUserDetailsService implements AppUserDetailsService{
         User user = this.userRepository.findByEmail(login);
         if(user == null) throw new UsernameNotFoundException(login);
 
-
-        return user;
-    }
-
-    @Transactional(readOnly = true)
-    public UserDetails loadUserByToken(String token) {
-        User user = this.userRepository.findByToken(token);
-        if(user == null) throw new TokenNotFoundException(token);
 
         return user;
     }

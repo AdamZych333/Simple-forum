@@ -1,6 +1,7 @@
 package forum.controller;
 
 import forum.config.security.JwtTokenProvider;
+import forum.service.CustomUserDetailsService;
 import forum.service.UserService;
 import forum.service.dto.LoginDTO;
 import forum.service.dto.RegisterDTO;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +36,9 @@ public class SecurityController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CustomUserDetailsService userDetailsService;
+
     @PostMapping("register")
     public ResponseEntity<Void> register(
             @RequestBody @Validated RegisterDTO registerDTO
@@ -55,8 +60,8 @@ public class SecurityController {
             String email = loginDTO.getEmail();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, loginDTO.getPassword()));
 
-            String token = jwtTokenProvider.createToken();
-            this.userService.setToken(email, token);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+            String token = jwtTokenProvider.createToken(userDetails);
 
             TokenDTO response = new TokenDTO();
             response.setToken(token);

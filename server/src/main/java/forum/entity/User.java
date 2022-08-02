@@ -1,12 +1,19 @@
 package forum.entity;
 
 import com.sun.istack.NotNull;
+import forum.config.Constants;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,8 +31,25 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "token")
-    private String token;
+    @Transient
+    private final Set<GrantedAuthority> authorities;
+
+    public User() {
+        authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority(Constants.ROLE_USER));
+    }
+
+    public void addAuthority(String name) {
+        authorities.add(new SimpleGrantedAuthority(name));
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -43,19 +67,41 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getToken() {
-        return token;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
