@@ -17,10 +17,6 @@ public class Post {
     private String content;
 
     @NotNull
-    @Column(name = "is_public", nullable = false)
-    private boolean isPublic;
-
-    @NotNull
     @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
 
@@ -42,14 +38,6 @@ public class Post {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public boolean isPublic() {
-        return isPublic;
-    }
-
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
     }
 
     public Timestamp getCreatedAt() {
