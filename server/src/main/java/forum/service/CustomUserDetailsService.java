@@ -2,6 +2,7 @@ package forum.service;
 
 import forum.entity.User;
 import forum.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,7 @@ public class CustomUserDetailsService implements AppUserDetailsService{
 
     private final UserRepository userRepository;
 
+    @Autowired
     public CustomUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }

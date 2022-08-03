@@ -20,19 +20,21 @@ public class UserService {
 
     private final static Logger log = LoggerFactory.getLogger(UserService.class);
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private UserRepository userRepository;
+    public UserService(UserMapper userMapper, PasswordEncoder passwordEncoder, UserRepository userRepository){
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public void save(RegisterDTO registerDTO){
         log.debug("Request to save user : {}", registerDTO);
 
-        User user = userMapper.toEntityFromRegisterDTO(registerDTO);
+        User user = userMapper.toUserFromRegisterDTO(registerDTO);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepository.save(user);
@@ -46,4 +48,11 @@ public class UserService {
         return userMapper.toDto(users);
     }
 
+    public UserDTO getUserByEmail(String email){
+        log.debug("Request to get user : {}", email);
+
+        User user = this.userRepository.findByEmail(email);
+
+        return this.userMapper.toDto(user);
+    }
 }

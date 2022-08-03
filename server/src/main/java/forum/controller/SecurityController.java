@@ -27,17 +27,18 @@ public class SecurityController {
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final UserService userService;
+    private final CustomUserDetailsService userDetailsService;
 
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private CustomUserDetailsService userDetailsService;
+    public SecurityController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserService userService, CustomUserDetailsService userDetailsService) {
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.userService = userService;
+        this.userDetailsService = userDetailsService;
+    }
 
     @PostMapping("register")
     public ResponseEntity<Void> register(
@@ -60,6 +61,7 @@ public class SecurityController {
             String email = loginDTO.getEmail();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, loginDTO.getPassword()));
 
+            // change userdetails => email
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
             String token = jwtTokenProvider.createToken(userDetails);
 

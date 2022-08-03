@@ -23,8 +23,12 @@ public class JwtTokenProvider {
 
     private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 5; // ms
 
+    private final CustomUserDetailsService userDetailsService;
+
     @Autowired
-    private CustomUserDetailsService userDetailsService;
+    public JwtTokenProvider(CustomUserDetailsService userDetailsService){
+        this.userDetailsService = userDetailsService;
+    }
 
     public String createToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();

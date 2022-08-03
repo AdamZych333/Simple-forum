@@ -50,12 +50,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/auth/register").permitAll()
                 .antMatchers("/api/auth/login").permitAll()
-                .antMatchers("/v2/api-docs",
-                        "/configuration/ui",
-                        "/swagger-resources/**",
-                        "/configuration/security",
-                        "/swagger-ui.html",
-                        "/webjars/**").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/api/users/{id}/admin").hasAuthority(Constants.ROLE_ADMIN)
                 .anyRequest().authenticated()
@@ -66,7 +60,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Collections.singletonList("https://localhost:3000"));
+        configuration.setAllowedOrigins(Collections.singletonList("https://localhost:4200"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("X-Requested-With", "Origin", "Content-Type", "Accept", "Authorization"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
