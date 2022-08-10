@@ -31,12 +31,19 @@ public class User implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+
     @Transient
     private final Set<GrantedAuthority> authorities;
 
     public User() {
         authorities = new HashSet<>();
-        authorities.add(new SimpleGrantedAuthority(Constants.ROLE_USER));
+        authorities.add(new SimpleGrantedAuthority(Constants.Role.USER.name()));
     }
 
     public void addAuthority(String name) {
@@ -65,6 +72,14 @@ public class User implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public void setPassword(String password) {
