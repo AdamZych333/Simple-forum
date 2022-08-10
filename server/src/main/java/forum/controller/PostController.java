@@ -3,6 +3,7 @@ package forum.controller;
 import forum.service.PostService;
 import forum.service.UserService;
 import forum.service.dto.CreatedPostDTO;
+import forum.service.dto.PostDTO;
 import forum.service.dto.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -44,5 +47,15 @@ public class PostController {
         postService.save(createdPostDTO);
 
         return ResponseEntity.created(new URI("")).build();
+    }
+
+    public ResponseEntity<List<PostDTO>> getPosts(
+            @RequestParam("query")Optional<String> query
+    ){
+        log.debug("Request to get posts");
+
+        List<PostDTO> postDTOS = postService.getPosts(query.orElse(""));
+
+        return ResponseEntity.ok(postDTOS);
     }
 }
