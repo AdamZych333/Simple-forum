@@ -49,6 +49,18 @@ public class PostController {
         return ResponseEntity.created(new URI("")).build();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<PostDTO> getPost(
+            @PathVariable Long id
+    ){
+        log.debug("Request to get post {}", id);
+
+        PostDTO postDTO = postService.getPost(id);
+
+        return ResponseEntity.ok(postDTO);
+    }
+
+    @GetMapping
     public ResponseEntity<List<PostDTO>> getPosts(
             @RequestParam("query")Optional<String> query
     ){
