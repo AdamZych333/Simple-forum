@@ -3,6 +3,7 @@ package forum.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
+import forum.config.Constants;
 
 @Entity
 @Table(name = "posts")
@@ -13,7 +14,11 @@ public class Post {
     private Long id;
 
     @NotNull
-    @Column(name = "content", nullable = false)
+    @Column(name = "title", nullable = false, length = Constants.POST_TITLE_MAX_LENGTH)
+    private String title;
+
+    @NotNull
+    @Column(name = "content", nullable = false, length = Constants.POST_CONTENT_MAX_LENGTH)
     private String content;
 
     @NotNull
@@ -30,6 +35,14 @@ public class Post {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getContent() {

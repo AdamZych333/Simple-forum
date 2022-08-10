@@ -61,9 +61,7 @@ public class SecurityController {
             String email = loginDTO.getEmail();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, loginDTO.getPassword()));
 
-            // change userdetails => email
-            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-            String token = jwtTokenProvider.createToken(userDetails);
+            String token = jwtTokenProvider.createToken(email);
 
             return ResponseEntity.ok(new TokenDTO(token));
         } catch (Exception e) {

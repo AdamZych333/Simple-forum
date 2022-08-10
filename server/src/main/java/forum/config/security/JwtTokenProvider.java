@@ -30,10 +30,10 @@ public class JwtTokenProvider {
         this.userDetailsService = userDetailsService;
     }
 
-    public String createToken(UserDetails userDetails) {
+    public String createToken(String username) {
         Map<String, Object> claims = new HashMap<>();
         return Jwts.builder().setClaims(claims)
-                .setSubject(userDetails.getUsername())
+                .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SECRET)
