@@ -1,6 +1,9 @@
 package forum.service;
 
+import forum.config.Constants;
+import forum.entity.Role;
 import forum.entity.User;
+import forum.repository.RoleRepository;
 import forum.repository.UserRepository;
 import forum.service.dto.RegisterDTO;
 import forum.service.dto.UserDTO;
@@ -13,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -24,18 +29,26 @@ public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserService(UserMapper userMapper, PasswordEncoder passwordEncoder, UserRepository userRepository){
+    public UserService(UserMapper userMapper,
+                       PasswordEncoder passwordEncoder,
+                       UserRepository userRepository,
+                       RoleRepository roleRepository
+    ){
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
     }
 
     public void save(RegisterDTO registerDTO){
         log.debug("Request to save user : {}", registerDTO);
 
         User user = userMapper.toUserFromRegisterDTO(registerDTO);
+        Role userRole = roleRepository.findByName(Constants.Role.USER.name);
+        user.setRoles(new HashSet<>(Collections.singletonList(userRole)));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepository.save(user);

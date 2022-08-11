@@ -4,7 +4,7 @@ public interface Constants {
     enum Role{
         ADMIN("ADMIN"), USER("USER");
 
-        String name;
+        public String name;
 
         Role(String name) {
             this.name = name;

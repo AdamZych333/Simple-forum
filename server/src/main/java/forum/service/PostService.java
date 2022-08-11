@@ -1,10 +1,14 @@
 package forum.service;
 
+import forum.config.Constants;
 import forum.entity.Post;
+import forum.entity.User;
 import forum.repository.PostRepository;
 import forum.service.dto.CreatedPostDTO;
 import forum.service.dto.PostDTO;
+import forum.service.dto.UserDTO;
 import forum.service.exception.EntityNotFoundException;
+import forum.service.exception.ForbiddenException;
 import forum.service.mapper.PostMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -51,8 +55,27 @@ public class PostService {
     public List<PostDTO> getPosts(String query){
         log.debug("Request to get posts");
 
-        List<Post> posts =postRepository.findAllByContentContainingOrTitleContaining(query, query);
+        List<Post> posts = postRepository.findAllByContentContainingOrTitleContaining(query, query);
 
         return postMapper.toDto(posts);
+    }
+
+    public void updatePost(CreatedPostDTO createdPostDTO, Long id, UserDTO user){
+        log.debug("Request to update post : {}", createdPostDTO);
+
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Post with requested id doesn't exist"));
+
+        if(!post.getUser().getId().equals(user.getId()) &&
+                user.getRoles().stream()
+                        .noneMatch(a -> a.getName().equals(Constants.Role.ADMIN.name))
+        ){
+            throw new ForbiddenException("Requesting user is neither author of the post nor administrator");
+        }
+
+        post.setContent(createdPostDTO.getContent());
+        post.setTitle(createdPostDTO.getTitle());
+
+        postRepository.save(post);
     }
 }

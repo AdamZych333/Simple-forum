@@ -70,4 +70,18 @@ public class PostController {
 
         return ResponseEntity.ok(postDTOS);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updatePost(
+            @RequestBody @Validated CreatedPostDTO postDTO,
+            @PathVariable final Long id,
+            Authentication authentication
+    ){
+        log.debug("Request to update post {}: {}", id, postDTO);
+
+        UserDTO authenticatedUser = userService.getUserByEmail(authentication.getName());
+        postService.updatePost(postDTO, id, authenticatedUser);
+
+        return ResponseEntity.noContent().build();
+    }
 }
