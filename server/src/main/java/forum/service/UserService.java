@@ -4,6 +4,7 @@ import forum.entity.User;
 import forum.repository.UserRepository;
 import forum.service.dto.RegisterDTO;
 import forum.service.dto.UserDTO;
+import forum.service.exception.EntityNotFoundException;
 import forum.service.mapper.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +53,15 @@ public class UserService {
         log.debug("Request to get user : {}", email);
 
         User user = this.userRepository.findByEmail(email);
+
+        return this.userMapper.toDto(user);
+    }
+
+    public UserDTO getUserById(Long id){
+        log.debug("Request to get user : {}", id);
+
+        User user = this.userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist"));
 
         return this.userMapper.toDto(user);
     }

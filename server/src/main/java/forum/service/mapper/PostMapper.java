@@ -4,6 +4,7 @@ import forum.entity.Post;
 import forum.service.dto.CreatedPostDTO;
 import forum.service.dto.PostDTO;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.sql.Timestamp;
 
@@ -18,4 +19,10 @@ public interface PostMapper extends EntityMapper<Post, PostDTO> {
         dto.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         return this.toEntity(dto);
     }
+
+    @Mapping(source = "userID", target = "user.id")
+    Post toEntity(PostDTO postDTO);
+
+    @Mapping(source = "post.user.id", target = "userID")
+    PostDTO toDto(Post post);
 }

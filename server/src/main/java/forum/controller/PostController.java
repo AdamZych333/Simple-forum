@@ -51,7 +51,7 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PostDTO> getPost(
-            @PathVariable Long id
+            @PathVariable final Long id
     ){
         log.debug("Request to get post {}", id);
 
