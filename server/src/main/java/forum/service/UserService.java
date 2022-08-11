@@ -6,8 +6,10 @@ import forum.entity.User;
 import forum.repository.RoleRepository;
 import forum.repository.UserRepository;
 import forum.service.dto.RegisterDTO;
+import forum.service.dto.UpdateUserDTO;
 import forum.service.dto.UserDTO;
 import forum.service.exception.EntityNotFoundException;
+import forum.service.exception.ForbiddenException;
 import forum.service.exception.UserAlreadyExistsException;
 import forum.service.mapper.UserMapper;
 import org.slf4j.Logger;
@@ -82,5 +84,24 @@ public class UserService {
                 .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist"));
 
         return this.userMapper.toDto(user);
+    }
+
+    public void updateUser(UpdateUserDTO newUserDTO, Long id, UserDTO authenticatedUser){
+        log.debug("Request to update user {} by {}", id, authenticatedUser);
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist"));
+
+        if(!user.getId().equals(authenticatedUser.getId()) &&
+                user.getRoles().stream()
+                        .noneMatch(a -> a.getName().equals(Constants.Role.ADMIN.name))
+        ){
+            throw new ForbiddenException("Requesting user is neither author of the post nor administrator");
+        }
+
+        user.setName(newUserDTO.getName());
+        user.setPassword(passwordEncoder.encode(newUserDTO.getPassword()));
+
+        userRepository.save(user);
     }
 }

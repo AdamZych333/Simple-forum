@@ -1,11 +1,14 @@
 package forum.controller;
 
+import forum.entity.User;
 import forum.service.UserService;
+import forum.service.dto.UpdateUserDTO;
 import forum.service.dto.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,5 +45,19 @@ public class UserController {
         UserDTO userDTO = userService.getUserById(id);
 
         return ResponseEntity.ok(userDTO);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateUser(
+            @PathVariable final Long id,
+            @RequestBody UpdateUserDTO updateUserDTO,
+            Authentication authentication
+    ){
+        log.debug("Request to update user {} by {}", id, authentication.getName());
+
+        UserDTO authenticatedUser = userService.getUserByEmail(authentication.getName());
+        userService.updateUser(updateUserDTO, id, authenticatedUser);
+
+        return ResponseEntity.noContent().build();
     }
 }
