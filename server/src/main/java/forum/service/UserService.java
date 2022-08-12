@@ -12,6 +12,7 @@ import forum.service.exception.EntityNotFoundException;
 import forum.service.exception.ForbiddenException;
 import forum.service.exception.UserAlreadyExistsException;
 import forum.service.mapper.UserMapper;
+import forum.service.security.UserRightsChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,17 +34,20 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final UserRightsChecker userRightsChecker;
 
     @Autowired
     public UserService(UserMapper userMapper,
                        PasswordEncoder passwordEncoder,
                        UserRepository userRepository,
-                       RoleRepository roleRepository
+                       RoleRepository roleRepository,
+                       UserRightsChecker userRightsChecker
     ){
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
+        this.userRightsChecker = userRightsChecker;
     }
 
     public void save(RegisterDTO registerDTO){
@@ -92,11 +96,8 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist"));
 
-        if(!user.getId().equals(authenticatedUser.getId()) &&
-                user.getRoles().stream()
-                        .noneMatch(a -> a.getName().equals(Constants.Role.ADMIN.name))
-        ){
-            throw new ForbiddenException("Requesting user is neither author of the post nor administrator");
+        if(userRightsChecker.hasRights(authenticatedUser, user.getId())){
+            throw new ForbiddenException("Requesting user doesn't have rights to delete this user.");
         }
 
         user.setName(newUserDTO.getName());

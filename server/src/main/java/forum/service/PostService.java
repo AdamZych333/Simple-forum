@@ -10,6 +10,7 @@ import forum.service.dto.UserDTO;
 import forum.service.exception.EntityNotFoundException;
 import forum.service.exception.ForbiddenException;
 import forum.service.mapper.PostMapper;
+import forum.service.security.UserRightsChecker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -26,13 +27,15 @@ public class PostService {
 
     private final static Logger log = LoggerFactory.getLogger(PostService.class);
 
-    private PostMapper postMapper;
-    private PostRepository postRepository;
+    private final PostMapper postMapper;
+    private final PostRepository postRepository;
+    private final UserRightsChecker userRightsChecker;
 
     @Autowired
-    public PostService(PostMapper postMapper, PostRepository postRepository) {
+    public PostService(UserRightsChecker userRightsChecker, PostMapper postMapper, PostRepository postRepository) {
         this.postMapper = postMapper;
         this.postRepository = postRepository;
+        this.userRightsChecker = userRightsChecker;
     }
 
     public void save(CreatedPostDTO createdPostDTO){
@@ -60,17 +63,25 @@ public class PostService {
         return postMapper.toDto(posts);
     }
 
-    public void updatePost(CreatedPostDTO createdPostDTO, Long id, UserDTO user){
+    public void deletePost(Long id, UserDTO authenticatedUser){
+        log.debug("Request to delete : {}", id);
+
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Post with requested id doesn't exist"));
+        if(userRightsChecker.hasRights(authenticatedUser, post.getUser().getId())){
+            throw new ForbiddenException("Requesting user doesn't have rights to delete this post.");
+        }
+
+        postRepository.delete(post);
+    }
+
+    public void updatePost(CreatedPostDTO createdPostDTO, Long id, UserDTO authenticatedUser){
         log.debug("Request to update post : {}", createdPostDTO);
 
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Post with requested id doesn't exist"));
-
-        if(!post.getUser().getId().equals(user.getId()) &&
-                user.getRoles().stream()
-                        .noneMatch(a -> a.getName().equals(Constants.Role.ADMIN.name))
-        ){
-            throw new ForbiddenException("Requesting user is neither author of the post nor administrator");
+        if(userRightsChecker.hasRights(authenticatedUser, post.getUser().getId())){
+            throw new ForbiddenException("Requesting user doesn't have rights to update this post.");
         }
 
         post.setContent(createdPostDTO.getContent());
@@ -78,4 +89,6 @@ public class PostService {
 
         postRepository.save(post);
     }
+
+
 }

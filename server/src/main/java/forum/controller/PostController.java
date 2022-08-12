@@ -84,4 +84,17 @@ public class PostController {
 
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePost(
+            @PathVariable final Long id,
+            Authentication authentication
+    ){
+        log.debug("Request to delete post {}", id);
+
+        UserDTO authenticatedUser = userService.getUserByEmail(authentication.getName());
+        postService.deletePost(id, authenticatedUser);
+
+        return ResponseEntity.noContent().build();
+    }
 }
