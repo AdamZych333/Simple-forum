@@ -2,24 +2,29 @@ package forum.service;
 
 import forum.config.Constants;
 import forum.entity.Post;
+import forum.entity.Tag;
 import forum.entity.User;
 import forum.repository.PostRepository;
+import forum.repository.TagRepository;
 import forum.service.dto.CreatedPostDTO;
 import forum.service.dto.PostDTO;
+import forum.service.dto.TagDTO;
 import forum.service.dto.UserDTO;
 import forum.service.exception.EntityNotFoundException;
 import forum.service.exception.ForbiddenException;
 import forum.service.mapper.PostMapper;
+import forum.service.mapper.TagMapper;
 import forum.service.security.UserRightsChecker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.transaction.Transactional;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,12 +37,18 @@ public class PostService {
     private final PostMapper postMapper;
     private final PostRepository postRepository;
     private final UserRightsChecker userRightsChecker;
+    private final TagMapper tagMapper;
 
     @Autowired
-    public PostService(UserRightsChecker userRightsChecker, PostMapper postMapper, PostRepository postRepository) {
+    public PostService(UserRightsChecker userRightsChecker,
+                       PostMapper postMapper,
+                       PostRepository postRepository,
+                       TagMapper tagMapper
+    ) {
         this.postMapper = postMapper;
         this.postRepository = postRepository;
         this.userRightsChecker = userRightsChecker;
+        this.tagMapper = tagMapper;
     }
 
     public void save(CreatedPostDTO createdPostDTO){
@@ -99,6 +110,7 @@ public class PostService {
 
         post.setContent(createdPostDTO.getContent());
         post.setTitle(createdPostDTO.getTitle());
+        post.setTags(tagMapper.toEntitySetFromDTOList(createdPostDTO.getTags()));
 
         postRepository.save(post);
     }

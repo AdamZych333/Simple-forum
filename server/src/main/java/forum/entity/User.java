@@ -38,7 +38,7 @@ public class User implements UserDetails {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Post> posts;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),

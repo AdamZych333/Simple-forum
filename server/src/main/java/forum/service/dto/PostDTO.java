@@ -1,6 +1,7 @@
 package forum.service.dto;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class PostDTO {
 
@@ -13,6 +14,8 @@ public class PostDTO {
     private Timestamp createdAt;
 
     private Long userID;
+
+    private List<TagDTO> tags;
 
     public Long getId() {
         return id;
@@ -52,5 +55,13 @@ public class PostDTO {
 
     public void setUserID(Long userID) {
         this.userID = userID;
+    }
+
+    public List<TagDTO> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<TagDTO> tags) {
+        this.tags = tags;
     }
 }

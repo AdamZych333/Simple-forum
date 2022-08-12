@@ -1,9 +1,11 @@
 package forum.controller;
 
 import forum.service.PostService;
+import forum.service.TagService;
 import forum.service.UserService;
 import forum.service.dto.CreatedPostDTO;
 import forum.service.dto.PostDTO;
+import forum.service.dto.TagDTO;
 import forum.service.dto.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,11 +28,16 @@ public class PostController {
 
     private final PostService postService;
     private final UserService userService;
+    private final TagService tagService;
 
     @Autowired
-    public PostController(PostService postService, UserService userService) {
+    public PostController(PostService postService,
+                          UserService userService,
+                          TagService tagService
+    ) {
         this.postService = postService;
         this.userService = userService;
+        this.tagService = tagService;
     }
 
     @PostMapping
@@ -43,6 +50,7 @@ public class PostController {
         UserDTO authenticatedUser = userService.getUserByEmail(authentication.getName());
         createdPostDTO.setUserId(authenticatedUser.getId());
 
+        tagService.addTags(createdPostDTO.getTags());
         postService.save(createdPostDTO);
 
         return ResponseEntity.created(new URI("")).build();
@@ -83,6 +91,8 @@ public class PostController {
         log.debug("Request to update post {}: {}", id, postDTO);
 
         UserDTO authenticatedUser = userService.getUserByEmail(authentication.getName());
+        tagService.addTags(postDTO.getTags());
+        postDTO.setUserId(authenticatedUser.getId());
         postService.updatePost(postDTO, id, authenticatedUser);
 
         return ResponseEntity.noContent().build();

@@ -16,6 +16,7 @@ public interface PostMapper extends EntityMapper<Post, PostDTO> {
         dto.setTitle(createdPostDTO.getTitle());
         dto.setContent(createdPostDTO.getContent());
         dto.setUserID(createdPostDTO.getUserId());
+        dto.setTags(createdPostDTO.getTags());
         dto.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         return this.toEntity(dto);
     }

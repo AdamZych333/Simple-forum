@@ -4,6 +4,7 @@ import forum.config.Constants;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 public class CreatedPostDTO {
 
@@ -16,6 +17,8 @@ public class CreatedPostDTO {
     private String content;
 
     private Long userId;
+
+    private List<TagDTO> tags;
 
     public String getTitle() {
         return title;
@@ -39,5 +42,13 @@ public class CreatedPostDTO {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public List<TagDTO> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<TagDTO> tags) {
+        this.tags = tags;
     }
 }
