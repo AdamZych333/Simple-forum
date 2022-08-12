@@ -60,4 +60,17 @@ public class UserController {
 
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(
+            @PathVariable final Long id,
+            Authentication authentication
+    ){
+        log.debug("Request to delete user {}", id);
+
+        UserDTO authenticatedUser = userService.getUserByEmail(authentication.getName());
+        userService.deleteUser(id, authenticatedUser);
+
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -105,4 +105,16 @@ public class UserService {
 
         userRepository.save(user);
     }
+
+    public void deleteUser(Long id, UserDTO authenticatedUser){
+        log.debug("Request to delete user {}", id);
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist"));
+        if(userRightsChecker.hasRights(authenticatedUser, user.getId())){
+            throw new ForbiddenException("Requesting user doesn't have rights to delete this user.");
+        }
+
+        userRepository.delete(user);
+    }
 }
