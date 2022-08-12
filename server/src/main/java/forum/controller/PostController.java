@@ -63,11 +63,13 @@ public class PostController {
     public ResponseEntity<List<PostDTO>> getPosts(
             @RequestParam(defaultValue = "") String query,
             @RequestParam(defaultValue = "createdAt") String sortBy,
-            @RequestParam(defaultValue = "dsc") String order
+            @RequestParam(defaultValue = "dsc") String order,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int pageSize
             ){
         log.debug("Request to get posts");
 
-        List<PostDTO> postDTOS = postService.getPosts(query, sortBy, order);
+        List<PostDTO> postDTOS = postService.getPosts(query, sortBy, order, Math.abs(page), Math.abs(pageSize));
 
         return ResponseEntity.ok(postDTOS);
     }

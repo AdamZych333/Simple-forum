@@ -12,6 +12,7 @@ import forum.service.exception.ForbiddenException;
 import forum.service.mapper.PostMapper;
 import forum.service.security.UserRightsChecker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,7 +57,12 @@ public class PostService {
         return postMapper.toDto(post);
     }
 
-    public List<PostDTO> getPosts(String query, String sortBy, String order){
+    public List<PostDTO> getPosts(String query,
+                                  String sortBy,
+                                  String order,
+                                  int page,
+                                  int pageSize
+    ){
         log.debug("Request to get posts");
 
         List<String> allowedList = Arrays.asList("createdAt", "title", "content");
@@ -65,7 +71,7 @@ public class PostService {
                 order.equals("asc")? Sort.Direction.ASC: Sort.Direction.DESC,
                 sortedField
         );
-        List<Post> posts = postRepository.findAllByContentContainingOrTitleContaining(query, query, sort);
+        List<Post> posts = postRepository.findAllByContentContainingOrTitleContaining(query, query, PageRequest.of(page, pageSize, sort));
 
         return postMapper.toDto(posts);
     }
