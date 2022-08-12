@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,10 +56,16 @@ public class PostService {
         return postMapper.toDto(post);
     }
 
-    public List<PostDTO> getPosts(String query){
+    public List<PostDTO> getPosts(String query, String sortBy, String order){
         log.debug("Request to get posts");
 
-        List<Post> posts = postRepository.findAllByContentContainingOrTitleContaining(query, query);
+        List<String> allowedList = Arrays.asList("createdAt", "title", "content");
+        String sortedField = allowedList.contains(sortBy)? sortBy: allowedList.get(0);
+        Sort sort = Sort.by(
+                order.equals("asc")? Sort.Direction.ASC: Sort.Direction.DESC,
+                sortedField
+        );
+        List<Post> posts = postRepository.findAllByContentContainingOrTitleContaining(query, query, sort);
 
         return postMapper.toDto(posts);
     }

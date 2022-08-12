@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -62,11 +61,13 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<List<PostDTO>> getPosts(
-            @RequestParam("query")Optional<String> query
-    ){
+            @RequestParam(defaultValue = "") String query,
+            @RequestParam(defaultValue = "createdAt") String sortBy,
+            @RequestParam(defaultValue = "dsc") String order
+            ){
         log.debug("Request to get posts");
 
-        List<PostDTO> postDTOS = postService.getPosts(query.orElse(""));
+        List<PostDTO> postDTOS = postService.getPosts(query, sortBy, order);
 
         return ResponseEntity.ok(postDTOS);
     }
