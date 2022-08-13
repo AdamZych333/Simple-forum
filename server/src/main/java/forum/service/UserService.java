@@ -51,7 +51,7 @@ public class UserService {
     }
 
     public void save(RegisterDTO registerDTO){
-        log.debug("Request to save user : {}", registerDTO);
+        log.debug("Saving user : {}", registerDTO);
 
         User user = userRepository.findByEmail(registerDTO.getEmail());
         if(user != null){
@@ -66,7 +66,7 @@ public class UserService {
     }
 
     public List<UserDTO> getUsers(){
-        log.debug("Request to get all users");
+        log.debug("Fetching all users");
 
         List<User> users = userRepository.findAll();
 
@@ -74,7 +74,7 @@ public class UserService {
     }
 
     public UserDTO getUserByEmail(String email){
-        log.debug("Request to get user : {}", email);
+        log.debug("Fetching user by email: {}", email);
 
         User user = this.userRepository.findByEmail(email);
 
@@ -82,7 +82,7 @@ public class UserService {
     }
 
     public UserDTO getUserById(Long id){
-        log.debug("Request to get user : {}", id);
+        log.debug("Fetching user by id: {}", id);
 
         User user = this.userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist"));
@@ -91,7 +91,7 @@ public class UserService {
     }
 
     public void updateUser(UpdateUserDTO newUserDTO, Long id, UserDTO authenticatedUser){
-        log.debug("Request to update user {} by {}", id, authenticatedUser);
+        log.debug("Updating user {} to {}", id, newUserDTO);
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist"));
@@ -107,7 +107,7 @@ public class UserService {
     }
 
     public void deleteUser(Long id, UserDTO authenticatedUser){
-        log.debug("Request to delete user {}", id);
+        log.debug("Deleting user {}", id);
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist"));

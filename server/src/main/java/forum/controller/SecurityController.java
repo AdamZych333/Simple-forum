@@ -30,14 +30,15 @@ public class SecurityController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
-    private final CustomUserDetailsService userDetailsService;
 
     @Autowired
-    public SecurityController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserService userService, CustomUserDetailsService userDetailsService) {
+    public SecurityController(AuthenticationManager authenticationManager,
+                              JwtTokenProvider jwtTokenProvider,
+                              UserService userService
+    ) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.userService = userService;
-        this.userDetailsService = userDetailsService;
     }
 
     @PostMapping("register")

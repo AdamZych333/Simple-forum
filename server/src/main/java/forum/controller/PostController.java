@@ -77,7 +77,7 @@ public class PostController {
             ){
         log.debug("Request to get posts");
 
-        List<PostDTO> postDTOS = postService.getPosts(query, sortBy, order, Math.abs(page), Math.abs(pageSize));
+        List<PostDTO> postDTOS = postService.getPosts(query, sortBy, order, Math.max(page, 0), Math.max(pageSize, 1));
 
         return ResponseEntity.ok(postDTOS);
     }
@@ -91,8 +91,9 @@ public class PostController {
         log.debug("Request to update post {}: {}", id, postDTO);
 
         UserDTO authenticatedUser = userService.getUserByEmail(authentication.getName());
-        tagService.addTags(postDTO.getTags());
         postDTO.setUserId(authenticatedUser.getId());
+
+        tagService.addTags(postDTO.getTags());
         postService.updatePost(postDTO, id, authenticatedUser);
 
         return ResponseEntity.noContent().build();
@@ -106,6 +107,7 @@ public class PostController {
         log.debug("Request to delete post {}", id);
 
         UserDTO authenticatedUser = userService.getUserByEmail(authentication.getName());
+
         postService.deletePost(id, authenticatedUser);
 
         return ResponseEntity.noContent().build();

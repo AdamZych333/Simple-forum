@@ -6,21 +6,11 @@ import forum.service.dto.PostDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.sql.Timestamp;
-
 @Mapper(componentModel = "spring", uses = TagMapper.class)
 public interface PostMapper extends EntityMapper<Post, PostDTO> {
 
-
-    default Post toPostFromCreatedPostDTO(CreatedPostDTO createdPostDTO){
-        PostDTO dto = new PostDTO();
-        dto.setTitle(createdPostDTO.getTitle());
-        dto.setContent(createdPostDTO.getContent());
-        dto.setUserID(createdPostDTO.getUserId());
-        dto.setTags(createdPostDTO.getTags());
-        dto.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        return this.toEntity(dto);
-    }
+    @Mapping(source = "userId", target = "user.id")
+    Post toPostFromCreatedPostDTO(CreatedPostDTO createdPostDTO);
 
     @Mapping(source = "userID", target = "user.id")
     Post toEntity(PostDTO postDTO);

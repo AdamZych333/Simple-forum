@@ -9,4 +9,6 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long>{
 
     List<Post> findAllByContentContainingOrTitleContaining(String content, String title, PageRequest pageRequest);
+
+    List<Post> findAllByUser_Id(long userId, PageRequest pageRequest);
 }

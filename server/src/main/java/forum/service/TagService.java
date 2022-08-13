@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -30,14 +29,13 @@ public class TagService {
     }
 
     public void addTags(List<TagDTO> tagDTOS){
-        log.debug("Request to add tags {}", tagDTOS);
+        log.debug("Adding tags {}", tagDTOS);
         if(tagDTOS == null) return;
 
         for(TagDTO newTag : tagDTOS){
-            newTag.setName(
-                    newTag.getName()
-                            .toLowerCase()
-                            .replaceAll(" ", "")
+            newTag.setName(newTag.getName()
+                    .toLowerCase()
+                    .replaceAll(" ", "")
             );
             Tag tag = tagRepository.findByName(newTag.getName());
             if(tag != null){
@@ -50,7 +48,7 @@ public class TagService {
     }
 
     public List<TagDTO> getTags(int page, int pageSize){
-        log.debug("Request to get tags");
+        log.debug("Fetching tags: page {} pageSize {}", page, pageSize);
 
         List<Tag> tags = tagRepository.findAllByPostsCount(PageRequest.of(page, pageSize));
 

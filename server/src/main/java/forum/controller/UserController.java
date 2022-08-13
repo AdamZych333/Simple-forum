@@ -1,7 +1,9 @@
 package forum.controller;
 
 import forum.entity.User;
+import forum.service.PostService;
 import forum.service.UserService;
+import forum.service.dto.PostDTO;
 import forum.service.dto.UpdateUserDTO;
 import forum.service.dto.UserDTO;
 import org.slf4j.Logger;
@@ -21,10 +23,14 @@ public class UserController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     private final UserService userService;
+    private final PostService postService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService,
+                          PostService postService
+    ) {
         this.userService = userService;
+        this.postService = postService;
     }
 
     @GetMapping
@@ -47,6 +53,22 @@ public class UserController {
         return ResponseEntity.ok(userDTO);
     }
 
+    @GetMapping("/{id}/posts")
+    public ResponseEntity<List<PostDTO>> getUserPosts(
+            @PathVariable final Long id,
+            @RequestParam(defaultValue = "") String query,
+            @RequestParam(defaultValue = "createdAt") String sortBy,
+            @RequestParam(defaultValue = "dsc") String order,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int pageSize
+    ){
+        log.debug("Request to get posts of user {}", id);
+
+        List<PostDTO> postDTOS = postService.getUsersPosts(id, query, sortBy, order, Math.max(page, 0), Math.max(pageSize, 1));
+
+        return ResponseEntity.ok(postDTOS);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateUser(
             @PathVariable final Long id,
@@ -56,6 +78,7 @@ public class UserController {
         log.debug("Request to update user {} by {}", id, authentication.getName());
 
         UserDTO authenticatedUser = userService.getUserByEmail(authentication.getName());
+
         userService.updateUser(updateUserDTO, id, authenticatedUser);
 
         return ResponseEntity.noContent().build();
@@ -69,6 +92,7 @@ public class UserController {
         log.debug("Request to delete user {}", id);
 
         UserDTO authenticatedUser = userService.getUserByEmail(authentication.getName());
+
         userService.deleteUser(id, authenticatedUser);
 
         return ResponseEntity.noContent().build();
