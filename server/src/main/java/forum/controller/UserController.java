@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> getUsers(){
-        log.debug("Request to get users.");
+        log.debug("Request to get: users.");
 
         List<UserDTO> userDTOS = userService.getUsers();
 
@@ -46,7 +47,7 @@ public class UserController {
     public ResponseEntity<UserDTO> getUser(
             @PathVariable final Long id
     ){
-        log.debug("Request to get user: {}", id);
+        log.debug("Request to get: user {}", id);
 
         UserDTO userDTO = userService.getUserById(id);
 
@@ -56,15 +57,14 @@ public class UserController {
     @GetMapping("/{id}/posts")
     public ResponseEntity<List<PostDTO>> getUserPosts(
             @PathVariable final Long id,
-            @RequestParam(defaultValue = "") String query,
             @RequestParam(defaultValue = "createdAt") String sortBy,
             @RequestParam(defaultValue = "dsc") String order,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int pageSize
     ){
-        log.debug("Request to get posts of user {}", id);
+        log.debug("Request to get: posts of user {}", id);
 
-        List<PostDTO> postDTOS = postService.getUsersPosts(id, query, sortBy, order, Math.max(page, 0), Math.max(pageSize, 1));
+        List<PostDTO> postDTOS = postService.getUsersPosts(id, sortBy, order, Math.max(page, 0), Math.max(pageSize, 1));
 
         return ResponseEntity.ok(postDTOS);
     }
@@ -73,11 +73,9 @@ public class UserController {
     public ResponseEntity<Void> updateUser(
             @PathVariable final Long id,
             @RequestBody UpdateUserDTO updateUserDTO,
-            Authentication authentication
+            @AuthenticationPrincipal User authenticatedUser
     ){
-        log.debug("Request to update user {} by {}", id, authentication.getName());
-
-        UserDTO authenticatedUser = userService.getUserByEmail(authentication.getName());
+        log.debug("Request to update: user {} by {}", id, authenticatedUser.getEmail());
 
         userService.updateUser(updateUserDTO, id, authenticatedUser);
 
@@ -87,11 +85,9 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(
             @PathVariable final Long id,
-            Authentication authentication
+            @AuthenticationPrincipal User authenticatedUser
     ){
-        log.debug("Request to delete user {}", id);
-
-        UserDTO authenticatedUser = userService.getUserByEmail(authentication.getName());
+        log.debug("Request to delete: user {} by {}", id, authenticatedUser);
 
         userService.deleteUser(id, authenticatedUser);
 

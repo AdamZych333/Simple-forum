@@ -1,6 +1,7 @@
 package forum.service;
 
 import forum.entity.Post;
+import forum.entity.User;
 import forum.repository.PostRepository;
 import forum.service.dto.CreatedPostDTO;
 import forum.service.dto.PostDTO;
@@ -46,11 +47,12 @@ public class PostService {
         this.tagMapper = tagMapper;
     }
 
-    public void save(CreatedPostDTO createdPostDTO){
+    public void save(CreatedPostDTO createdPostDTO, User authenticatedUser){
         log.debug("Saving post : {}", createdPostDTO);
 
         Post post = postMapper.toPostFromCreatedPostDTO(createdPostDTO);
         post.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        post.setUser(authenticatedUser);
 
         postRepository.save(post);
     }
@@ -82,7 +84,6 @@ public class PostService {
     }
 
     public List<PostDTO> getUsersPosts(Long id,
-                                       String query,
                                        String sortBy,
                                        String order,
                                        int page,
@@ -99,7 +100,7 @@ public class PostService {
         return postMapper.toDto(posts);
     }
 
-    public void deletePost(Long id, UserDTO authenticatedUser){
+    public void deletePost(Long id, User authenticatedUser){
         log.debug("Deleting post: {}", id);
 
         Post post = postRepository.findById(id)
@@ -111,7 +112,7 @@ public class PostService {
         postRepository.delete(post);
     }
 
-    public void updatePost(CreatedPostDTO createdPostDTO, Long id, UserDTO authenticatedUser){
+    public void updatePost(CreatedPostDTO createdPostDTO, Long id, User authenticatedUser){
         log.debug("Updating post: {} to {}", id, createdPostDTO);
 
         Post post = postRepository.findById(id)

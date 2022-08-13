@@ -1,13 +1,13 @@
 package forum.service.security;
 
 import forum.config.Constants;
-import forum.service.dto.UserDTO;
+import forum.entity.User;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserRightsChecker {
 
-    public boolean hasRights(UserDTO authenticatedUser, Long userIdToCheck){
+    public boolean hasRights(User authenticatedUser, Long userIdToCheck){
 
         return !authenticatedUser.getId().equals(userIdToCheck) &&
                 authenticatedUser.getRoles().stream()

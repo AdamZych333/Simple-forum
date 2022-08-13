@@ -45,7 +45,7 @@ public class SecurityController {
     public ResponseEntity<Void> register(
             @RequestBody @Validated RegisterDTO registerDTO
     ) throws URISyntaxException {
-        log.debug("Request to save user : {}", registerDTO);
+        log.debug("Request to save: user {}", registerDTO);
 
         userService.save(registerDTO);
 
@@ -56,7 +56,7 @@ public class SecurityController {
     public ResponseEntity<TokenDTO> login(
             @RequestBody @Validated LoginDTO loginDTO
     ) {
-        log.debug("Request to create new token: {}", loginDTO);
+        log.debug("Request to create: new token {}", loginDTO);
 
         try {
             String email = loginDTO.getEmail();

@@ -16,8 +16,6 @@ public class CreatedPostDTO {
     @Size(max=Constants.POST_CONTENT_MAX_LENGTH)
     private String content;
 
-    private Long userId;
-
     private List<TagDTO> tags;
 
     public String getTitle() {
@@ -34,14 +32,6 @@ public class CreatedPostDTO {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     public List<TagDTO> getTags() {

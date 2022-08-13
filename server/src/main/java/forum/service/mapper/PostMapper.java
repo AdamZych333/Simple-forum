@@ -9,13 +9,12 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring", uses = TagMapper.class)
 public interface PostMapper extends EntityMapper<Post, PostDTO> {
 
-    @Mapping(source = "userId", target = "user.id")
     Post toPostFromCreatedPostDTO(CreatedPostDTO createdPostDTO);
 
     @Mapping(source = "userID", target = "user.id")
     Post toEntity(PostDTO postDTO);
 
-    @Mapping(source = "post.user.id", target = "userID")
+    @Mapping(source = "user.id", target = "userID")
     PostDTO toDto(Post post);
 
 }

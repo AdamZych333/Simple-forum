@@ -29,7 +29,7 @@ public class TagController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int pageSize
     ){
-        log.debug("Request to get tags page {} pageSize {}.", page, pageSize);
+        log.debug("Request to get: tags page {} pageSize {}.", page, pageSize);
 
         List<TagDTO> tags = tagService.getTags(page, pageSize);
 

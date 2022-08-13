@@ -65,6 +65,12 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public User loadUserByEmail(String email){
+        log.debug("Loading user by email: {}", email);
+
+        return this.userRepository.findByEmail(email);
+    }
+
     public List<UserDTO> getUsers(){
         log.debug("Fetching all users");
 
@@ -90,7 +96,7 @@ public class UserService {
         return this.userMapper.toDto(user);
     }
 
-    public void updateUser(UpdateUserDTO newUserDTO, Long id, UserDTO authenticatedUser){
+    public void updateUser(UpdateUserDTO newUserDTO, Long id, User authenticatedUser){
         log.debug("Updating user {} to {}", id, newUserDTO);
 
         User user = userRepository.findById(id)
@@ -106,7 +112,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void deleteUser(Long id, UserDTO authenticatedUser){
+    public void deleteUser(Long id, User authenticatedUser){
         log.debug("Deleting user {}", id);
 
         User user = userRepository.findById(id)
