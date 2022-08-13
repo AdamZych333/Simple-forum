@@ -74,7 +74,7 @@ public class PostService {
                                   int page,
                                   int pageSize
     ){
-        log.debug("Request to get posts");
+        log.debug("Request to get posts page {} pageSize {}", page, pageSize);
 
         List<String> allowedList = Arrays.asList("createdAt", "title", "content");
         String sortedField = allowedList.contains(sortBy)? sortBy: allowedList.get(0);

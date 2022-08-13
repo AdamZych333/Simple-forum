@@ -13,6 +13,9 @@ public class TagDTO {
     @Size(min= Constants.TAG_MIN_LENGTH, max=Constants.TAG_MAX_LENGTH)
     private String name;
 
+    @NotNull
+    private int count;
+
     public Long getId() {
         return id;
     }
@@ -27,5 +30,13 @@ public class TagDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

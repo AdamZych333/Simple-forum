@@ -8,8 +8,9 @@ import org.mapstruct.Mapping;
 
 import java.sql.Timestamp;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = TagMapper.class)
 public interface PostMapper extends EntityMapper<Post, PostDTO> {
+
 
     default Post toPostFromCreatedPostDTO(CreatedPostDTO createdPostDTO){
         PostDTO dto = new PostDTO();
@@ -26,4 +27,5 @@ public interface PostMapper extends EntityMapper<Post, PostDTO> {
 
     @Mapping(source = "post.user.id", target = "userID")
     PostDTO toDto(Post post);
+
 }

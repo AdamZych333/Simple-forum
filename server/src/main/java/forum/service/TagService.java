@@ -7,6 +7,8 @@ import forum.service.mapper.TagMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -47,9 +49,11 @@ public class TagService {
         }
     }
 
-    public List<TagDTO> getTags(){
-        log.debug("Request to get all tags");
+    public List<TagDTO> getTags(int page, int pageSize){
+        log.debug("Request to get tags");
 
-        return tagMapper.toDto(tagRepository.findAll());
+        List<Tag> tags = tagRepository.findAllByPostsCount(PageRequest.of(page, pageSize));
+
+        return tagMapper.toDto(tags);
     }
 }
