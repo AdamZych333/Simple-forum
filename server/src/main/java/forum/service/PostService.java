@@ -48,17 +48,18 @@ public class PostService {
     }
 
     public void save(CreatedPostDTO createdPostDTO, User authenticatedUser){
-        log.debug("Saving post : {}", createdPostDTO);
+        log.debug("Saving: post {}", createdPostDTO);
 
         Post post = postMapper.toPostFromCreatedPostDTO(createdPostDTO);
         post.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        post.setLastModificationAt(new Timestamp(System.currentTimeMillis()));
         post.setUser(authenticatedUser);
 
         postRepository.save(post);
     }
 
     public PostDTO getPost(Long id){
-        log.debug("Fetching post: {}", id);
+        log.debug("Fetching: post {}", id);
 
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Requested post not found"));
@@ -72,7 +73,7 @@ public class PostService {
                                   int page,
                                   int pageSize
     ){
-        log.debug("Fetching posts: page {} pageSize {}", page, pageSize);
+        log.debug("Fetching: posts page {} pageSize {}", page, pageSize);
 
         List<Post> posts = postRepository.findAllByContentContainingOrTitleContaining(query, query,
                 SearchFiltersUtil.getPageRequest(sortBy, order, page, pageSize,
@@ -83,13 +84,13 @@ public class PostService {
         return postMapper.toDto(posts);
     }
 
-    public List<PostDTO> getUsersPosts(Long id,
+    public List<PostDTO> getUserPosts(Long id,
                                        String sortBy,
                                        String order,
                                        int page,
                                        int pageSize
     ){
-        log.debug("Fetching posts of user {}: page {} pageSize {}", id, page, pageSize);
+        log.debug("Fetching: posts of user {} page {} pageSize {}", id, page, pageSize);
 
         List<Post> posts = postRepository.findAllByUser_Id(id,
                 SearchFiltersUtil.getPageRequest(sortBy, order, page, pageSize,
@@ -101,7 +102,7 @@ public class PostService {
     }
 
     public void deletePost(Long id, User authenticatedUser){
-        log.debug("Deleting post: {}", id);
+        log.debug("Deleting: post {}", id);
 
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Post with requested id doesn't exist"));
@@ -113,7 +114,7 @@ public class PostService {
     }
 
     public void updatePost(CreatedPostDTO createdPostDTO, Long id, User authenticatedUser){
-        log.debug("Updating post: {} to {}", id, createdPostDTO);
+        log.debug("Updating: post {} to {}", id, createdPostDTO);
 
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Post with requested id doesn't exist"));
@@ -123,7 +124,7 @@ public class PostService {
 
         post.setContent(createdPostDTO.getContent());
         post.setTitle(createdPostDTO.getTitle());
-        post.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        post.setLastModificationAt(new Timestamp(System.currentTimeMillis()));
         post.setTags(tagMapper.toEntitySetFromDTOList(createdPostDTO.getTags()));
 
         postRepository.save(post);

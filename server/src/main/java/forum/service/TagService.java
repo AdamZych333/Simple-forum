@@ -29,7 +29,7 @@ public class TagService {
     }
 
     public void addTags(List<TagDTO> tagDTOS){
-        log.debug("Adding tags {}", tagDTOS);
+        log.debug("Adding: tags {}", tagDTOS);
         if(tagDTOS == null) return;
 
         for(TagDTO newTag : tagDTOS){
@@ -48,7 +48,7 @@ public class TagService {
     }
 
     public List<TagDTO> getTags(int page, int pageSize){
-        log.debug("Fetching tags: page {} pageSize {}", page, pageSize);
+        log.debug("Fetching: tags page {} pageSize {}", page, pageSize);
 
         List<Tag> tags = tagRepository.findAllByPostsCount(PageRequest.of(page, pageSize));
 

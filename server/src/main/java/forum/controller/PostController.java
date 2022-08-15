@@ -4,7 +4,6 @@ import forum.entity.User;
 import forum.service.CommentService;
 import forum.service.PostService;
 import forum.service.TagService;
-import forum.service.UserService;
 import forum.service.dto.CommentDTO;
 import forum.service.dto.CreatedCommentDTO;
 import forum.service.dto.CreatedPostDTO;

@@ -27,12 +27,7 @@ public class CustomUserDetailsService implements AppUserDetailsService{
         User user = this.userRepository.findByEmail(login);
         if(user == null) throw new UsernameNotFoundException(login);
 
-        return getUserWithAuthorities(user);
-    }
-
-    private User getUserWithAuthorities(User user){
-        Set<Role> roles = user.getRoles();
-        roles.forEach(role -> user.addAuthority(role.getName()));
         return user;
     }
+
 }

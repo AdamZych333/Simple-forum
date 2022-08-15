@@ -38,7 +38,7 @@ public class User implements UserDetails {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Post> posts;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -47,16 +47,9 @@ public class User implements UserDetails {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles;
 
-    @Transient
-    private final Set<GrantedAuthority> authorities;
-
     public User() {
-        authorities = new HashSet<>();
-        authorities.add(new SimpleGrantedAuthority(Constants.Role.USER.name()));
-    }
-
-    public void addAuthority(String name) {
-        authorities.add(new SimpleGrantedAuthority(name));
+        roles = new HashSet<>();
+        roles.add(new Role(Constants.Role.USER.name()));
     }
 
     public Long getId() {
@@ -105,7 +98,13 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        for(Role role : roles){
+            System.out.println("??????????????????"+role.getName());
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
+
+        return authorities;
     }
 
     public String getPassword() {

@@ -3,6 +3,7 @@ package forum.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Set;
 
 import forum.config.Constants;
@@ -29,6 +30,10 @@ public class Post {
     @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
 
+    @NotNull
+    @Column(name = "last_modification_at", nullable = false)
+    private Timestamp lastModificationAt;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
     private User user;
@@ -39,7 +44,12 @@ public class Post {
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Tag> tags;
+
+    @OneToMany(mappedBy = "post")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Set<Comment> comments;
 
     public Long getId() {
         return id;
@@ -73,6 +83,14 @@ public class Post {
         this.createdAt = createdAt;
     }
 
+    public Timestamp getLastModificationAt() {
+        return lastModificationAt;
+    }
+
+    public void setLastModificationAt(Timestamp lastModificationAt) {
+        this.lastModificationAt = lastModificationAt;
+    }
+
     public User getUser() {
         return user;
     }
@@ -87,5 +105,13 @@ public class Post {
 
     public void setTags(Set<Tag> tags) {
         this.tags = tags;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 }

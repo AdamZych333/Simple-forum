@@ -13,6 +13,8 @@ public class PostDTO {
 
     private Timestamp createdAt;
 
+    private Timestamp lastModificationAt;
+
     private Long userID;
 
     private List<TagDTO> tags;
@@ -47,6 +49,14 @@ public class PostDTO {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Timestamp getLastModificationAt() {
+        return lastModificationAt;
+    }
+
+    public void setLastModificationAt(Timestamp lastModificationAt) {
+        this.lastModificationAt = lastModificationAt;
     }
 
     public Long getUserID() {
