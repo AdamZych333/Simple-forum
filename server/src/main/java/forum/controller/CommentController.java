@@ -43,7 +43,7 @@ public class CommentController {
     public ResponseEntity<List<CommentDTO>> getPostComments(
             @PathVariable("postID") final Optional<Post> post
     ){
-        log.debug("Request to get: post comments {}", post);
+        log.debug("Request to get: post {} comments", post);
 
         if(!post.isPresent()){
             throw new EntityNotFoundException("Post with requested id doesn't exists.");
@@ -52,6 +52,22 @@ public class CommentController {
         List<CommentDTO> commentDTOS = commentService.getPostComments(post.get().getId());
 
         return ResponseEntity.ok(commentDTOS);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CommentDTO> getPostComment(
+            @PathVariable("postID") final Optional<Post> post,
+            @PathVariable final Long id
+    ){
+        log.debug("Request to get: post {} comment {}", post, id);
+
+        if(!post.isPresent()){
+            throw new EntityNotFoundException("Post with requested id doesn't exists.");
+        }
+
+        CommentDTO commentDTO = commentService.getPostComment(id, post.get().getId());
+
+        return ResponseEntity.ok(commentDTO);
     }
 
     @PostMapping
