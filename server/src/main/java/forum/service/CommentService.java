@@ -8,7 +8,10 @@ import forum.repository.PostRepository;
 import forum.service.dto.CommentDTO;
 import forum.service.dto.CreatedCommentDTO;
 import forum.service.exception.EntityNotFoundException;
+import forum.service.exception.ForbiddenException;
+import forum.service.exception.InvalidParentIdException;
 import forum.service.mapper.CommentMapper;
+import forum.service.security.UserRightsChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,25 +29,19 @@ public class CommentService {
 
     private final CommentMapper commentMapper;
     private final CommentRepository commentRepository;
-    private final PostRepository postRepository;
 
     @Autowired
     public CommentService(CommentMapper commentMapper,
-                          CommentRepository commentRepository,
-                          PostRepository postRepository
+                          CommentRepository commentRepository
     ) {
         this.commentMapper = commentMapper;
         this.commentRepository = commentRepository;
-        this.postRepository = postRepository;
     }
 
-    public void save(CreatedCommentDTO createdCommentDTO, User authenticatedUser, Long postId){
-        log.debug("Saving: comment {} in post {}", createdCommentDTO, postId);
+    public void save(CreatedCommentDTO createdCommentDTO, User authenticatedUser, Post post){
+        log.debug("Saving: comment {} in post {}", createdCommentDTO, post);
 
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new EntityNotFoundException("Post with requested id doesn't exist"));
-
-        Comment parent = commentRepository.findByIdAndPost_Id(createdCommentDTO.getParentID(), postId)
+        Comment parent = commentRepository.findByIdAndPost_Id(createdCommentDTO.getParentID(), post.getId())
                 .orElse(null);
 
         Comment comment = commentMapper.toCommentFromCreatedCommentDTO(createdCommentDTO);
@@ -63,5 +60,23 @@ public class CommentService {
         List<Comment> comments = commentRepository.findAllByPost_IdAndParent_Id(postId, null);
 
         return commentMapper.toDto(comments);
+    }
+
+    public void updateComment(Long id, CreatedCommentDTO createdCommentDTO, User authenticatedUser, Long postID){
+        log.debug("Updating: comment {} to {}", id, createdCommentDTO);
+
+        if(createdCommentDTO.getParentID().equals(id)){
+            throw new InvalidParentIdException("Parent id is the same as comment id.");
+        }
+        Comment comment = commentRepository.findByIdAndPost_Id(id, postID)
+                .orElseThrow(() -> new EntityNotFoundException("Comment with requested id doesn't exist under requested post"));
+        if(!UserRightsChecker.hasRights(authenticatedUser, comment.getId())){
+            throw new ForbiddenException("Requesting user doesn't have rights to update this comment.");
+        }
+        Comment parent = commentRepository.findByIdAndPost_Id(createdCommentDTO.getParentID(), postID)
+                .orElse(null);
+
+        comment.setParent(parent);
+        comment.setContent(createdCommentDTO.getContent());
     }
 }

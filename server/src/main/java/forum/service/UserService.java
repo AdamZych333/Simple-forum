@@ -34,20 +34,17 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final UserRightsChecker userRightsChecker;
 
     @Autowired
     public UserService(UserMapper userMapper,
                        PasswordEncoder passwordEncoder,
                        UserRepository userRepository,
-                       RoleRepository roleRepository,
-                       UserRightsChecker userRightsChecker
+                       RoleRepository roleRepository
     ){
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
-        this.userRightsChecker = userRightsChecker;
     }
 
     public void save(RegisterDTO registerDTO){
@@ -102,7 +99,7 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist"));
 
-        if(userRightsChecker.hasRights(authenticatedUser, user.getId())){
+        if(!UserRightsChecker.hasRights(authenticatedUser, user.getId())){
             throw new ForbiddenException("Requesting user doesn't have rights to delete this user.");
         }
 
@@ -117,7 +114,7 @@ public class UserService {
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist"));
-        if(userRightsChecker.hasRights(authenticatedUser, user.getId())){
+        if(!UserRightsChecker.hasRights(authenticatedUser, user.getId())){
             throw new ForbiddenException("Requesting user doesn't have rights to delete this user.");
         }
 

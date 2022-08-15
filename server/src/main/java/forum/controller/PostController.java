@@ -54,19 +54,6 @@ public class PostController {
         return ResponseEntity.created(new URI("")).build();
     }
 
-    @PostMapping("/{id}/comments")
-    public ResponseEntity<Void> addComment(
-            @PathVariable final Long id,
-            @RequestBody @Validated CreatedCommentDTO createdCommentDTO,
-            @AuthenticationPrincipal User authenticatedUser
-    ) throws URISyntaxException {
-        log.debug("Request to save: comment {} in post {}", createdCommentDTO, id);
-
-        commentService.save(createdCommentDTO, authenticatedUser, id);
-
-        return ResponseEntity.created(new URI("")).build();
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<PostDTO> getPost(
             @PathVariable final Long id
@@ -76,17 +63,6 @@ public class PostController {
         PostDTO postDTO = postService.getPost(id);
 
         return ResponseEntity.ok(postDTO);
-    }
-
-    @GetMapping("/{id}/comments")
-    public ResponseEntity<List<CommentDTO>> getPostComments(
-            @PathVariable final Long id
-    ){
-        log.debug("Request to get: post comments {}", id);
-
-        List<CommentDTO> commentDTOS = commentService.getPostComments(id);
-
-        return ResponseEntity.ok(commentDTOS);
     }
 
     @GetMapping

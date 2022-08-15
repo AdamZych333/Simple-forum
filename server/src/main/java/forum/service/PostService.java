@@ -32,18 +32,15 @@ public class PostService {
 
     private final PostMapper postMapper;
     private final PostRepository postRepository;
-    private final UserRightsChecker userRightsChecker;
     private final TagMapper tagMapper;
 
     @Autowired
-    public PostService(UserRightsChecker userRightsChecker,
-                       PostMapper postMapper,
+    public PostService(PostMapper postMapper,
                        PostRepository postRepository,
                        TagMapper tagMapper
     ) {
         this.postMapper = postMapper;
         this.postRepository = postRepository;
-        this.userRightsChecker = userRightsChecker;
         this.tagMapper = tagMapper;
     }
 
@@ -106,7 +103,7 @@ public class PostService {
 
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Post with requested id doesn't exist"));
-        if(userRightsChecker.hasRights(authenticatedUser, post.getUser().getId())){
+        if(!UserRightsChecker.hasRights(authenticatedUser, post.getUser().getId())){
             throw new ForbiddenException("Requesting user doesn't have rights to delete this post.");
         }
 
@@ -118,7 +115,7 @@ public class PostService {
 
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Post with requested id doesn't exist"));
-        if(userRightsChecker.hasRights(authenticatedUser, post.getUser().getId())){
+        if(!UserRightsChecker.hasRights(authenticatedUser, post.getUser().getId())){
             throw new ForbiddenException("Requesting user doesn't have rights to update this post.");
         }
 
