@@ -44,11 +44,15 @@ public class CommentService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new EntityNotFoundException("Post with requested id doesn't exist"));
 
+        Comment parent = commentRepository.findByIdAndPost_Id(createdCommentDTO.getParentID(), postId)
+                .orElse(null);
+
         Comment comment = commentMapper.toCommentFromCreatedCommentDTO(createdCommentDTO);
         comment.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         comment.setLastModificationTime(new Timestamp(System.currentTimeMillis()));
         comment.setPost(post);
         comment.setUser(authenticatedUser);
+        comment.setParent(parent);
 
         commentRepository.save(comment);
     }
@@ -56,7 +60,7 @@ public class CommentService {
     public List<CommentDTO> getPostComments(Long postId){
         log.debug("Fetching: comments of post {}", postId);
 
-        List<Comment> comments = commentRepository.findAllByPost_Id(postId);
+        List<Comment> comments = commentRepository.findAllByPost_IdAndParent_Id(postId, null);
 
         return commentMapper.toDto(comments);
     }

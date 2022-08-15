@@ -1,6 +1,7 @@
 package forum.service.dto;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class CommentDTO {
 
@@ -15,6 +16,10 @@ public class CommentDTO {
     private Long userID;
 
     private Long postID;
+
+    private Long parentID;
+
+    private List<CommentDTO> children;
 
     public Long getId() {
         return id;
@@ -62,5 +67,21 @@ public class CommentDTO {
 
     public void setPostID(Long postID) {
         this.postID = postID;
+    }
+
+    public Long getParentID() {
+        return parentID;
+    }
+
+    public void setParentID(Long parentID) {
+        this.parentID = parentID;
+    }
+
+    public List<CommentDTO> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<CommentDTO> children) {
+        this.children = children;
     }
 }

@@ -5,6 +5,7 @@ import forum.config.Constants;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Entity
 @Table(name = "comments")
@@ -33,6 +34,12 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "post_id")
     private Post post;
+
+    @ManyToOne
+    private Comment parent;
+
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Comment> children;
 
     public Long getId() {
         return id;
@@ -80,5 +87,21 @@ public class Comment {
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    public Comment getParent() {
+        return parent;
+    }
+
+    public void setParent(Comment parent) {
+        this.parent = parent;
+    }
+
+    public Set<Comment> getChildren() {
+        return children;
+    }
+
+    public void setChildren(Set<Comment> children) {
+        this.children = children;
     }
 }

@@ -11,11 +11,21 @@ public class CreatedCommentDTO {
     @Size(max= Constants.COMMENT_CONTENT_MAX_LENGTH)
     private String content;
 
+    private Long parentID;
+
     public String getContent() {
         return content;
     }
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Long getParentID() {
+        return parentID;
+    }
+
+    public void setParentID(Long parentID) {
+        this.parentID = parentID;
     }
 }
