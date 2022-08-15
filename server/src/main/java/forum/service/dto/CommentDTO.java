@@ -11,7 +11,7 @@ public class CommentDTO {
 
     private Timestamp createdAt;
 
-    private Timestamp lastModificationTime;
+    private Timestamp lastModificationAt;
 
     private Long userID;
 
@@ -45,12 +45,12 @@ public class CommentDTO {
         this.createdAt = createdAt;
     }
 
-    public Timestamp getLastModificationTime() {
-        return lastModificationTime;
+    public Timestamp getLastModificationAt() {
+        return lastModificationAt;
     }
 
-    public void setLastModificationTime(Timestamp lastModificationTime) {
-        this.lastModificationTime = lastModificationTime;
+    public void setLastModificationAt(Timestamp lastModificationAt) {
+        this.lastModificationAt = lastModificationAt;
     }
 
     public Long getUserID() {

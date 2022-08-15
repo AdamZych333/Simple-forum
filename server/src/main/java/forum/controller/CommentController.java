@@ -6,7 +6,11 @@ import forum.service.CommentService;
 import forum.service.dto.CommentDTO;
 import forum.service.dto.CreatedCommentDTO;
 import forum.service.dto.CreatedPostDTO;
+import forum.service.dto.UpdateCommentDTO;
 import forum.service.exception.EntityNotFoundException;
+import forum.service.exception.ForbiddenException;
+import forum.service.exception.InvalidParentIdException;
+import forum.service.security.UserRightsChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,11 +45,11 @@ public class CommentController {
     ){
         log.debug("Request to get: post comments {}", post);
 
-        List<CommentDTO> commentDTOS = commentService.getPostComments(
-                post.orElseThrow(
-                        () -> new EntityNotFoundException("Post with requested if doesn't exist.")
-                ).getId()
-        );
+        if(!post.isPresent()){
+            throw new EntityNotFoundException("Post with requested id doesn't exists.");
+        }
+
+        List<CommentDTO> commentDTOS = commentService.getPostComments(post.get().getId());
 
         return ResponseEntity.ok(commentDTOS);
     }
@@ -58,29 +62,46 @@ public class CommentController {
     ) throws URISyntaxException {
         log.debug("Request to save: comment {} in post {}", createdCommentDTO, post);
 
-        commentService.save(createdCommentDTO, authenticatedUser,
-                post.orElseThrow(
-                        () -> new EntityNotFoundException("Post with requested if doesn't exist.")
-                )
-        );
+        if(!post.isPresent()){
+            throw new EntityNotFoundException("Post with requested id doesn't exists.");
+        }
+
+        commentService.save(createdCommentDTO, authenticatedUser, post.get());
 
         return ResponseEntity.created(new URI("")).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updatePost(
+    public ResponseEntity<Void> updateComment(
             @PathVariable("postID") final Optional<Post> post,
             @PathVariable final Long id,
-            @RequestBody @Validated CreatedCommentDTO commentDTO,
+            @RequestBody @Validated UpdateCommentDTO updateCommentDTO,
             @AuthenticationPrincipal User authenticatedUser
     ){
-        log.debug("Request to update: comment {} to {}", id, commentDTO);
+        log.debug("Request to update: comment {} to {}", id, updateCommentDTO);
 
-        commentService.updateComment(id, commentDTO, authenticatedUser,
-                post.orElseThrow(
-                        () -> new EntityNotFoundException("Post with requested if doesn't exist.")
-                ).getId()
-        );
+        if(!post.isPresent()){
+            throw new EntityNotFoundException("Post with requested id doesn't exists.");
+        }
+
+        commentService.updateComment(id, post.get().getId(), updateCommentDTO, authenticatedUser);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteComment(
+            @PathVariable("postID") final Optional<Post> post,
+            @PathVariable final Long id,
+            @AuthenticationPrincipal User authenticatedUser
+    ){
+        log.debug("Request to delete: comment {}", id);
+
+        if(!post.isPresent()){
+            throw new EntityNotFoundException("Post with requested id doesn't exists.");
+        }
+
+        commentService.deleteComment(id, post.get().getId(), authenticatedUser);
 
         return ResponseEntity.noContent().build();
     }

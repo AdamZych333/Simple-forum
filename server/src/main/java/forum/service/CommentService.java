@@ -4,12 +4,11 @@ import forum.entity.Comment;
 import forum.entity.Post;
 import forum.entity.User;
 import forum.repository.CommentRepository;
-import forum.repository.PostRepository;
 import forum.service.dto.CommentDTO;
 import forum.service.dto.CreatedCommentDTO;
+import forum.service.dto.UpdateCommentDTO;
 import forum.service.exception.EntityNotFoundException;
 import forum.service.exception.ForbiddenException;
-import forum.service.exception.InvalidParentIdException;
 import forum.service.mapper.CommentMapper;
 import forum.service.security.UserRightsChecker;
 import org.slf4j.Logger;
@@ -46,7 +45,7 @@ public class CommentService {
 
         Comment comment = commentMapper.toCommentFromCreatedCommentDTO(createdCommentDTO);
         comment.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        comment.setLastModificationTime(new Timestamp(System.currentTimeMillis()));
+        comment.setLastModificationAt(new Timestamp(System.currentTimeMillis()));
         comment.setPost(post);
         comment.setUser(authenticatedUser);
         comment.setParent(parent);
@@ -62,21 +61,40 @@ public class CommentService {
         return commentMapper.toDto(comments);
     }
 
-    public void updateComment(Long id, CreatedCommentDTO createdCommentDTO, User authenticatedUser, Long postID){
-        log.debug("Updating: comment {} to {}", id, createdCommentDTO);
+    public CommentDTO getPostComment(Long id, Long postID){
+        log.debug("Fetching: comment {} of post {}", id, postID);
 
-        if(createdCommentDTO.getParentID().equals(id)){
-            throw new InvalidParentIdException("Parent id is the same as comment id.");
-        }
         Comment comment = commentRepository.findByIdAndPost_Id(id, postID)
                 .orElseThrow(() -> new EntityNotFoundException("Comment with requested id doesn't exist under requested post"));
-        if(!UserRightsChecker.hasRights(authenticatedUser, comment.getId())){
+
+        return commentMapper.toDto(comment);
+    }
+
+    public void updateComment(Long id, Long postID, UpdateCommentDTO updateCommentDTO, User authenticatedUser){
+        log.debug("Updating: comment {} to {}", id, updateCommentDTO);
+
+        Comment comment = commentRepository.findByIdAndPost_Id(id, postID)
+                .orElseThrow(() -> new EntityNotFoundException("Comment with requested id doesn't exist under requested post"));
+
+        if(!UserRightsChecker.hasRights(authenticatedUser, comment.getUser().getId())){
             throw new ForbiddenException("Requesting user doesn't have rights to update this comment.");
         }
-        Comment parent = commentRepository.findByIdAndPost_Id(createdCommentDTO.getParentID(), postID)
-                .orElse(null);
 
-        comment.setParent(parent);
-        comment.setContent(createdCommentDTO.getContent());
+        comment.setContent(updateCommentDTO.getContent());
+        comment.setLastModificationAt(new Timestamp(System.currentTimeMillis()));
+
+        commentRepository.save(comment);
+    }
+
+    public void deleteComment(Long id, Long postID, User authenticatedUser){
+        log.debug("Deleting: comment {}", id);
+
+        Comment comment = commentRepository.findByIdAndPost_Id(id, postID)
+                .orElseThrow(() -> new EntityNotFoundException("Comment with requested id doesn't exist under requested post"));
+        if(!UserRightsChecker.hasRights(authenticatedUser, comment.getUser().getId())){
+            throw new ForbiddenException("Requesting user doesn't have rights to update this comment.");
+        }
+
+        commentRepository.delete(comment);
     }
 }

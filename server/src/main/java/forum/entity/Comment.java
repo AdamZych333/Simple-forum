@@ -1,6 +1,8 @@
 package forum.entity;
 
 import forum.config.Constants;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -24,8 +26,8 @@ public class Comment {
     private Timestamp createdAt;
 
     @NotNull
-    @Column(name = "last_modification_time", nullable = false)
-    private Timestamp lastModificationTime;
+    @Column(name = "last_modification_at", nullable = false)
+    private Timestamp lastModificationAt;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
@@ -38,7 +40,7 @@ public class Comment {
     @ManyToOne
     private Comment parent;
 
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<Comment> children;
 
     public Long getId() {
@@ -65,12 +67,12 @@ public class Comment {
         this.createdAt = createdAt;
     }
 
-    public Timestamp getLastModificationTime() {
-        return lastModificationTime;
+    public Timestamp getLastModificationAt() {
+        return lastModificationAt;
     }
 
-    public void setLastModificationTime(Timestamp lastModificationTime) {
-        this.lastModificationTime = lastModificationTime;
+    public void setLastModificationAt(Timestamp lastModificationAt) {
+        this.lastModificationAt = lastModificationAt;
     }
 
     public User getUser() {
