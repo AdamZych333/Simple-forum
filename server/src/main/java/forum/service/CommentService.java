@@ -46,6 +46,7 @@ public class CommentService {
 
         Comment comment = commentMapper.toCommentFromCreatedCommentDTO(createdCommentDTO);
         comment.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        comment.setLastModificationTime(new Timestamp(System.currentTimeMillis()));
         comment.setPost(post);
         comment.setUser(authenticatedUser);
 

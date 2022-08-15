@@ -10,6 +10,8 @@ public class CommentDTO {
 
     private Timestamp createdAt;
 
+    private Timestamp lastModificationTime;
+
     private Long userID;
 
     private Long postID;
@@ -36,6 +38,14 @@ public class CommentDTO {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Timestamp getLastModificationTime() {
+        return lastModificationTime;
+    }
+
+    public void setLastModificationTime(Timestamp lastModificationTime) {
+        this.lastModificationTime = lastModificationTime;
     }
 
     public Long getUserID() {

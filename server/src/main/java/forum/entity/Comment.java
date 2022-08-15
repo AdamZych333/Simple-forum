@@ -22,6 +22,10 @@ public class Comment {
     @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
 
+    @NotNull
+    @Column(name = "last_modification_time", nullable = false)
+    private Timestamp lastModificationTime;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
     private User user;
@@ -52,6 +56,14 @@ public class Comment {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Timestamp getLastModificationTime() {
+        return lastModificationTime;
+    }
+
+    public void setLastModificationTime(Timestamp lastModificationTime) {
+        this.lastModificationTime = lastModificationTime;
     }
 
     public User getUser() {

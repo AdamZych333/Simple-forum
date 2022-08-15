@@ -100,7 +100,6 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
         for(Role role : roles){
-            System.out.println("??????????????????"+role.getName());
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
 
