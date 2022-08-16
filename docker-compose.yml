@@ -16,8 +16,6 @@ services:
     restart: always
     environment: 
       MYSQL_DATABASE: forum
-      MYSQL_USER: mysql
-      MYSQL_PASSWORD: mysql
       MYSQL_ROOT_PASSWORD: mysql
 
   adminer:

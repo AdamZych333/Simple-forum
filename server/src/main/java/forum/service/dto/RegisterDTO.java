@@ -1,8 +1,8 @@
 package forum.service.dto;
 
 import com.sun.istack.NotNull;
-import forum.service.annotation.validation.ValidEmail;
-import forum.service.annotation.validation.ValidPassword;
+import forum.service.annotation.ValidEmail;
+import forum.service.annotation.ValidPassword;
 
 public class RegisterDTO {
 

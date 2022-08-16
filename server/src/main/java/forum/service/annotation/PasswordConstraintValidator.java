@@ -1,4 +1,4 @@
-package forum.service.annotation.validation;
+package forum.service.annotation;
 
 import com.google.common.base.Joiner;
 import org.passay.*;

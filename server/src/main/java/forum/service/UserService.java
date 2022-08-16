@@ -62,12 +62,6 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User loadUserByEmail(String email){
-        log.debug("Loading user by email: {}", email);
-
-        return this.userRepository.findByEmail(email);
-    }
-
     public List<UserDTO> getUsers(){
         log.debug("Fetching all users");
 
@@ -93,12 +87,11 @@ public class UserService {
         return this.userMapper.toDto(user);
     }
 
-    public void updateUser(UpdateUserDTO newUserDTO, Long id, User authenticatedUser){
+    public void updateUser(Long id, UpdateUserDTO newUserDTO, User authenticatedUser){
         log.debug("Updating user {} to {}", id, newUserDTO);
 
-        User user = userRepository.findById(id)
+        User user = this.userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist"));
-
         if(!UserRightsChecker.hasRights(authenticatedUser, user.getId())){
             throw new ForbiddenException("Requesting user doesn't have rights to delete this user.");
         }
@@ -112,7 +105,7 @@ public class UserService {
     public void deleteUser(Long id, User authenticatedUser){
         log.debug("Deleting user {}", id);
 
-        User user = userRepository.findById(id)
+        User user = this.userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist"));
         if(!UserRightsChecker.hasRights(authenticatedUser, user.getId())){
             throw new ForbiddenException("Requesting user doesn't have rights to delete this user.");

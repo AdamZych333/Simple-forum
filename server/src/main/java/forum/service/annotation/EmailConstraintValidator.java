@@ -1,4 +1,4 @@
-package forum.service.annotation.validation;
+package forum.service.annotation;
 
 import org.apache.commons.validator.routines.EmailValidator;
 

@@ -2,7 +2,7 @@ package forum.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "tags")
@@ -16,8 +16,8 @@ public class Tag {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "tags")
-    private List<Post> posts;
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "tags")
+    private Set<Post> posts;
 
     public Long getId() {
         return id;
@@ -35,11 +35,11 @@ public class Tag {
         this.name = name;
     }
 
-    public List<Post> getPosts() {
+    public Set<Post> getPosts() {
         return posts;
     }
 
-    public void setPosts(List<Post> posts) {
+    public void setPosts(Set<Post> posts) {
         this.posts = posts;
     }
 }

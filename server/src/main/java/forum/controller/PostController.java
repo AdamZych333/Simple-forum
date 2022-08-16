@@ -1,5 +1,6 @@
 package forum.controller;
 
+import forum.entity.Post;
 import forum.entity.User;
 import forum.service.CommentService;
 import forum.service.PostService;
@@ -8,6 +9,9 @@ import forum.service.dto.CommentDTO;
 import forum.service.dto.CreatedCommentDTO;
 import forum.service.dto.CreatedPostDTO;
 import forum.service.dto.PostDTO;
+import forum.service.exception.EntityNotFoundException;
+import forum.service.exception.ForbiddenException;
+import forum.service.security.UserRightsChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -29,16 +34,13 @@ public class PostController {
 
     private final PostService postService;
     private final TagService tagService;
-    private final CommentService commentService;
 
     @Autowired
     public PostController(PostService postService,
-                          TagService tagService,
-                          CommentService commentService
+                          TagService tagService
     ) {
         this.postService = postService;
         this.tagService = tagService;
-        this.commentService = commentService;
     }
 
     @PostMapping
@@ -56,7 +58,7 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PostDTO> getPost(
-            @PathVariable final Long id
+            @PathVariable("id") final Long id
     ){
         log.debug("Request to get: post {}", id);
 
@@ -82,14 +84,14 @@ public class PostController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updatePost(
-            @RequestBody @Validated CreatedPostDTO postDTO,
             @PathVariable final Long id,
+            @RequestBody @Validated CreatedPostDTO postDTO,
             @AuthenticationPrincipal User authenticatedUser
     ){
         log.debug("Request to update: post {} to {}", id, postDTO);
 
         tagService.addTags(postDTO.getTags());
-        postService.updatePost(postDTO, id, authenticatedUser);
+        postService.updatePost(id, postDTO, authenticatedUser);
 
         return ResponseEntity.noContent().build();
     }

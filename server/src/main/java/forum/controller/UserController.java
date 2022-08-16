@@ -6,6 +6,9 @@ import forum.service.UserService;
 import forum.service.dto.PostDTO;
 import forum.service.dto.UpdateUserDTO;
 import forum.service.dto.UserDTO;
+import forum.service.exception.EntityNotFoundException;
+import forum.service.exception.ForbiddenException;
+import forum.service.security.UserRightsChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -75,9 +79,9 @@ public class UserController {
             @RequestBody UpdateUserDTO updateUserDTO,
             @AuthenticationPrincipal User authenticatedUser
     ){
-        log.debug("Request to update: user {} by {}", id, authenticatedUser.getEmail());
+        log.debug("Request to update: user {} by {}", id, authenticatedUser);
 
-        userService.updateUser(updateUserDTO, id, authenticatedUser);
+        userService.updateUser(id, updateUserDTO, authenticatedUser);
 
         return ResponseEntity.noContent().build();
     }

@@ -47,7 +47,7 @@ public class Post {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Tag> tags;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Comment> comments;
 
