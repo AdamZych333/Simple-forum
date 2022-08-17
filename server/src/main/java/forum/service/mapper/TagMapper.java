@@ -1,11 +1,9 @@
 package forum.service.mapper;
 
-import forum.entity.Post;
 import forum.entity.Tag;
 import forum.service.dto.TagDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 
 import java.util.List;
 import java.util.Set;
@@ -16,7 +14,5 @@ public interface TagMapper extends EntityMapper<Tag, TagDTO>{
     @Override
     @Mapping(target="count", expression="java(entity.getPosts().size())")
     TagDTO toDto(Tag entity);
-
-    Set<Tag> toEntitySetFromDTOList(List<TagDTO> dtoList);
 
 }

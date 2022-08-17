@@ -39,12 +39,7 @@ public class Post {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "posts_tags",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "posts")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Tag> tags;
 

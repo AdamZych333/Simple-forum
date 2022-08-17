@@ -11,6 +11,7 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
 
     Tag findByName(String name);
 
-    @Query("select t from Tag t join t.posts p group by t.id order by count(t) desc")
+    @Query("select t from Tag t join t.posts group by t.id order by count(t) desc")
     List<Tag> findAllByPostsCount(PageRequest pageRequest);
+
 }

@@ -39,7 +39,6 @@ public class FollowService {
 
         Post post = postRepository.findById(postID)
                 .orElseThrow(() -> new EntityNotFoundException("Requested post not found."));
-
         Optional<Follow> follow = followRepository.findByPost_IdAndUser_Id(postID, authenticatedUser.getId());
         if(follow.isPresent()) throw new PostAlreadyFollowedException("This post is already followed by requesting user.");
 
@@ -61,5 +60,15 @@ public class FollowService {
         if(!follow.isPresent()) throw new PostNotFollowedException("This post is not followed by requesting user.");
 
         followRepository.delete(follow.get());
+    }
+
+    public void updateLastVisitTime(Long postID, User authenticatedUser){
+        log.debug("Updating: follow {} by {}", postID, authenticatedUser);
+
+        Optional<Follow> follow = followRepository.findByPost_IdAndUser_Id(postID, authenticatedUser.getId());
+        if(!follow.isPresent()) return;
+        follow.get().setLastVisitAt(new Timestamp(System.currentTimeMillis()));
+
+        followRepository.save(follow.get());
     }
 }

@@ -19,7 +19,12 @@ public class Tag {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "tags")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "tags_posts",
+            joinColumns = @JoinColumn(name = "tag_id"),
+            inverseJoinColumns = @JoinColumn(name = "post_id")
+    )
     private Set<Post> posts;
 
     public Long getId() {

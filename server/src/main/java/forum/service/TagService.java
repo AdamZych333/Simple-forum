@@ -1,6 +1,8 @@
 package forum.service;
 
+import forum.entity.Post;
 import forum.entity.Tag;
+import forum.repository.PostRepository;
 import forum.repository.TagRepository;
 import forum.service.dto.TagDTO;
 import forum.service.mapper.TagMapper;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -23,26 +26,44 @@ public class TagService {
     private final TagRepository tagRepository;
 
     @Autowired
-    public TagService(TagMapper tagMapper, TagRepository tagRepository) {
+    public TagService(TagMapper tagMapper,
+                      TagRepository tagRepository
+    ) {
         this.tagMapper = tagMapper;
         this.tagRepository = tagRepository;
     }
 
-    public void addTags(List<TagDTO> tagDTOS){
-        log.debug("Adding: tags {}", tagDTOS);
-        if(tagDTOS == null) return;
+    public void updateTags(List<TagDTO> tagDTOS, Post post){
+        log.debug("Updating: tags {} in post {}", tagDTOS, post);
 
+        if(tagDTOS == null || post == null) return;
+
+        removeTags(post);
         for(TagDTO newTag : tagDTOS){
             newTag.setName(newTag.getName()
                     .toLowerCase()
                     .replaceAll(" ", "")
             );
             Tag tag = tagRepository.findByName(newTag.getName());
-            if(tag != null){
-                newTag.setId(tag.getId());
+            if(tag == null){
+                tag = tagMapper.toEntity(newTag);
+                tag.setPosts(new HashSet<>());
             }
-            else{
-                newTag.setId(tagRepository.save(tagMapper.toEntity(newTag)).getId());
+            tag.getPosts().add(post);
+            tagRepository.save(tag);
+        }
+    }
+
+    public void removeTags(Post post){
+        log.debug("Removing: tags in post {}", post);
+
+        for(Tag tag : post.getTags()){
+            if(tag.getPosts() == null) continue;
+            tag.getPosts().removeIf(p -> p.getId().equals(post.getId()));
+            if(tag.getPosts().size() == 0){
+                tagRepository.delete(tag);
+            }else{
+                tagRepository.save(tag);
             }
         }
     }

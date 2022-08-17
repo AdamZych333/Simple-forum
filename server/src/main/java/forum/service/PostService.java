@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,18 +37,18 @@ public class PostService {
 
     private final PostMapper postMapper;
     private final PostRepository postRepository;
-    private final TagMapper tagMapper;
+    private final TagService tagService;
     private final UserRepository userRepository;
 
     @Autowired
     public PostService(PostMapper postMapper,
                        PostRepository postRepository,
-                       TagMapper tagMapper,
+                       TagService tagService,
                        UserRepository userRepository
     ) {
         this.postMapper = postMapper;
         this.postRepository = postRepository;
-        this.tagMapper = tagMapper;
+        this.tagService = tagService;
         this.userRepository = userRepository;
     }
 
@@ -59,7 +60,8 @@ public class PostService {
         post.setLastModificationAt(new Timestamp(System.currentTimeMillis()));
         post.setUser(authenticatedUser);
 
-        postRepository.save(post);
+        Post newPost = postRepository.save(post);
+        tagService.updateTags(createdPostDTO.getTags(), newPost);
     }
 
     public PostDTO getPost(Long id){
@@ -123,7 +125,7 @@ public class PostService {
         post.setContent(createdPostDTO.getContent());
         post.setTitle(createdPostDTO.getTitle());
         post.setLastModificationAt(new Timestamp(System.currentTimeMillis()));
-        post.setTags(tagMapper.toEntitySetFromDTOList(createdPostDTO.getTags()));
+        tagService.updateTags(createdPostDTO.getTags(), post);
 
         postRepository.save(post);
     }

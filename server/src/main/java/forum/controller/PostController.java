@@ -1,8 +1,10 @@
 package forum.controller;
 
+import forum.entity.Follow;
 import forum.entity.Post;
 import forum.entity.User;
 import forum.service.CommentService;
+import forum.service.FollowService;
 import forum.service.PostService;
 import forum.service.TagService;
 import forum.service.dto.CommentDTO;
@@ -33,14 +35,14 @@ public class PostController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     private final PostService postService;
-    private final TagService tagService;
+    private final FollowService followService;
 
     @Autowired
     public PostController(PostService postService,
-                          TagService tagService
+                          FollowService followService
     ) {
         this.postService = postService;
-        this.tagService = tagService;
+        this.followService = followService;
     }
 
     @PostMapping
@@ -50,7 +52,6 @@ public class PostController {
     ) throws URISyntaxException {
         log.debug("Request to save: post : {}", createdPostDTO);
 
-        tagService.addTags(createdPostDTO.getTags());
         postService.save(createdPostDTO, authenticatedUser);
 
         return ResponseEntity.created(new URI("")).build();
@@ -58,11 +59,13 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PostDTO> getPost(
-            @PathVariable("id") final Long id
+            @PathVariable("id") final Long id,
+            @AuthenticationPrincipal User authenticatedUser
     ){
         log.debug("Request to get: post {}", id);
 
         PostDTO postDTO = postService.getPost(id);
+        followService.updateLastVisitTime(id, authenticatedUser);
 
         return ResponseEntity.ok(postDTO);
     }
@@ -90,7 +93,6 @@ public class PostController {
     ){
         log.debug("Request to update: post {} to {}", id, postDTO);
 
-        tagService.addTags(postDTO.getTags());
         postService.updatePost(id, postDTO, authenticatedUser);
 
         return ResponseEntity.noContent().build();
