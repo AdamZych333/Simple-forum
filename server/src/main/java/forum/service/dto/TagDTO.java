@@ -13,7 +13,7 @@ public class TagDTO {
     @Size(min= Constants.TAG_MIN_LENGTH, max=Constants.TAG_MAX_LENGTH)
     private String name;
 
-    @NotNull
+
     private int count;
 
     public Long getId() {

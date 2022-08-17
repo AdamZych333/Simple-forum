@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import forum.config.Constants;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -51,6 +52,9 @@ public class Post {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Comment> comments;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Set<Follow> follows;
     public Long getId() {
         return id;
     }
@@ -113,5 +117,13 @@ public class Post {
 
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Set<Follow> getFollows() {
+        return follows;
+    }
+
+    public void setFollows(Set<Follow> follows) {
+        this.follows = follows;
     }
 }

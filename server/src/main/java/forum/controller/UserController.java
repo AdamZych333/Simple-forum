@@ -6,19 +6,14 @@ import forum.service.UserService;
 import forum.service.dto.PostDTO;
 import forum.service.dto.UpdateUserDTO;
 import forum.service.dto.UserDTO;
-import forum.service.exception.EntityNotFoundException;
-import forum.service.exception.ForbiddenException;
-import forum.service.security.UserRightsChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -60,6 +55,21 @@ public class UserController {
 
     @GetMapping("/{id}/posts")
     public ResponseEntity<List<PostDTO>> getUserPosts(
+            @PathVariable final Long id,
+            @RequestParam(defaultValue = "createdAt") String sortBy,
+            @RequestParam(defaultValue = "dsc") String order,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int pageSize
+    ){
+        log.debug("Request to get: posts of user {}", id);
+
+        List<PostDTO> postDTOS = postService.getUserPosts(id, sortBy, order, Math.max(page, 0), Math.max(pageSize, 1));
+
+        return ResponseEntity.ok(postDTOS);
+    }
+
+    @GetMapping("/{id}/follows")
+    public ResponseEntity<List<PostDTO>> getFollowedPosts(
             @PathVariable final Long id,
             @RequestParam(defaultValue = "createdAt") String sortBy,
             @RequestParam(defaultValue = "dsc") String order,

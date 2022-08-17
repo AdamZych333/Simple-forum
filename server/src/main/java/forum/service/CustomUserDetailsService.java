@@ -1,6 +1,5 @@
 package forum.service;
 
-import forum.entity.Role;
 import forum.entity.User;
 import forum.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

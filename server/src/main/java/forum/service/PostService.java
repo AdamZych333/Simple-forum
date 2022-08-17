@@ -9,6 +9,8 @@ import forum.service.dto.PostDTO;
 import forum.service.dto.UserDTO;
 import forum.service.exception.EntityNotFoundException;
 import forum.service.exception.ForbiddenException;
+import forum.service.exception.PostAlreadyFollowedException;
+import forum.service.exception.PostNotFollowedException;
 import forum.service.mapper.PostMapper;
 import forum.service.mapper.TagMapper;
 import forum.service.security.UserRightsChecker;
@@ -24,6 +26,7 @@ import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional

@@ -1,12 +1,10 @@
 package forum.controller;
 
-import forum.entity.Post;
 import forum.entity.User;
 import forum.service.CommentService;
 import forum.service.dto.CommentDTO;
 import forum.service.dto.CreatedCommentDTO;
 import forum.service.dto.UpdateCommentDTO;
-import forum.service.exception.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin
 @RestController

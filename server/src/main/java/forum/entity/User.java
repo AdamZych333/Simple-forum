@@ -33,13 +33,17 @@ public class User implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Post> posts;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Comment> comments;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Set<Follow> follows;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -101,6 +105,14 @@ public class User implements UserDetails {
 
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Set<Follow> getFollows() {
+        return follows;
+    }
+
+    public void setFollows(Set<Follow> follows) {
+        this.follows = follows;
     }
 
     public void setPassword(String password) {
