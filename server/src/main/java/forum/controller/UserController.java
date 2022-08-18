@@ -3,6 +3,7 @@ package forum.controller;
 import forum.entity.User;
 import forum.service.PostService;
 import forum.service.UserService;
+import forum.service.dto.FollowedPostDTO;
 import forum.service.dto.PostDTO;
 import forum.service.dto.UpdateUserDTO;
 import forum.service.dto.UserDTO;
@@ -69,16 +70,12 @@ public class UserController {
     }
 
     @GetMapping("/{id}/follows")
-    public ResponseEntity<List<PostDTO>> getFollowedPosts(
-            @PathVariable final Long id,
-            @RequestParam(defaultValue = "createdAt") String sortBy,
-            @RequestParam(defaultValue = "dsc") String order,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int pageSize
+    public ResponseEntity<List<FollowedPostDTO>> getFollowedPosts(
+            @PathVariable final Long id
     ){
         log.debug("Request to get: posts of user {}", id);
 
-        List<PostDTO> postDTOS = postService.getUserPosts(id, sortBy, order, Math.max(page, 0), Math.max(pageSize, 1));
+        List<FollowedPostDTO> postDTOS = postService.getFollowedPosts(id);
 
         return ResponseEntity.ok(postDTOS);
     }

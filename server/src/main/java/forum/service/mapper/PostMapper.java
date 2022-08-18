@@ -2,6 +2,7 @@ package forum.service.mapper;
 
 import forum.entity.Post;
 import forum.service.dto.CreatedPostDTO;
+import forum.service.dto.FollowedPostDTO;
 import forum.service.dto.PostDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

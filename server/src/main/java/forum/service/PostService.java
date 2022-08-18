@@ -1,10 +1,14 @@
 package forum.service;
 
+import forum.entity.Follow;
 import forum.entity.Post;
 import forum.entity.User;
+import forum.repository.CommentRepository;
+import forum.repository.FollowRepository;
 import forum.repository.PostRepository;
 import forum.repository.UserRepository;
 import forum.service.dto.CreatedPostDTO;
+import forum.service.dto.FollowedPostDTO;
 import forum.service.dto.PostDTO;
 import forum.service.dto.UserDTO;
 import forum.service.exception.EntityNotFoundException;
@@ -24,10 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @Transactional
@@ -39,17 +40,23 @@ public class PostService {
     private final PostRepository postRepository;
     private final TagService tagService;
     private final UserRepository userRepository;
+    private final FollowRepository followRepository;
+    private final CommentRepository commentRepository;
 
     @Autowired
     public PostService(PostMapper postMapper,
                        PostRepository postRepository,
                        TagService tagService,
-                       UserRepository userRepository
+                       UserRepository userRepository,
+                       FollowRepository followRepository,
+                       CommentRepository commentRepository
     ) {
         this.postMapper = postMapper;
         this.postRepository = postRepository;
         this.tagService = tagService;
         this.userRepository = userRepository;
+        this.followRepository = followRepository;
+        this.commentRepository = commentRepository;
     }
 
     public void save(CreatedPostDTO createdPostDTO, User authenticatedUser){
@@ -108,6 +115,25 @@ public class PostService {
         );
 
         return postMapper.toDto(posts);
+    }
+
+    public List<FollowedPostDTO> getFollowedPosts(Long userID){
+        log.debug("Fetching: posts followed by user {}", userID);
+        if(!userRepository.existsById(userID)){
+            throw new EntityNotFoundException("User with requested id doesn't exist");
+        }
+        List<Follow> follows = followRepository.findAllByUser_Id(userID);
+        List<FollowedPostDTO> followedPosts = new ArrayList<>();
+        for(Follow follow : follows){
+            FollowedPostDTO followedPostDTO = new FollowedPostDTO(postMapper.toDto(follow.getPost()));
+            long newActivity = follow.getPost().getComments().stream()
+                    .filter(e -> e.getCreatedAt().compareTo(follow.getLastVisitAt()) > 0)
+                    .count();
+            followedPostDTO.setNewActivity(newActivity);
+            followedPosts.add(followedPostDTO);
+        }
+
+        return followedPosts;
     }
 
     public void deletePost(Long id, User authenticatedUser){
