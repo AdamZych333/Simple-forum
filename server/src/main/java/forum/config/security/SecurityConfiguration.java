@@ -50,6 +50,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/auth/register").permitAll()
                 .antMatchers("/api/auth/login").permitAll()
+                .antMatchers("/v3/api-docs/**",
+                        "/swagger-ui/**").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/api/users/{id}/admin").hasAuthority(Constants.Role.ADMIN.name())
                 .anyRequest().authenticated()

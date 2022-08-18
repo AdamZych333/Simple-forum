@@ -41,7 +41,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.29</version>
+			<version>8.0.30</version>
 		</dependency>
 
 		<dependency>
@@ -52,7 +52,7 @@
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
-			<version>1.4.2.Final</version>
+			<version>1.5.2.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -67,12 +67,11 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.9</version>
 		</dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
-            <version>0.2</version>
+            <version>0.9.1</version>
         </dependency>
         <dependency>
             <groupId>commons-validator</groupId>
@@ -82,7 +81,7 @@
 		<dependency>
 			<groupId>com.tngtech.archunit</groupId>
 			<artifactId>archunit</artifactId>
-			<version>0.11.0</version>
+			<version>0.23.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
@@ -93,6 +92,11 @@
 			<groupId>org.passay</groupId>
 			<artifactId>passay</artifactId>
 			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.6.4</version>
 		</dependency>
 
 	</dependencies>
