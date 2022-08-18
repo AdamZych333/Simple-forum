@@ -71,7 +71,7 @@ public class PostController {
             ){
         log.debug("Request to get: posts");
 
-        List<PostDTO> postDTOS = postService.getPosts(query, sortBy, order, Math.max(page, 0), Math.max(pageSize, 1));
+        List<PostDTO> postDTOS = postService.getPosts(query, sortBy, order, Math.max(page, 0), pageSize);
 
         return ResponseEntity.ok(postDTOS);
     }

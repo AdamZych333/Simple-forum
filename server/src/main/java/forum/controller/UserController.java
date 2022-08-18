@@ -65,7 +65,7 @@ public class UserController {
     ){
         log.debug("Request to get: posts of user {}", id);
 
-        List<PostDTO> postDTOS = postService.getUserPosts(id, sortBy, order, Math.max(page, 0), Math.max(pageSize, 1));
+        List<PostDTO> postDTOS = postService.getUserPosts(id, sortBy, order, Math.max(page, 0), pageSize);
 
         return ResponseEntity.ok(postDTOS);
     }

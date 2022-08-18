@@ -86,11 +86,18 @@ public class PostService {
     ){
         log.debug("Fetching: posts page {} pageSize {}", page, pageSize);
 
-        List<Post> posts = postRepository.findAllByContentContainingOrTitleContaining(query, query,
-                SearchFiltersUtil.getPageRequest(sortBy, order, page, pageSize,
-                        Arrays.asList("createdAt", "title", "content")
-                )
-        );
+        List<String> allowedParams = Arrays.asList("createdAt", "title", "content");
+
+        List<Post> posts;
+        if(pageSize > 0) {
+            posts = postRepository.findAllByContentContainingOrTitleContaining(query, query,
+                    SearchFiltersUtil.getPageRequest(sortBy, order, page, pageSize, allowedParams)
+            );
+        }else{
+            posts = postRepository.findAllByContentContainingOrTitleContaining(query, query,
+                    SearchFiltersUtil.getSort(sortBy, order, allowedParams)
+            );
+        }
 
         List<PostDTO> postDTOS = postMapper.toDto(posts);
         for(PostDTO postDTO : postDTOS){
@@ -111,11 +118,19 @@ public class PostService {
         if(!userRepository.existsById(id)){
             throw new EntityNotFoundException("User with requested id doesn't exist");
         }
-        List<Post> posts = postRepository.findAllByUser_Id(id,
-                SearchFiltersUtil.getPageRequest(sortBy, order, page, pageSize,
-                        Arrays.asList("createdAt", "title", "content")
-                )
-        );
+
+        List<String> allowedParams = Arrays.asList("createdAt", "title", "content");
+
+        List<Post> posts;
+        if(pageSize > 0) {
+            posts = postRepository.findAllByUser_Id(id,
+                    SearchFiltersUtil.getPageRequest(sortBy, order, page, pageSize, allowedParams)
+            );
+        }else{
+            posts = postRepository.findAllByUser_Id(id,
+                    SearchFiltersUtil.getSort(sortBy, order, allowedParams)
+            );
+        }
 
         List<PostDTO> postDTOS = postMapper.toDto(posts);
         for(PostDTO postDTO : postDTOS){
