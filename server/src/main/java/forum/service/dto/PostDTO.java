@@ -21,6 +21,8 @@ public class PostDTO {
 
     private int commentsCount;
 
+    private int followsCount;
+
     private List<VoteDTO> votes;
 
     public Long getId() {
@@ -93,5 +95,13 @@ public class PostDTO {
 
     public void setVotes(List<VoteDTO> votes) {
         this.votes = votes;
+    }
+
+    public int getFollowsCount() {
+        return followsCount;
+    }
+
+    public void setFollowsCount(int followsCount) {
+        this.followsCount = followsCount;
     }
 }

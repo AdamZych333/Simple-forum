@@ -123,4 +123,12 @@ public class Post {
     public void setFollows(Set<Follow> follows) {
         this.follows = follows;
     }
+
+    public Set<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(Set<Vote> votes) {
+        this.votes = votes;
+    }
 }
