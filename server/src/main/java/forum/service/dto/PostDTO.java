@@ -19,6 +19,8 @@ public class PostDTO {
 
     private List<TagDTO> tags;
 
+    private int commentsCount;
+
     public Long getId() {
         return id;
     }
@@ -73,5 +75,13 @@ public class PostDTO {
 
     public void setTags(List<TagDTO> tags) {
         this.tags = tags;
+    }
+
+    public int getCommentsCount() {
+        return commentsCount;
+    }
+
+    public void setCommentsCount(int commentsCount) {
+        this.commentsCount = commentsCount;
     }
 }

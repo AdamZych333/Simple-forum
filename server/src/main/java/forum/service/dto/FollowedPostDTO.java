@@ -12,6 +12,7 @@ public class FollowedPostDTO extends PostDTO{
         this.setCreatedAt(postDTO.getCreatedAt());
         this.setLastModificationAt(postDTO.getLastModificationAt());
         this.setUserID(postDTO.getUserID());
+        this.setCommentsCount(postDTO.getCommentsCount());
     }
 
     public long getNewActivity() {

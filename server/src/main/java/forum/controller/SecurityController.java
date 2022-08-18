@@ -1,8 +1,6 @@
 package forum.controller;
 
 import forum.config.security.JwtTokenProvider;
-import forum.entity.User;
-import forum.service.CustomUserDetailsService;
 import forum.service.UserService;
 import forum.service.dto.LoginDTO;
 import forum.service.dto.RegisterDTO;

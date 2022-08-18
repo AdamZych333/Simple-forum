@@ -3,32 +3,27 @@ package forum.service;
 import forum.entity.Follow;
 import forum.entity.Post;
 import forum.entity.User;
-import forum.repository.CommentRepository;
 import forum.repository.FollowRepository;
 import forum.repository.PostRepository;
 import forum.repository.UserRepository;
 import forum.service.dto.CreatedPostDTO;
 import forum.service.dto.FollowedPostDTO;
 import forum.service.dto.PostDTO;
-import forum.service.dto.UserDTO;
 import forum.service.exception.EntityNotFoundException;
 import forum.service.exception.ForbiddenException;
-import forum.service.exception.PostAlreadyFollowedException;
-import forum.service.exception.PostNotFollowedException;
 import forum.service.mapper.PostMapper;
-import forum.service.mapper.TagMapper;
 import forum.service.security.UserRightsChecker;
 import forum.utils.SearchFiltersUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 @Transactional
@@ -41,22 +36,19 @@ public class PostService {
     private final TagService tagService;
     private final UserRepository userRepository;
     private final FollowRepository followRepository;
-    private final CommentRepository commentRepository;
 
     @Autowired
     public PostService(PostMapper postMapper,
                        PostRepository postRepository,
                        TagService tagService,
                        UserRepository userRepository,
-                       FollowRepository followRepository,
-                       CommentRepository commentRepository
+                       FollowRepository followRepository
     ) {
         this.postMapper = postMapper;
         this.postRepository = postRepository;
         this.tagService = tagService;
         this.userRepository = userRepository;
         this.followRepository = followRepository;
-        this.commentRepository = commentRepository;
     }
 
     public void save(CreatedPostDTO createdPostDTO, User authenticatedUser){

@@ -2,7 +2,6 @@ package forum.service;
 
 import forum.entity.Post;
 import forum.entity.Tag;
-import forum.repository.PostRepository;
 import forum.repository.TagRepository;
 import forum.service.dto.TagDTO;
 import forum.service.mapper.TagMapper;

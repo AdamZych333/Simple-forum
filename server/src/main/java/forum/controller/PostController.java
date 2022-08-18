@@ -1,19 +1,10 @@
 package forum.controller;
 
-import forum.entity.Follow;
-import forum.entity.Post;
 import forum.entity.User;
-import forum.service.CommentService;
 import forum.service.FollowService;
 import forum.service.PostService;
-import forum.service.TagService;
-import forum.service.dto.CommentDTO;
-import forum.service.dto.CreatedCommentDTO;
 import forum.service.dto.CreatedPostDTO;
 import forum.service.dto.PostDTO;
-import forum.service.exception.EntityNotFoundException;
-import forum.service.exception.ForbiddenException;
-import forum.service.security.UserRightsChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin
 @RestController
