@@ -7,6 +7,7 @@ import forum.service.dto.FollowedPostDTO;
 import forum.service.dto.PostDTO;
 import forum.service.dto.UpdateUserDTO;
 import forum.service.dto.UserDTO;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

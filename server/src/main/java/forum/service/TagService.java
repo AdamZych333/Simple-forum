@@ -3,6 +3,7 @@ package forum.service;
 import forum.entity.Post;
 import forum.entity.Tag;
 import forum.repository.TagRepository;
+import forum.service.dto.CreatedTagDTO;
 import forum.service.dto.TagDTO;
 import forum.service.mapper.TagMapper;
 import org.slf4j.Logger;
@@ -32,13 +33,13 @@ public class TagService {
         this.tagRepository = tagRepository;
     }
 
-    public void updateTags(List<TagDTO> tagDTOS, Post post){
+    public void updateTags(List<CreatedTagDTO> tagDTOS, Post post){
         log.debug("Updating: tags {} in post {}", tagDTOS, post);
 
         if(tagDTOS == null || post == null) return;
 
         removeTags(post);
-        for(TagDTO newTag : tagDTOS){
+        for(CreatedTagDTO newTag : tagDTOS){
             newTag.setName(newTag.getName()
                     .toLowerCase()
                     .replaceAll(" ", "")

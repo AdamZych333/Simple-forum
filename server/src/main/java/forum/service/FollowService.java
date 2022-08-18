@@ -5,9 +5,8 @@ import forum.entity.Post;
 import forum.entity.User;
 import forum.repository.FollowRepository;
 import forum.repository.PostRepository;
+import forum.service.exception.EntityAlreadyExistsException;
 import forum.service.exception.EntityNotFoundException;
-import forum.service.exception.PostAlreadyFollowedException;
-import forum.service.exception.PostNotFollowedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +39,7 @@ public class FollowService {
         Post post = postRepository.findById(postID)
                 .orElseThrow(() -> new EntityNotFoundException("Requested post not found."));
         Optional<Follow> follow = followRepository.findByPost_IdAndUser_Id(postID, authenticatedUser.getId());
-        if(follow.isPresent()) throw new PostAlreadyFollowedException("This post is already followed by requesting user.");
+        if(follow.isPresent()) throw new EntityAlreadyExistsException("This post is already followed by requesting user.");
 
         Follow newFollow = new Follow();
         newFollow.setPost(post);
@@ -57,7 +56,7 @@ public class FollowService {
             throw new EntityNotFoundException("Requested post not found");
         }
         Optional<Follow> follow = followRepository.findByPost_IdAndUser_Id(postID, authenticatedUser.getId());
-        if(!follow.isPresent()) throw new PostNotFollowedException("This post is not followed by requesting user.");
+        if(!follow.isPresent()) throw new EntityNotFoundException("This post is not followed by requesting user.");
 
         followRepository.delete(follow.get());
     }

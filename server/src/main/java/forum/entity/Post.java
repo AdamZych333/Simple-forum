@@ -48,6 +48,10 @@ public class Post {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Follow> follows;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Set<Vote> votes;
     public Long getId() {
         return id;
     }

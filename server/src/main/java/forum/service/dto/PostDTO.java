@@ -21,6 +21,8 @@ public class PostDTO {
 
     private int commentsCount;
 
+    private List<VoteDTO> votes;
+
     public Long getId() {
         return id;
     }
@@ -83,5 +85,13 @@ public class PostDTO {
 
     public void setCommentsCount(int commentsCount) {
         this.commentsCount = commentsCount;
+    }
+
+    public List<VoteDTO> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<VoteDTO> votes) {
+        this.votes = votes;
     }
 }

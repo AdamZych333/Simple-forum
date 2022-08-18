@@ -53,7 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/v3/api-docs/**",
                         "/swagger-ui/**").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers("/api/users/{id}/admin").hasAuthority(Constants.Role.ADMIN.name())
+                .antMatchers("/api/users/{id}/admin").hasAuthority(Constants.Role.ADMIN.name)
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));

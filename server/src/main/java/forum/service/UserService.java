@@ -8,9 +8,9 @@ import forum.repository.UserRepository;
 import forum.service.dto.RegisterDTO;
 import forum.service.dto.UpdateUserDTO;
 import forum.service.dto.UserDTO;
+import forum.service.exception.EntityAlreadyExistsException;
 import forum.service.exception.EntityNotFoundException;
 import forum.service.exception.ForbiddenException;
-import forum.service.exception.UserAlreadyExistsException;
 import forum.service.mapper.UserMapper;
 import forum.service.security.UserRightsChecker;
 import org.slf4j.Logger;
@@ -52,7 +52,7 @@ public class UserService {
 
         User user = userRepository.findByEmail(registerDTO.getEmail());
         if(user != null){
-            throw new UserAlreadyExistsException("User with provided email already exists");
+            throw new EntityAlreadyExistsException("User with provided email already exists");
         }
         user = userMapper.toUserFromRegisterDTO(registerDTO);
         Role userRole = roleRepository.findByName(Constants.Role.USER.name);

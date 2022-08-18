@@ -45,6 +45,10 @@ public class User implements UserDetails {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Follow> follows;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Set<Vote> Vote;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
@@ -56,7 +60,7 @@ public class User implements UserDetails {
 
     public User() {
         roles = new HashSet<>();
-        roles.add(new Role(Constants.Role.USER.name()));
+        roles.add(new Role(Constants.Role.USER.name));
     }
 
     public Long getId() {

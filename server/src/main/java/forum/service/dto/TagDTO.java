@@ -9,8 +9,6 @@ public class TagDTO {
 
     public Long id;
 
-    @NotNull
-    @Size(min= Constants.TAG_MIN_LENGTH, max=Constants.TAG_MAX_LENGTH)
     private String name;
 
 

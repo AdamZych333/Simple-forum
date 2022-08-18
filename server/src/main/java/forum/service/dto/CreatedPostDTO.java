@@ -16,7 +16,7 @@ public class CreatedPostDTO {
     @Size(max=Constants.POST_CONTENT_MAX_LENGTH)
     private String content;
 
-    private List<TagDTO> tags;
+    private List<CreatedTagDTO> tags;
 
     public String getTitle() {
         return title;
@@ -34,11 +34,11 @@ public class CreatedPostDTO {
         this.content = content;
     }
 
-    public List<TagDTO> getTags() {
+    public List<CreatedTagDTO> getTags() {
         return tags;
     }
 
-    public void setTags(List<TagDTO> tags) {
+    public void setTags(List<CreatedTagDTO> tags) {
         this.tags = tags;
     }
 }

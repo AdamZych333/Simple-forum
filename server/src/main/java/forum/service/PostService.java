@@ -36,19 +36,22 @@ public class PostService {
     private final TagService tagService;
     private final UserRepository userRepository;
     private final FollowRepository followRepository;
+    private final VoteService voteService;
 
     @Autowired
     public PostService(PostMapper postMapper,
                        PostRepository postRepository,
                        TagService tagService,
                        UserRepository userRepository,
-                       FollowRepository followRepository
+                       FollowRepository followRepository,
+                       VoteService voteService
     ) {
         this.postMapper = postMapper;
         this.postRepository = postRepository;
         this.tagService = tagService;
         this.userRepository = userRepository;
         this.followRepository = followRepository;
+        this.voteService = voteService;
     }
 
     public void save(CreatedPostDTO createdPostDTO, User authenticatedUser){
@@ -69,7 +72,10 @@ public class PostService {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Requested post not found"));
 
-        return postMapper.toDto(post);
+        PostDTO postDTO = postMapper.toDto(post);
+        postDTO.setVotes(voteService.getVotes(id));
+
+        return postDTO;
     }
 
     public List<PostDTO> getPosts(String query,
@@ -86,7 +92,12 @@ public class PostService {
                 )
         );
 
-        return postMapper.toDto(posts);
+        List<PostDTO> postDTOS = postMapper.toDto(posts);
+        for(PostDTO postDTO : postDTOS){
+            postDTO.setVotes(voteService.getVotes(postDTO.getId()));
+        }
+
+        return postDTOS;
     }
 
     public List<PostDTO> getUserPosts(Long id,
@@ -106,7 +117,12 @@ public class PostService {
                 )
         );
 
-        return postMapper.toDto(posts);
+        List<PostDTO> postDTOS = postMapper.toDto(posts);
+        for(PostDTO postDTO : postDTOS){
+            postDTO.setVotes(voteService.getVotes(postDTO.getId()));
+        }
+
+        return postDTOS;
     }
 
     public List<FollowedPostDTO> getFollowedPosts(Long userID){
@@ -122,6 +138,7 @@ public class PostService {
                     .filter(e -> e.getCreatedAt().compareTo(follow.getLastVisitAt()) > 0)
                     .count();
             followedPostDTO.setNewActivity(newActivity);
+            followedPostDTO.setVotes(voteService.getVotes(followedPostDTO.getId()));
             followedPosts.add(followedPostDTO);
         }
 
