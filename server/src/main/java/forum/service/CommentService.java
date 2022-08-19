@@ -16,10 +16,12 @@ import forum.service.security.UserRightsChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -89,6 +91,17 @@ public class CommentService {
             throw new EntityNotFoundException("User with requested id doesn't exist.");
         }
         List<Comment> comments = commentRepository.findAllByUser_Id(userID);
+
+        return commentMapper.toDto(comments);
+    }
+
+    public List<CommentDTO> searchComments(String query,
+                                           Long userID,
+                                           Long postID
+    ){
+        log.debug("Fetching: searching comments");
+
+        List<Comment> comments = commentRepository.searchComments(query, userID, postID);
 
         return commentMapper.toDto(comments);
     }

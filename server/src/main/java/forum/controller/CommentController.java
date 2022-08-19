@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path="/api/posts/{postID}/comments")
+@RequestMapping(path="/api")
 public class CommentController {
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
@@ -32,7 +33,7 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @GetMapping
+    @GetMapping("/posts/{postID}/comments")
     public ResponseEntity<List<CommentDTO>> getPostComments(
             @PathVariable final Long postID
     ){
@@ -42,8 +43,21 @@ public class CommentController {
 
         return ResponseEntity.ok(commentDTOS);
     }
+    
+    @GetMapping("/comments")
+    public ResponseEntity<List<CommentDTO>> searchComments(
+            @RequestParam(defaultValue = "") String query,
+            @RequestParam(required = false) Long userID,
+            @RequestParam(required = false) Long postID
+    ){
+        log.debug("Request to search: comments");
 
-    @GetMapping("/{id}")
+        List<CommentDTO> commentDTOS = commentService.searchComments(query, userID, postID);
+
+        return ResponseEntity.ok(commentDTOS);
+    }
+
+    @GetMapping("/posts/{postID}/comments/{id}")
     public ResponseEntity<CommentDTO> getPostComment(
             @PathVariable final Long postID,
             @PathVariable final Long id
@@ -55,7 +69,7 @@ public class CommentController {
         return ResponseEntity.ok(commentDTO);
     }
 
-    @PostMapping
+    @PostMapping("/posts/{postID}/comments")
     public ResponseEntity<Void> addComment(
             @PathVariable final Long postID,
             @RequestBody @Validated CreatedCommentDTO createdCommentDTO,
@@ -68,7 +82,7 @@ public class CommentController {
         return ResponseEntity.created(new URI("")).build();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/posts/{postID}/comments/{id}")
     public ResponseEntity<Void> updateComment(
             @PathVariable final long postID,
             @PathVariable final Long id,
@@ -82,7 +96,7 @@ public class CommentController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/posts/{postID}/comments/{id}")
     public ResponseEntity<Void> deleteComment(
             @PathVariable final long postID,
             @PathVariable final Long id,
