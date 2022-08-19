@@ -129,4 +129,15 @@ public class UserController {
 
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/{id}/admin")
+    public ResponseEntity<Void> removeAdmin(
+            @PathVariable final Long id
+    ) {
+        log.debug("Request to remove admin: user {}", id);
+
+        userService.removeAdmin(id);
+
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -17,7 +17,7 @@ public class Role {
 
     public Role() {}
 
-    public Role(@NotNull String name) {
+    public Role(String name) {
         this.name = name;
     }
 

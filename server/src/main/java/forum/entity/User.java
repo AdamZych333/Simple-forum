@@ -47,7 +47,7 @@ public class User implements UserDetails {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Set<Vote> Vote;
+    private Set<Vote> votes;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -121,6 +121,14 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(Set<Vote> votes) {
+        this.votes = votes;
     }
 
     @Override
