@@ -113,4 +113,31 @@ public class UserService {
 
         userRepository.delete(user);
     }
+
+    public void makeAdmin(Long id){
+        log.debug("Making admin user {}", id);
+
+        User user = this.userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist"));
+        Role adminRole = roleRepository.findByName(Constants.Role.ADMIN.name);
+        if(adminRole != null){
+            if(user.getRoles().stream().anyMatch(r -> r.getName().equals(adminRole.getName()))){
+                throw new EntityAlreadyExistsException("User already is admin.");
+            }
+            user.getRoles().add(adminRole);
+        }
+        userRepository.save(user);
+    }
+
+    public void removeAdmin(Long id){
+        log.debug("Removing admin user {}", id);
+
+        User user = this.userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist"));
+        Role adminRole = roleRepository.findByName(Constants.Role.ADMIN.name);
+        if(adminRole != null){
+            user.getRoles().removeIf(r -> r.getName().equals(adminRole.getName()));
+        }
+        userRepository.save(user);
+    }
 }

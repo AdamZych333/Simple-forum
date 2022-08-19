@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @CrossOrigin
@@ -36,6 +38,16 @@ public class UserController {
         this.commentService = commentService;
     }
 
+    @PostMapping("/{id}/admin")
+    public ResponseEntity<Void> makeAdmin(
+            @PathVariable final Long id
+    ) throws URISyntaxException {
+        log.debug("Request to make admin: user {}", id);
+
+        userService.makeAdmin(id);
+
+        return ResponseEntity.created(new URI("")).build();
+    }
     @GetMapping
     public ResponseEntity<List<UserDTO>> getUsers(){
         log.debug("Request to get: users.");

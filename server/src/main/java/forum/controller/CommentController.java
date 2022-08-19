@@ -43,7 +43,7 @@ public class CommentController {
 
         return ResponseEntity.ok(commentDTOS);
     }
-    
+
     @GetMapping("/comments")
     public ResponseEntity<List<CommentDTO>> searchComments(
             @RequestParam(defaultValue = "") String query,
