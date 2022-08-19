@@ -5,6 +5,7 @@ import forum.entity.Post;
 import forum.entity.User;
 import forum.repository.CommentRepository;
 import forum.repository.PostRepository;
+import forum.repository.UserRepository;
 import forum.service.dto.CommentDTO;
 import forum.service.dto.CreatedCommentDTO;
 import forum.service.dto.UpdateCommentDTO;
@@ -30,15 +31,18 @@ public class CommentService {
     private final CommentMapper commentMapper;
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public CommentService(CommentMapper commentMapper,
                           CommentRepository commentRepository,
-                          PostRepository postRepository
+                          PostRepository postRepository,
+                          UserRepository userRepository
     ) {
         this.commentMapper = commentMapper;
         this.commentRepository = commentRepository;
         this.postRepository = postRepository;
+        this.userRepository = userRepository;
     }
 
     public void save(CreatedCommentDTO createdCommentDTO, User authenticatedUser, Long postID){
@@ -76,6 +80,17 @@ public class CommentService {
                 .orElseThrow(() -> new EntityNotFoundException("Comment with requested id doesn't exist under requested post"));
 
         return commentMapper.toDto(comment);
+    }
+
+    public List<CommentDTO> getUserComments(Long userID){
+        log.debug("Fetching: comments of user {}", userID);
+
+        if(!userRepository.existsById(userID)){
+            throw new EntityNotFoundException("User with requested id doesn't exist.");
+        }
+        List<Comment> comments = commentRepository.findAllByUser_Id(userID);
+
+        return commentMapper.toDto(comments);
     }
 
     public void updateComment(Long id, Long postID, UpdateCommentDTO updateCommentDTO, User authenticatedUser){

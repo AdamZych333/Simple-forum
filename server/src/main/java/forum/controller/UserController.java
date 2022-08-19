@@ -1,12 +1,10 @@
 package forum.controller;
 
 import forum.entity.User;
+import forum.service.CommentService;
 import forum.service.PostService;
 import forum.service.UserService;
-import forum.service.dto.FollowedPostDTO;
-import forum.service.dto.PostDTO;
-import forum.service.dto.UpdateUserDTO;
-import forum.service.dto.UserDTO;
+import forum.service.dto.*;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,13 +24,16 @@ public class UserController {
 
     private final UserService userService;
     private final PostService postService;
+    private final CommentService commentService;
 
     @Autowired
     public UserController(UserService userService,
-                          PostService postService
+                          PostService postService,
+                          CommentService commentService
     ) {
         this.userService = userService;
         this.postService = postService;
+        this.commentService = commentService;
     }
 
     @GetMapping
@@ -68,6 +69,17 @@ public class UserController {
         List<PostDTO> postDTOS = postService.getUserPosts(id, sortBy, order, Math.max(page, 0), pageSize);
 
         return ResponseEntity.ok(postDTOS);
+    }
+
+    @GetMapping("/{id}/comments")
+    public ResponseEntity<List<CommentDTO>> getUserComments(
+            @PathVariable final Long id
+    ){
+        log.debug("Request to get: comments of user {}", id);
+
+        List<CommentDTO> commentDTOS = commentService.getUserComments(id);
+
+        return ResponseEntity.ok(commentDTOS);
     }
 
     @GetMapping("/{id}/follows")
