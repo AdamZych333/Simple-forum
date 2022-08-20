@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { HomeComponent } from './home.component';
 import { SharedModule } from '../shared';
 import { HomeRoutingModule } from './home-routing.module';
+import {MatButtonModule} from '@angular/material/button';
 
 
 @NgModule({
@@ -10,7 +11,8 @@ import { HomeRoutingModule } from './home-routing.module';
   ],
   imports: [
     SharedModule,
-    HomeRoutingModule
+    HomeRoutingModule,
+    MatButtonModule,
   ]
 })
 export class HomeModule { }
