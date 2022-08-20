@@ -1,27 +1,21 @@
-<nav class="navbar">
-    <div class="container">
-        <a class="navbar-brand" routerLink="/">Forum</a>
-
-        <ul class="nav">
-            
-            <li class="nav-item">
-                <a class="nav-link"
-                    routerLink="/">
-                    Home
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link">
-                    Sign in
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link">
-                    Sign up
-                </a>
-            </li>
-        </ul>
-    </div>
-</nav>
+<mat-toolbar>
+    <button mat-button class="logo" 
+            color="accent"
+            routerLink="/">
+        Forum
+    </button>
+    <span class="spacer"></span>
+    <button mat-button class="nav-link" 
+            color="link"
+            routerLink="/">
+        Home
+    </button>
+    <button mat-button class="nav-link" 
+            color="link">
+        Sign in
+    </button>
+    <button mat-button class="nav-link" 
+            color="link">
+        Sign up
+    </button>
+</mat-toolbar>
