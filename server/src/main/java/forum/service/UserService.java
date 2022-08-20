@@ -50,11 +50,7 @@ public class UserService {
     public void save(RegisterDTO registerDTO){
         log.debug("Saving user : {}", registerDTO);
 
-        User user = userRepository.findByEmail(registerDTO.getEmail());
-        if(user != null){
-            throw new EntityAlreadyExistsException("User with provided email already exists");
-        }
-        user = userMapper.toUserFromRegisterDTO(registerDTO);
+        User user = userMapper.toUserFromRegisterDTO(registerDTO);
         Role userRole = roleRepository.findByName(Constants.Role.USER.name);
         user.setRoles(new HashSet<>(Collections.singletonList(userRole)));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -70,6 +66,12 @@ public class UserService {
         return userMapper.toDto(users);
     }
 
+    public boolean existsByName(String name){
+        log.debug("Checking if exists user by name: {}", name);
+
+        return userRepository.existsByName(name);
+    }
+
     public UserDTO getUserByEmail(String email){
         log.debug("Fetching user by email: {}", email);
 
@@ -82,7 +84,7 @@ public class UserService {
         log.debug("Fetching user by id: {}", id);
 
         User user = this.userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist"));
+                .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist."));
 
         return this.userMapper.toDto(user);
     }
@@ -91,9 +93,9 @@ public class UserService {
         log.debug("Updating user {} to {}", id, newUserDTO);
 
         User user = this.userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist"));
+                .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist."));
         if(!UserRightsChecker.hasRights(authenticatedUser, user.getId())){
-            throw new ForbiddenException("Requesting user doesn't have rights to delete this user.");
+            throw new ForbiddenException("Requesting user doesn't have rights to update this user.");
         }
 
         user.setName(newUserDTO.getName());
@@ -106,7 +108,7 @@ public class UserService {
         log.debug("Deleting user {}", id);
 
         User user = this.userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist"));
+                .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist."));
         if(!UserRightsChecker.hasRights(authenticatedUser, user.getId())){
             throw new ForbiddenException("Requesting user doesn't have rights to delete this user.");
         }
@@ -118,7 +120,7 @@ public class UserService {
         log.debug("Making admin user {}", id);
 
         User user = this.userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist"));
+                .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist."));
         Role adminRole = roleRepository.findByName(Constants.Role.ADMIN.name);
         if(adminRole != null){
             if(user.getRoles().stream().anyMatch(r -> r.getName().equals(adminRole.getName()))){
@@ -133,7 +135,7 @@ public class UserService {
         log.debug("Removing admin user {}", id);
 
         User user = this.userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist"));
+                .orElseThrow(() -> new EntityNotFoundException("User with requested id doesn't exist."));
         Role adminRole = roleRepository.findByName(Constants.Role.ADMIN.name);
         if(adminRole != null){
             user.getRoles().removeIf(r -> r.getName().equals(adminRole.getName()));

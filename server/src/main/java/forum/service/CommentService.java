@@ -16,12 +16,10 @@ import forum.service.security.UserRightsChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -127,7 +125,7 @@ public class CommentService {
     private Comment getEditableComment(Long id, Long postID, User authenticatedUser){
         handleIfPostExists(postID);
         Comment comment = commentRepository.findByIdAndPost_Id(id, postID)
-                .orElseThrow(() -> new EntityNotFoundException("Comment with requested id doesn't exist under requested post"));
+                .orElseThrow(() -> new EntityNotFoundException("Comment with requested id doesn't exist under requested post."));
         if(!UserRightsChecker.hasRights(authenticatedUser, comment.getUser().getId())){
             throw new ForbiddenException("Requesting user doesn't have rights to update this comment.");
         }
@@ -137,7 +135,7 @@ public class CommentService {
 
     private void handleIfPostExists(Long postID){
         if(!postRepository.existsById(postID)){
-            throw new EntityNotFoundException("Post with requested id doesn't exists.");
+            throw new EntityNotFoundException("Post with requested id doesn't exist.");
         }
     }
 }

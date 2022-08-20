@@ -1,10 +1,5 @@
 package forum.service.dto;
 
-import forum.config.Constants;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 public class TagDTO {
 
     public Long id;

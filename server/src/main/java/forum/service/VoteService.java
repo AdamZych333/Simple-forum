@@ -7,7 +7,6 @@ import forum.entity.Vote;
 import forum.repository.PostRepository;
 import forum.repository.VoteRepository;
 import forum.service.dto.VoteDTO;
-import forum.service.exception.EntityAlreadyExistsException;
 import forum.service.exception.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

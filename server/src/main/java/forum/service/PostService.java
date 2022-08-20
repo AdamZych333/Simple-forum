@@ -182,7 +182,7 @@ public class PostService {
 
     private Post getEditablePost(Long id, User authenticatedUser){
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Requested post not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Requested post not found."));
         if(!UserRightsChecker.hasRights(authenticatedUser, post.getId())){
             throw new ForbiddenException("Requesting user doesn't have rights to update this post.");
         }

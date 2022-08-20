@@ -2,7 +2,6 @@ package forum.controller;
 
 import forum.entity.User;
 import forum.service.FollowService;
-import io.swagger.v3.oas.annotations.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

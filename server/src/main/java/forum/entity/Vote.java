@@ -1,7 +1,5 @@
 package forum.entity;
 
-import forum.config.Constants;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 

@@ -5,7 +5,6 @@ import forum.service.CommentService;
 import forum.service.PostService;
 import forum.service.UserService;
 import forum.service.dto.*;
-import io.swagger.v3.oas.annotations.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
