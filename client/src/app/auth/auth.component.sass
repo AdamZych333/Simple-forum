@@ -1,0 +1,24 @@
+@import "~src/app/shared/styles/variables"
+
+:host
+    display: flex
+    align-items: center
+    flex-direction: column
+    padding: 7vh 0
+    
+    .name
+        font-size: 2.6em
+
+    .link
+        margin-bottom: 2vh
+
+    ::ng-deep mat-form-field
+        width: 30vw
+
+    .sumbit-btn
+        margin: 2vh 0
+        padding: 0 20px
+
+    @media (max-width: $layout-max-breakpoint-sm)
+        ::ng-deep mat-form-field
+            width: 60vw

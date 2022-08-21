@@ -1,0 +1,28 @@
+<app-auth 
+    name="Sign up"
+    linkName="Already have an account?"
+    linkTo="/login"
+    (onSubmit)="onSubmit()">
+
+    <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="example@gmail.com" [formControl]="email" required>
+        <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput [formControl]="name" required>
+        <mat-error *ngIf="name.invalid">{{getNameErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput [formControl]="password" required type="password">
+        <mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Confirm password</mat-label>
+        <input matInput [formControl]="confirmPassword" required type="password">
+        <mat-error *ngIf="confirmPassword.invalid">{{getConfirmPasswordErrorMessage()}}</mat-error>
+    </mat-form-field>
+
+</app-auth>

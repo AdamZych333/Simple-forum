@@ -9,20 +9,20 @@ import { HomeModule } from './home/home.module';
 import { FooterComponent, HeaderComponent } from './shared';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthComponent } from './auth/auth.component';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    AuthComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     SharedModule,
     HomeModule,
+    AuthModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatButtonModule,

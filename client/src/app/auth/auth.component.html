@@ -1,1 +1,13 @@
-<p>auth works!</p>
+<h1 class="name">{{name}}</h1>
+<button mat-button class="link" 
+        routerLink="{{linkTo}}"
+        color="primary">
+    {{linkName}}
+</button>
+<ng-content fields class="fields"></ng-content>
+<button mat-raised-button 
+        color="primary" 
+        (click)="submit()"
+        class="sumbit-btn">
+    Submit
+</button>
