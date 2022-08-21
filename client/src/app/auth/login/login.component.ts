@@ -1,7 +1,15 @@
 import { Component } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { AuthService, Errors } from 'src/app/core';
+
+class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null): boolean {
+    console.log(control?.invalid)
+    return !!(control && control.invalid && control.touched);
+  }
+}
 
 @Component({
   selector: 'auth-login',
@@ -12,28 +20,18 @@ export class LoginComponent {
   email = new FormControl('', [Validators.required]);
   password = new FormControl('', [Validators.required]);
 
-  isSubmitting = false;
   errors: Errors = {};
+  passwordMatcher = new MyErrorStateMatcher();
 
   constructor(
     private authService: AuthService,
     private router: Router,
   ) {}
 
-  getEmailErrorMessage() {
-    return this.email.hasError('required')? 'You must enter an email': '';
-  }
-
-  getPasswordErrorMessage() {
-    return this.password.hasError('required')? 'You must enter a password': '';
-  }
-
   onSubmit(){
-    console.log("login")
-
-    this.isSubmitting = true;
     this.errors = {};
-
+    this.password.disable();
+    this.email.disable();
 
     const credentials = {
       email: this.email.value || '',
@@ -41,15 +39,19 @@ export class LoginComponent {
     }
     this.authService.login(credentials).subscribe({
       error: () => this.onError(),
-      next: e => console.log(e),
+      next: () => this.onSuccess(),
     });
   }
 
   onError(){
-    console.log("error")
+    this.password.enable();
+    this.email.enable();
+    this.password.setErrors({'incorrect': true});
+    this.password.markAsTouched();
+    this.email.markAsTouched();
   }
 
   onSuccess(){
-    console.log("success")
+    this.router.navigateByUrl('/');
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, switchMap } from 'rxjs';
 import { User } from '../models';
 import { ApiService } from './api.service';
 import { JwtService } from './jwt.service';
@@ -31,15 +31,15 @@ export class AuthService {
     }
   }
 
-  setAuth(token: string){
-    this.apiService.get('/auth/user').subscribe({
-      next: data => {
+  setAuth(token: string): Observable<User>{
+    return this.apiService.get('/auth/user').pipe(
+      map(data => {
         const user: User = data;
         user.token = token;
         this.currentUserSubject.next(user);
-      },
-      error: () => this.removeAuth(),
-    })
+        return this.currentUserSubject.value;
+      })
+    )
   }
 
   removeAuth(){
@@ -48,12 +48,12 @@ export class AuthService {
     this.currentUserSubject.next({} as User);
   }
 
-  login(credentials: loginCredencials): Observable<void>{
+  login(credentials: loginCredencials): Observable<User>{
     return this.apiService.post('/auth/login', credentials).pipe(
-      map((res: {token: string}) => {
+      switchMap(((res: {token: string}) => {
         this.jwtService.saveToken(res.token);
-        this.setAuth(res.token);
-      })
+        return this.setAuth(res.token);
+      })),
     );
   }
 

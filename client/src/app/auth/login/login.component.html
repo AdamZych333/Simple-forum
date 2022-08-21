@@ -6,13 +6,20 @@
 
     <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
-        <input matInput placeholder="example@gmail.com" [formControl]="email" required>
-        <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
+        <input matInput
+                placeholder="example@gmail.com" 
+                [formControl]="email" 
+                required>
+        <mat-error *ngIf="email.errors?.['required']">You must enter an email</mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
         <mat-label>Password</mat-label>
-        <input matInput [formControl]="password" required type="password">
-        <mat-error *ngIf="email.invalid">{{getPasswordErrorMessage()}}</mat-error>
+        <input matInput
+                [formControl]="password" 
+                type="password"
+                required>
+        <mat-error *ngIf="password.errors?.['required']">You must enter a password</mat-error>
+        <mat-error *ngIf="password.errors?.['incorrect']">Incorrect email or password</mat-error>
     </mat-form-field>
 
 </app-auth>
