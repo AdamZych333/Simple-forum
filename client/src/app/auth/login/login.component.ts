@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService, Errors } from 'src/app/core';
 
 @Component({
   selector: 'auth-login',
@@ -10,8 +12,13 @@ export class LoginComponent {
   email = new FormControl('', [Validators.required]);
   password = new FormControl('', [Validators.required]);
 
+  isSubmitting = false;
+  errors: Errors = {};
 
-  constructor() {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
   getEmailErrorMessage() {
     return this.email.hasError('required')? 'You must enter an email': '';
@@ -23,7 +30,26 @@ export class LoginComponent {
 
   onSubmit(){
     console.log("login")
-    console.log({"email": this.email.value})
-    console.log({"password": this.password.value})
+
+    this.isSubmitting = true;
+    this.errors = {};
+
+
+    const credentials = {
+      email: this.email.value || '',
+      password: this.password.value || '',
+    }
+    this.authService.login(credentials).subscribe({
+      error: () => this.onError(),
+      next: e => console.log(e),
+    });
+  }
+
+  onError(){
+    console.log("error")
+  }
+
+  onSuccess(){
+    console.log("success")
   }
 }
