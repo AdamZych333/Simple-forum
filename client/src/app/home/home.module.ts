@@ -1,18 +1,30 @@
 import { NgModule } from '@angular/core';
 import { HomeComponent } from './home.component';
 import { SharedModule } from '../shared';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeRoutingModule } from './home-routing.module';
-import {MatButtonModule} from '@angular/material/button';
+
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
+import { CommonModule } from '@angular/common';
+import { TagsComponent } from './tags/tags.component';
 
 
 @NgModule({
   declarations: [
-    HomeComponent
+    HomeComponent,
+    TagsComponent
   ],
   imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     SharedModule,
     HomeRoutingModule,
-    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
   ]
 })
-export class HomeModule { }
+export class HomeModule {}

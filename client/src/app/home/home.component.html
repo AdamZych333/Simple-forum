@@ -1,35 +1,17 @@
-<div class="banner">
-    <div class="container">
-        <h1 class="logo-font">Simple forum</h1>
-        <p>Share your thoughts and expirience.</p>
+<div class="posts">
+
+    <div class="searchbar">
+        <mat-form-field class="search-form" appearance="fill">
+            <mat-label>Search posts</mat-label>
+            <input matInput type="text" [(ngModel)]="value">
+            <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+
+    <div class="content">
+        Posts
     </div>
 </div>
-
-<div class="container page">
-    <div>
-
-        <div>
-            <div>
-                <ul>
-                   <li>
-                        <a class="nav-link">
-                            Your Feed
-                        </a>
-                   </li> 
-                   <li>
-                        <a class="nav-link">
-                            Global Feed
-                        </a>
-                   </li>
-                </ul>
-            </div>
-        </div>
-
-        <div>
-            <div class="sidebar">
-                <p>Popular Tags</p>
-            </div>
-        </div>
-
-    </div>
-</div>
+<home-tags></home-tags>
