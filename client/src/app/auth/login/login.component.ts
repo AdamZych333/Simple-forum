@@ -1,15 +1,8 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
+import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService, Errors } from 'src/app/core';
+import { AuthenticatedUser, AuthService, Errors } from 'src/app/core';
 
-class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null): boolean {
-    console.log(control?.invalid)
-    return !!(control && control.invalid && control.touched);
-  }
-}
 
 @Component({
   selector: 'auth-login',
@@ -21,12 +14,12 @@ export class LoginComponent {
   password = new FormControl('', [Validators.required]);
 
   errors: Errors = {};
-  passwordMatcher = new MyErrorStateMatcher();
 
   constructor(
     private authService: AuthService,
     private router: Router,
-  ) {}
+  ) {
+  }
 
   onSubmit(){
     this.errors = {};

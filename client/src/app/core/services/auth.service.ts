@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable, switchMap } from 'rxjs';
-import { User } from '../models';
+import { BehaviorSubject, catchError, distinctUntilChanged, map, Observable, of, ReplaySubject, switchMap, tap } from 'rxjs';
+import { AuthenticatedUser } from '../models';
 import { ApiService } from './api.service';
 import { JwtService } from './jwt.service';
 
@@ -15,7 +15,8 @@ interface registerCredencials extends loginCredencials{
 
 @Injectable()
 export class AuthService {
-  private currentUserSubject = new BehaviorSubject<User>({} as User);
+  public currentUserSubject = new BehaviorSubject<AuthenticatedUser>({} as AuthenticatedUser);
+  public inAuthenticatedSubject = new ReplaySubject<boolean>(1);
 
   constructor(
     private apiService: ApiService,
@@ -31,28 +32,31 @@ export class AuthService {
     }
   }
 
-  setAuth(token: string): Observable<User>{
-    return this.apiService.get('/auth/user').pipe(
-      map(data => {
-        const user: User = data;
+  setAuth(token: string){
+    this.jwtService.saveToken(token);
+    this.apiService.get('/auth/user').subscribe({
+      next: (res) => {
+        const user: AuthenticatedUser = res;
         user.token = token;
         this.currentUserSubject.next(user);
-        return this.currentUserSubject.value;
-      })
-    )
+        this.inAuthenticatedSubject.next(true);
+        console.log('logged')
+      },
+      error: () => this.removeAuth(),
+    })
   }
 
   removeAuth(){
     this.jwtService.destroyToken();
 
-    this.currentUserSubject.next({} as User);
+    this.currentUserSubject.next({} as AuthenticatedUser);
+    this.inAuthenticatedSubject.next(false);
   }
 
-  login(credentials: loginCredencials): Observable<User>{
+  login(credentials: loginCredencials): Observable<void>{
     return this.apiService.post('/auth/login', credentials).pipe(
-      switchMap(((res: {token: string}) => {
-        this.jwtService.saveToken(res.token);
-        return this.setAuth(res.token);
+      map(((res: {token: string}) => {
+        this.setAuth(res.token);
       })),
     );
   }
@@ -61,8 +65,12 @@ export class AuthService {
     return this.apiService.post('/auth/register', credentials);
   }
 
-  getCurrentUser(): User{
+  getCurrentUser(): AuthenticatedUser{
     return this.currentUserSubject.value;
+  }
+
+  isAuthenticated(): boolean{
+    return Object.keys(this.currentUserSubject.value).length > 0;
   }
 
 }
