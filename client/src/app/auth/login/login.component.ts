@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthenticatedUser, AuthService, Errors } from 'src/app/core';
+import { AuthService } from 'src/app/core';
 
 
 @Component({
@@ -13,7 +13,6 @@ export class LoginComponent {
   email = new FormControl('', [Validators.required]);
   password = new FormControl('', [Validators.required]);
 
-  errors: Errors = {};
 
   constructor(
     private authService: AuthService,
@@ -22,7 +21,6 @@ export class LoginComponent {
   }
 
   onSubmit(){
-    this.errors = {};
     this.password.disable();
     this.email.disable();
 

@@ -40,7 +40,6 @@ export class AuthService {
         user.token = token;
         this.currentUserSubject.next(user);
         this.inAuthenticatedSubject.next(true);
-        console.log('logged')
       },
       error: () => this.removeAuth(),
     })

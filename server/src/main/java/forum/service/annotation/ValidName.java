@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface ValidName {
 
-    String message() default "User with this name already exists.";
+    String message() default "Invalid name";
 
     Class<?>[] groups() default {};
 

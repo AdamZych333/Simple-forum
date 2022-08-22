@@ -1,3 +1,3 @@
 export interface Errors {
-    [ket: string]: string;
+    [ket: string]: string[];
 }

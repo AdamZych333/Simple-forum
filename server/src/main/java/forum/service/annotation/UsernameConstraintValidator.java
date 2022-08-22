@@ -16,6 +16,17 @@ public class UsernameConstraintValidator implements ConstraintValidator<ValidNam
 
     @Override
     public boolean isValid(String name, ConstraintValidatorContext constraintValidatorContext) {
-        return name.length() > 5 && !userService.existsByName(name);
+        if(name.length() < 5){
+            constraintValidatorContext.disableDefaultConstraintViolation();
+            constraintValidatorContext.buildConstraintViolationWithTemplate("Username should be at least 5 characters long.").addConstraintViolation();
+            return false;
+        }
+        if(userService.existsByName(name)){
+            constraintValidatorContext.disableDefaultConstraintViolation();
+            constraintValidatorContext.buildConstraintViolationWithTemplate("User with that name already exists.").addConstraintViolation();
+            return false;
+        }
+
+        return true;
     }
 }

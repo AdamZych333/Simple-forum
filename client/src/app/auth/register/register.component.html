@@ -6,23 +6,38 @@
 
     <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
-        <input matInput placeholder="example@gmail.com" [formControl]="email" required>
-        <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
+        <input matInput
+                placeholder="example@gmail.com" 
+                [formControl]="email" 
+                required>
+        <mat-error *ngIf="email.errors">{{getEmailErrorMessage()}}</mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
         <mat-label>Name</mat-label>
-        <input matInput [formControl]="name" required>
-        <mat-error *ngIf="name.invalid">{{getNameErrorMessage()}}</mat-error>
+        <input matInput
+                placeholder="example@gmail.com" 
+                [formControl]="name" 
+                required>
+        <mat-error *ngIf="name.errors">{{getNameErrorMessage()}}</mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
         <mat-label>Password</mat-label>
-        <input matInput [formControl]="password" required type="password">
-        <mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
+        <input matInput
+                [formControl]="password" 
+                type="password"
+                (change)="onPasswordsChange()"
+                required>
+        <mat-error *ngIf="password.errors">{{getPasswordErrorMessage()}}</mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
         <mat-label>Confirm password</mat-label>
-        <input matInput [formControl]="confirmPassword" required type="password">
-        <mat-error *ngIf="confirmPassword.invalid">{{getConfirmPasswordErrorMessage()}}</mat-error>
+        <input matInput
+                [formControl]="confirmPassword"
+                type="password"
+                (change)="onPasswordsChange()"
+                required>
+        <mat-error *ngIf="confirmPassword.errors?.['required']">You must enter a confirmation password</mat-error>
+        <mat-error *ngIf="confirmPassword.errors?.['notMatching']">Passwords are not matching</mat-error>
     </mat-form-field>
 
 </app-auth>
