@@ -10,14 +10,26 @@
             routerLink="/">
         Home
     </button>
-    <button mat-button class="nav-link" 
-            color="link"
-            routerLink="/login">
-        Sign in
-    </button>
-    <button mat-button class="nav-link" 
-            color="link"
-            routerLink="/register">
-        Sign up
-    </button>
+
+    <ng-container *ngIf="isAuthenticated$ | async; else loggedInUser">
+        <button mat-button class="nav-link" 
+                color="link"
+                routerLink="/login">
+            Sign in
+        </button>
+        <button mat-button class="nav-link" 
+                color="link"
+                routerLink="/register">
+            Sign up
+        </button>
+    </ng-container>
+
 </mat-toolbar>
+
+<ng-template #loggedInUser>
+    <button mat-button class="nav-link" 
+                color="link"
+                (click)="onSignOutClick()">
+            Sign out
+    </button>
+</ng-template>
