@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, catchError, distinctUntilChanged, map, Observable, of, ReplaySubject, switchMap, tap } from 'rxjs';
+import { map, Observable, ReplaySubject} from 'rxjs';
 import { AuthenticatedUser } from '../models';
 import { ApiService } from './api.service';
 import { JwtService } from './jwt.service';
@@ -16,8 +16,7 @@ interface registerCredencials extends loginCredencials{
 
 @Injectable()
 export class AuthService {
-  public currentUserSubject = new BehaviorSubject<AuthenticatedUser>({} as AuthenticatedUser);
-  public inAuthenticatedSubject = new ReplaySubject<boolean>(1);
+  private currentUserSubject = new ReplaySubject<AuthenticatedUser>(1);
 
   constructor(
     private apiService: ApiService,
@@ -41,7 +40,6 @@ export class AuthService {
         const user: AuthenticatedUser = res;
         user.token = token;
         this.currentUserSubject.next(user);
-        this.inAuthenticatedSubject.next(true);
       },
       error: () => this.removeAuth(),
     })
@@ -52,7 +50,6 @@ export class AuthService {
     this.router.navigateByUrl('/login');
 
     this.currentUserSubject.next({} as AuthenticatedUser);
-    this.inAuthenticatedSubject.next(false);
   }
 
   login(credentials: loginCredencials): Observable<void>{
@@ -67,12 +64,16 @@ export class AuthService {
     return this.apiService.post('/auth/register', credentials);
   }
 
-  getCurrentUser(): AuthenticatedUser{
-    return this.currentUserSubject.value;
+  isAuthenticated(): Observable<boolean>{
+    return this.currentUserSubject.asObservable().pipe(
+      map(user => {
+        return Object.keys(user).length > 0;
+      })
+    )
   }
 
-  isAuthenticated(): boolean{
-    return Object.keys(this.currentUserSubject.value).length > 0;
+  getCurrentUser(): Observable<AuthenticatedUser>{
+    return this.currentUserSubject.asObservable();
   }
 
 }

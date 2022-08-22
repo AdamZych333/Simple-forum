@@ -11,7 +11,7 @@
         Home
     </button>
 
-    <ng-container *ngIf="isAuthenticated$ | async; else loggedInUser">
+    <ng-container *ngIf="isNotAuthenticated$ | async; else loggedInUser">
         <button mat-button class="nav-link" 
                 color="link"
                 routerLink="/login">

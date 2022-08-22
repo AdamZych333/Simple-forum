@@ -8,14 +8,14 @@ import { AuthService } from 'src/app/core';
   styleUrls: ['./header.component.sass']
 })
 export class HeaderComponent implements OnInit {
-  isAuthenticated$ = new Observable<boolean>;
+  isNotAuthenticated$ = new Observable<boolean>;
 
   constructor(
     private authService: AuthService
   ){}
 
   ngOnInit(): void {
-    this.isAuthenticated$ = this.authService.inAuthenticatedSubject.asObservable().pipe(
+    this.isNotAuthenticated$ = this.authService.isAuthenticated().pipe(
       map(isAuth => !isAuth),
     )
   }

@@ -33,7 +33,7 @@ export class RegisterComponent {
     if(this.name.hasError('required')){
       return 'You must enter a name';
     }
-    
+
     return this.name.hasError('incorrect')? this.errors['name'][0]: '';
   }
 
@@ -77,10 +77,7 @@ export class RegisterComponent {
     this.name.enable();
     this.password.enable();
     this.confirmPassword.enable();
-    
-    console.log(this.email.errors)
-
-    console.log(errors)
+  
     this.errors = errors;
 
     if(errors?.['email'] && this.email.value){
