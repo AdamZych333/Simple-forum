@@ -1,11 +1,10 @@
 import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from "@angular/router";
-import { Observable, of } from "rxjs";
-import { AuthService } from "../core";
-import { map, take, tap } from 'rxjs/operators';
+import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
+import { Observable, map, tap, take } from "rxjs";
+import { AuthService } from "./core";
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AppGuard implements CanActivate {
     constructor(
         private authService: AuthService,
         private router: Router,
@@ -14,10 +13,8 @@ export class AuthGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         
         return this.authService.inAuthenticatedSubject.asObservable().pipe(
-            take(1),
-            map(isAuth => !isAuth),
             tap(isAuth => {
-                if(!isAuth) this.router.navigateByUrl('/');
+                if(!isAuth) this.router.navigateByUrl('/login');
             })
         );
     }

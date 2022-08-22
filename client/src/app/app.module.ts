@@ -10,7 +10,8 @@ import { FooterComponent, HeaderComponent } from './shared';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule } from './auth/auth.module';
-import { ApiService, AuthService, CoreModule } from './core';
+import { CoreModule } from './core';
+import { AppGuard } from './app-guard.service';
 
 @NgModule({
   declarations: [
@@ -30,8 +31,7 @@ import { ApiService, AuthService, CoreModule } from './core';
     MatButtonModule,
   ],
   providers: [
-    ApiService, 
-    AuthService,
+    AppGuard,
   ],
   bootstrap: [AppComponent]
 })

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { first, take, takeWhile } from 'rxjs';
 import { AuthService } from 'src/app/core';
 
 
@@ -43,6 +44,18 @@ export class LoginComponent {
   }
 
   onSuccess(){
-    this.router.navigateByUrl('/');
+    this.authService.inAuthenticatedSubject.pipe(
+      first(value => value === true),
+    ).subscribe({
+      next: (e) => {
+        if(e)this.router.navigateByUrl('/');
+      },
+      error: () => {
+        console.log("Unexpected error");
+        this.password.setValue('');
+        this.email.setValue('');
+      }
+    })
+    
   }
 }

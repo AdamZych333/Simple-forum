@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { HomeComponent } from './home.component';
 import { SharedModule } from '../shared';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HomeRoutingModule } from './home-routing.module';
 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
@@ -21,7 +20,6 @@ import { TagsComponent } from './tags/tags.component';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    HomeRoutingModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,

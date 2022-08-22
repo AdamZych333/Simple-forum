@@ -12,6 +12,7 @@
                 required>
         <mat-error *ngIf="email.errors">{{getEmailErrorMessage()}}</mat-error>
     </mat-form-field>
+
     <mat-form-field appearance="outline">
         <mat-label>Name</mat-label>
         <input matInput
@@ -20,6 +21,7 @@
                 required>
         <mat-error *ngIf="name.errors">{{getNameErrorMessage()}}</mat-error>
     </mat-form-field>
+
     <mat-form-field appearance="outline">
         <mat-label>Password</mat-label>
         <input matInput
@@ -29,6 +31,7 @@
                 required>
         <mat-error *ngIf="password.errors">{{getPasswordErrorMessage()}}</mat-error>
     </mat-form-field>
+    
     <mat-form-field appearance="outline">
         <mat-label>Confirm password</mat-label>
         <input matInput
