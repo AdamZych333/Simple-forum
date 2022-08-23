@@ -6,13 +6,27 @@
     justify-content: center
 
     .posts
-        width: 50vw
+        width: 40vw
+        min-width: fit-content
         padding: 0 2vw 2vh 2vw
+
+        .searchbar
+            text-align: center
 
         .content
 
             .post
                 margin: 10px 0
+
+                .subtitle
+                    display: flex
+                    justify-content: space-between                  
+
+                .tag
+                    padding: 5px 5px
+                    line-height: 1em
+                    min-width: auto
+                    border-radius: 30%
 
 
 @media (max-width: $layout-max-breakpoint-sm)
@@ -27,3 +41,10 @@
 
         .posts
             width: auto
+
+            .actions
+                button
+                    transform: scale(0.8)
+                    margin: 0
+                    padding: 5px
+                    min-width: auto

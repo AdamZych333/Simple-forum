@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Post } from '../core';
+import { VoteType } from '../core/models/vote.model';
 import { PostService } from '../core/services/post.service';
 
 @Component({
@@ -9,7 +10,8 @@ import { PostService } from '../core/services/post.service';
   styleUrls: ['./home.component.sass']
 })
 export class HomeComponent implements OnInit{
-  query: string = ""
+  query: string = "";
+  title: string = 'Recent posts';
   posts$!: Observable<Post[]>;
 
   constructor(
@@ -20,5 +22,15 @@ export class HomeComponent implements OnInit{
     this.posts$ = this.postService.queryPosts({});
   }
 
+  getPostVoteUp(post: Post){
+    const vote = post.votes.find(vote => vote.type === VoteType.UP);
+    if(!vote) return 0;
+    return vote.count;
+  }
 
+  getPostVoteDown(post: Post){
+    const vote = post.votes.find(vote => vote.type === VoteType.DOWN);
+    if(!vote) return 0;
+    return vote.count;
+  }
 }

@@ -10,20 +10,52 @@
         </mat-form-field>
     </div>
 
-    <div class="content">
-
-        <mat-card class="post" *ngFor="let post of posts$ | async">
-            <mat-card-title>{{post.title}}</mat-card-title>
-            <mat-card-subtitle>{{post.username}}</mat-card-subtitle>
+    <div class="content" *ngIf="posts$ | async as posts; else loadingPosts">
+        <h1 class="title">{{title}}</h1>
+        <mat-card class="post" *ngFor="let post of posts">
+            <mat-card-content>
+                <button mat-stroked-button 
+                        color="accent"
+                        class="tag" 
+                        disableRipple="true"
+                        *ngFor="let tag of post.tags">
+                    {{tag.name}}
+                </button>
+            </mat-card-content>
+            <mat-card-title>{{post.title | titlecase}}</mat-card-title>
+            <mat-card-subtitle class="subtitle">
+                <p>{{post.username}}</p>
+                <p>{{post.lastModificationAt | date:'hh:mm a MMM d, y'}}</p>
+            </mat-card-subtitle>
             <mat-card-content>
               <p>{{post.content}}</p>
             </mat-card-content>
-            <mat-card-actions>
-              <button mat-button>LIKE</button>
-              <button mat-button>SHARE</button>
+            <mat-card-actions class="actions">
+                <button mat-button
+                        color="primary">
+                    <mat-icon> comment</mat-icon>
+                    {{post.commentsCount}}
+                </button>
+                <button mat-button
+                        color="primary">
+                    <mat-icon>thumb_up</mat-icon>
+                    {{getPostVoteUp(post)}}
+                </button>
+                <button mat-button
+                        color="primary">
+                    <mat-icon>thumb_down</mat-icon>
+                    {{getPostVoteDown(post)}}
+                </button>
+                
+                <button mat-button
+                        color="primary">
+                    FOLLOW 
+                    {{post.followsCount}}
+                </button>
             </mat-card-actions>
-            
-          </mat-card>
+        </mat-card>
     </div>
+
 </div>
 <home-tags></home-tags>
+<ng-template #loadingPosts>Loading posts</ng-template>
