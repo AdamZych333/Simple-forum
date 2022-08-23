@@ -7,6 +7,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
+import {MatChipsModule} from '@angular/material/chips';
 import { CommonModule } from '@angular/common';
 import { TagsComponent } from './tags/tags.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -27,6 +28,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatIconModule,
     MatCardModule,
     MatButtonModule,
+    MatChipsModule,
   ]
 })
 export class HomeModule {}

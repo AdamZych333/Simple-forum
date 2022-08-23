@@ -26,8 +26,7 @@ export class PostService {
     const mappedParams: {[param: string]: string | number} = {...params};
     mappedParams['pageSize'] = this.PAGE_SIZE;
 
-    return this.apiService.get(
-      '/posts', 
+    return this.apiService.get('/posts', 
       new HttpParams({fromObject: mappedParams}),
     ).pipe(
       // Map userID to username

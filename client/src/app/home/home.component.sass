@@ -10,6 +10,12 @@
         min-width: fit-content
         padding: 0 2vw 2vh 2vw
 
+        .actions
+            button
+                padding: 0
+                margin: 0 max(5px, 2vw)
+                min-width: auto
+
         .searchbar
             display: flex
             justify-content: center
@@ -36,6 +42,9 @@
     :host
         padding: 5vh 5vw
 
+        .posts
+            width: 60vw
+
 
 @media (max-width: $layout-max-breakpoint-xs)
     :host
@@ -44,15 +53,3 @@
 
         .posts
             width: auto
-
-            .actions
-                button
-                    padding: 0 7px
-                    min-width: auto
-
-@media (max-width: $layout-max-breakpoint-xxs)
-           
-    .actions
-        button
-            transform: scale(0.9)
-            margin: 0 
