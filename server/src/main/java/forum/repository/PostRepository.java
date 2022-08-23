@@ -24,6 +24,4 @@ public interface PostRepository extends JpaRepository<Post, Long>{
 
     List<Post> findAllByUser_Id(Long userId, Sort sort);
 
-    @Query("SELECT p FROM Post p JOIN p.follows f WHERE f.user.id = ?1")
-    List<Post> findAllFollowedByUser(Long userID, PageRequest pageRequest);
 }

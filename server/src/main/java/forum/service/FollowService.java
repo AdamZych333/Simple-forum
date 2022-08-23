@@ -70,4 +70,10 @@ public class FollowService {
 
         followRepository.save(follow.get());
     }
+
+    public boolean isFollowed(Long postID, Long userID){
+        log.debug("Checking: post {} followed by {}", postID, userID);
+
+        return followRepository.existsByUser_IdAndPost_Id(userID, postID);
+    }
 }

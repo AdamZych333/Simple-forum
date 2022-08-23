@@ -76,4 +76,10 @@ public class VoteService {
 
         voteRepository.delete(vote);
     }
+
+    public boolean isVoted(Long postID, Long userID){
+        log.debug("Checking: post {} voted by {}", postID, userID);
+
+        return voteRepository.existsByUser_IdAndPost_Id(userID, postID);
+    }
 }

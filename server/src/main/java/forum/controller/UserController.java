@@ -1,9 +1,7 @@
 package forum.controller;
 
 import forum.entity.User;
-import forum.service.CommentService;
-import forum.service.PostService;
-import forum.service.UserService;
+import forum.service.*;
 import forum.service.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,11 +71,15 @@ public class UserController {
             @RequestParam(defaultValue = "createdAt") String sortBy,
             @RequestParam(defaultValue = "dsc") String order,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int pageSize
+            @RequestParam(defaultValue = "10") int pageSize,
+            @AuthenticationPrincipal User authenticatedUser
     ){
         log.debug("Request to get: posts of user {}", id);
 
         List<PostDTO> postDTOS = postService.getUserPosts(id, sortBy, order, Math.max(page, 0), pageSize);
+        postDTOS.forEach(p -> {
+            postService.addVotesAndFollows(p, authenticatedUser.getId());
+        });
 
         return ResponseEntity.ok(postDTOS);
     }
@@ -95,11 +97,15 @@ public class UserController {
 
     @GetMapping("/{id}/follows")
     public ResponseEntity<List<FollowedPostDTO>> getFollowedPosts(
-            @PathVariable final Long id
+            @PathVariable final Long id,
+            @AuthenticationPrincipal User authenticatedUser
     ){
         log.debug("Request to get: posts of user {}", id);
 
         List<FollowedPostDTO> postDTOS = postService.getFollowedPosts(id);
+        postDTOS.forEach(p -> {
+            postService.addVotesAndFollows(p, authenticatedUser.getId());
+        });
 
         return ResponseEntity.ok(postDTOS);
     }

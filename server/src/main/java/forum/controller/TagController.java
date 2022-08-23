@@ -1,5 +1,6 @@
 package forum.controller;
 
+import forum.entity.User;
 import forum.service.PostService;
 import forum.service.TagService;
 import forum.service.dto.PostDTO;
@@ -8,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -49,11 +51,15 @@ public class TagController {
             @RequestParam(defaultValue = "createdAt") String sortBy,
             @RequestParam(defaultValue = "dsc") String order,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int pageSize
+            @RequestParam(defaultValue = "10") int pageSize,
+            @AuthenticationPrincipal User authenticatedUser
     ){
         log.debug("Request to get: posts with tag {}", id);
 
         List<PostDTO> postDTOS = postService.getPostsByTag(id, query, sortBy, order, Math.max(page, 0), pageSize);
+        postDTOS.forEach(p -> {
+            postService.addVotesAndFollows(p, authenticatedUser.getId());
+        });
 
         return ResponseEntity.ok(postDTOS);
     }

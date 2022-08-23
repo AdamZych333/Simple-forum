@@ -66,11 +66,15 @@ public class PostController {
             @RequestParam(defaultValue = "createdAt") String sortBy,
             @RequestParam(defaultValue = "dsc") String order,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int pageSize
+            @RequestParam(defaultValue = "10") int pageSize,
+            @AuthenticationPrincipal User authenticatedUser
             ){
         log.debug("Request to get: posts");
 
         List<PostDTO> postDTOS = postService.getPosts(query, sortBy, order, Math.max(page, 0), pageSize);
+        postDTOS.forEach(p -> {
+            postService.addVotesAndFollows(p, authenticatedUser.getId());
+        });
 
         return ResponseEntity.ok(postDTOS);
     }

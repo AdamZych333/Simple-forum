@@ -25,6 +25,10 @@ public class PostDTO {
 
     private List<VoteDTO> votes;
 
+    private boolean isVoted;
+
+    private boolean isFollowed;
+
     public Long getId() {
         return id;
     }
@@ -103,5 +107,21 @@ public class PostDTO {
 
     public void setFollowsCount(int followsCount) {
         this.followsCount = followsCount;
+    }
+
+    public boolean isVoted() {
+        return isVoted;
+    }
+
+    public void setVoted(boolean voted) {
+        isVoted = voted;
+    }
+
+    public boolean isFollowed() {
+        return isFollowed;
+    }
+
+    public void setFollowed(boolean followed) {
+        isFollowed = followed;
     }
 }

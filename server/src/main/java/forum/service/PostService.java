@@ -38,13 +38,16 @@ public class PostService {
     private final FollowRepository followRepository;
     private final VoteService voteService;
 
+    private final FollowService followService;
+
     @Autowired
     public PostService(PostMapper postMapper,
                        PostRepository postRepository,
                        TagService tagService,
                        UserRepository userRepository,
                        FollowRepository followRepository,
-                       VoteService voteService
+                       VoteService voteService,
+                       FollowService followService
     ) {
         this.postMapper = postMapper;
         this.postRepository = postRepository;
@@ -52,6 +55,7 @@ public class PostService {
         this.userRepository = userRepository;
         this.followRepository = followRepository;
         this.voteService = voteService;
+        this.followService = followService;
     }
 
     public void save(CreatedPostDTO createdPostDTO, User authenticatedUser){
@@ -208,6 +212,11 @@ public class PostService {
         tagService.updateTags(createdPostDTO.getTags(), post);
 
         postRepository.save(post);
+    }
+
+    public void addVotesAndFollows(PostDTO postDTO, Long userID){
+        postDTO.setVoted(voteService.isVoted(postDTO.getId(), userID));
+        postDTO.setFollowed(followService.isFollowed(postDTO.getId(), userID));
     }
 
     private Post getEditablePost(Long id, User authenticatedUser){
