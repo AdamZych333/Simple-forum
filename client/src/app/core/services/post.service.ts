@@ -5,16 +5,17 @@ import { Post } from '../models';
 import { ApiService } from './api.service';
 import { UserService } from './user.service';
 
-interface IPostQueryParams{
+export interface IPostQueryParams{
   query?: string,
   sortBy?: string,
   order?: string,
   page?: number,
-  pageSize?: number,
 }
 
 @Injectable()
 export class PostService {
+  private PAGE_SIZE = 7;
+
 
   constructor(
     private apiService: ApiService,
@@ -23,6 +24,7 @@ export class PostService {
 
   queryPosts(params: IPostQueryParams): Observable<Post[]> {
     const mappedParams: {[param: string]: string | number} = {...params};
+    mappedParams['pageSize'] = this.PAGE_SIZE;
 
     return this.apiService.get(
       '/posts', 

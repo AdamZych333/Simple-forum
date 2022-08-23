@@ -1,11 +1,14 @@
 <div class="posts">
 
     <div class="searchbar">
-        <mat-form-field class="search-form" appearance="fill">
+        <mat-form-field class="search-form" appearance="outline">
             <mat-label>Search posts</mat-label>
             <input matInput type="text" [(ngModel)]="query">
-            <button *ngIf="query" matSuffix mat-icon-button aria-label="Clear" (click)="query=''">
-                <mat-icon>close</mat-icon>
+            <button mat-icon-button
+                    matSuffix
+                    color="primary"
+                    class="search-btn">
+                <mat-icon color="primary">search</mat-icon>
             </button>
         </mat-form-field>
     </div>
@@ -15,7 +18,7 @@
         <mat-card class="post" *ngFor="let post of posts">
             <mat-card-content>
                 <button mat-stroked-button 
-                        color="accent"
+                        color="primary"
                         class="tag" 
                         disableRipple="true"
                         *ngFor="let tag of post.tags">
@@ -31,6 +34,12 @@
               <p>{{post.content}}</p>
             </mat-card-content>
             <mat-card-actions class="actions">
+                
+                <button mat-button
+                        color="primary">
+                    FOLLOW 
+                    {{post.followsCount}}
+                </button>
                 <button mat-button
                         color="primary">
                     <mat-icon> comment</mat-icon>
@@ -46,12 +55,7 @@
                     <mat-icon>thumb_down</mat-icon>
                     {{getPostVoteDown(post)}}
                 </button>
-                
-                <button mat-button
-                        color="primary">
-                    FOLLOW 
-                    {{post.followsCount}}
-                </button>
+
             </mat-card-actions>
         </mat-card>
     </div>

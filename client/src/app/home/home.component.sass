@@ -11,7 +11,10 @@
         padding: 0 2vw 2vh 2vw
 
         .searchbar
-            text-align: center
+            display: flex
+            justify-content: center
+            align-items: center
+            margin-bottom: 4vh
 
         .content
 
@@ -44,7 +47,12 @@
 
             .actions
                 button
-                    transform: scale(0.8)
-                    margin: 0
-                    padding: 5px
+                    padding: 0 7px
                     min-width: auto
+
+@media (max-width: $layout-max-breakpoint-xxs)
+           
+    .actions
+        button
+            transform: scale(0.9)
+            margin: 0 
