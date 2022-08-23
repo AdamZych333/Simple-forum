@@ -3,6 +3,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { HttpTokenInterceptor } from './interceptors';
 import { ApiService, AuthService, JwtService } from './services';
+import { PostService } from './services/post.service';
 
 
 
@@ -17,6 +18,7 @@ import { ApiService, AuthService, JwtService } from './services';
     ApiService,
     JwtService,
     AuthService,
+    PostService,
   ]
 })
 export class CoreModule { }

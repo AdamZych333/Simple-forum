@@ -1,15 +1,23 @@
+@import "~src/app/shared/styles/variables"
+
 :host
     display: flex
     padding: 5vh 20vw
     justify-content: center
 
     .posts
-        padding: 2vh 10vw
+        padding: 2vh 2vw
         border: 1px solid black
 
         .content
             border: 1px solid red
-    
-    .tags
-        margin: 0 2vw
-        border: 1px solid black
+
+
+@media (max-width: $layout-max-breakpoint-sm)
+    :host
+        padding: 5vh 10vw
+
+@media (max-width: $layout-max-breakpoint-xs)
+    :host
+        padding: 2vh 5vw
+        flex-direction: column-reverse

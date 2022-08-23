@@ -3,15 +3,17 @@
     <div class="searchbar">
         <mat-form-field class="search-form" appearance="fill">
             <mat-label>Search posts</mat-label>
-            <input matInput type="text" [(ngModel)]="value">
-            <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+            <input matInput type="text" [(ngModel)]="query">
+            <button *ngIf="query" matSuffix mat-icon-button aria-label="Clear" (click)="query=''">
                 <mat-icon>close</mat-icon>
             </button>
         </mat-form-field>
     </div>
 
     <div class="content">
-        Posts
+        <div *ngFor="let post of posts$ | async">
+            {{post.title}}
+        </div>
     </div>
 </div>
 <home-tags></home-tags>

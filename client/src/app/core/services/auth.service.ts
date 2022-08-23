@@ -5,12 +5,12 @@ import { AuthenticatedUser } from '../models';
 import { ApiService } from './api.service';
 import { JwtService } from './jwt.service';
 
-interface loginCredencials{
+interface ILoginCredencials{
   email: string,
   password: string,
 }
 
-interface registerCredencials extends loginCredencials{
+interface IRegisterCredencials extends ILoginCredencials{
   name: string,
 }
 
@@ -47,12 +47,12 @@ export class AuthService {
 
   removeAuth(){
     this.jwtService.destroyToken();
-    this.router.navigateByUrl('/login');
-
     this.currentUserSubject.next({} as AuthenticatedUser);
+    
+    this.router.navigateByUrl('/login');
   }
 
-  login(credentials: loginCredencials): Observable<void>{
+  login(credentials: ILoginCredencials): Observable<void>{
     return this.apiService.post('/auth/login', credentials).pipe(
       map(((res: {token: string}) => {
         this.setAuth(res.token);
@@ -60,7 +60,7 @@ export class AuthService {
     );
   }
 
-  register(credentials: registerCredencials): Observable<void>{
+  register(credentials: IRegisterCredencials): Observable<void>{
     return this.apiService.post('/auth/register', credentials);
   }
 
