@@ -160,6 +160,36 @@ public class PostService {
         return followedPosts;
     }
 
+    public List<PostDTO> getPostsByTag(Long tagID,
+                                    String query,
+                                    String sortBy,
+                                    String order,
+                                    int page,
+                                    int pageSize
+    ){
+        log.debug("Fetching: posts by tag {} page {} pageSize {}", tagID, page, pageSize);
+
+        List<String> allowedParams = Arrays.asList("createdAt", "title", "content");
+
+        List<Post> posts;
+        if(pageSize > 0) {
+            posts = postRepository.findAllByTags_IdAndContentContainingOrTitleContaining(tagID, query, query,
+                    SearchFiltersUtil.getPageRequest(sortBy, order, page, pageSize, allowedParams)
+            );
+        }else{
+            posts = postRepository.findAllByTags_IdAndContentContainingOrTitleContaining(tagID, query, query,
+                    SearchFiltersUtil.getSort(sortBy, order, allowedParams)
+            );
+        }
+
+        List<PostDTO> postDTOS = postMapper.toDto(posts);
+        for(PostDTO postDTO : postDTOS){
+            postDTO.setVotes(voteService.getVotes(postDTO.getId()));
+        }
+
+        return postDTOS;
+    }
+
     public void deletePost(Long id, User authenticatedUser){
         log.debug("Deleting: post {}", id);
 

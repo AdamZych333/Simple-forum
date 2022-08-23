@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit{
   constructor(
     private postService: PostService
   ){}
+
   ngOnInit(): void {
     this.posts$ = this.postService.queryPosts({});
   }
