@@ -6,8 +6,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
+import {MatCardModule} from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { TagsComponent } from './tags/tags.component';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
@@ -23,6 +25,8 @@ import { TagsComponent } from './tags/tags.component';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    MatCardModule,
+    MatButtonModule,
   ]
 })
 export class HomeModule {}

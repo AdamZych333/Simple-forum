@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { HttpTokenInterceptor } from './interceptors';
 import { ApiService, AuthService, JwtService } from './services';
 import { PostService } from './services/post.service';
+import { UserService } from './services/user.service';
 
 
 
@@ -19,6 +20,7 @@ import { PostService } from './services/post.service';
     JwtService,
     AuthService,
     PostService,
+    UserService,
   ]
 })
 export class CoreModule { }
