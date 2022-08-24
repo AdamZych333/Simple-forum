@@ -33,11 +33,11 @@ export class LoginComponent {
       error: () => this.onError(),
       next: () => this.onSuccess(),
     });
+    this.password.enable();
+    this.email.enable();
   }
 
   onError(){
-    this.password.enable();
-    this.email.enable();
     this.password.setErrors({'incorrect': true});
     this.password.markAsTouched();
     this.email.markAsTouched();

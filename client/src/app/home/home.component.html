@@ -22,7 +22,7 @@
                         class="tag" 
                         disableRipple="true"
                         *ngFor="let tag of post.tags">
-                    {{tag.name}}
+                    #{{tag.name}}
                 </button>
             </mat-card-content>
             <mat-card-title>{{post.title | titlecase}}</mat-card-title>

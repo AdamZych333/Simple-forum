@@ -1,5 +1,8 @@
 package forum.config.security;
 
+import forum.config.Constants;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
@@ -34,6 +37,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 }
             }catch (MalformedJwtException e){
                 res.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            } catch (JwtException e){
+                res.setHeader("Access-Control-Allow-Origin", Constants.ALLOWED_ORIGIN);
             }
         }
         filterChain.doFilter(req, res);

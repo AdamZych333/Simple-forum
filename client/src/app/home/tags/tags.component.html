@@ -1,1 +1,12 @@
-<p>Popular tags</p>
+<p><b>Popular tags</b></p>
+<div *ngIf="tags$ | async as tags; else loading"
+        class="popular-tags">
+    <button *ngFor="let tag of tags"
+        mat-button
+        class="tag"
+        color="primary">
+        #{{tag.name}}
+    </button>
+</div>
+
+<ng-template #loading>Loading tags</ng-template>

@@ -16,7 +16,7 @@ export class HttpTokenInterceptor implements HttpInterceptor {
         }
 
         const token = this.jwtService.getToken();
-
+        
         if(token){
             headersConfig['Authorization'] = `Bearer ${token}`;
         }

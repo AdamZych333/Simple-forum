@@ -2,11 +2,26 @@
 
 :host
     background-color: hsla(0, 0%, 0%, 0.1)
-    margin-left: 2vw
     height: fit-content
     padding: .6em
-    border-radius: 10%
+    text-align: center
+
+    .popular-tags
+        max-width: fit-content
+        text-align: start
+
+        .tag
+            min-width: 100px
+            padding: 0
+            text-align: start
+
+            &:hover
+                background-color: hsla(0, 0%, 0%, 0.05)
 
 @media (max-width: $layout-max-breakpoint-xs)
     :host
-        margin: 2vh 0
+        .popular-tags
+            .tag
+                text-align: center
+                min-width: fit-content
+                padding: 0 .8em

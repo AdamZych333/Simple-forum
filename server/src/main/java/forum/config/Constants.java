@@ -23,4 +23,5 @@ public interface Constants {
     int COMMENT_CONTENT_MAX_LENGTH = 400;
     int TAG_MAX_LENGTH = 20;
     int TAG_MIN_LENGTH = 1;
+    String ALLOWED_ORIGIN = "http://localhost:4200";
 }

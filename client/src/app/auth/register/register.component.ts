@@ -70,14 +70,14 @@ export class RegisterComponent {
       error: (err) => this.onError(err.error.message),
       next: () => this.onSuccess(),
     });
-  }
 
-  onError(errors: Errors){
     this.email.enable();
     this.name.enable();
     this.password.enable();
     this.confirmPassword.enable();
-  
+  }
+
+  onError(errors: Errors){  
     this.errors = errors;
 
     if(errors?.['email'] && this.email.value){

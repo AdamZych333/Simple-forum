@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { FormControl } from '@angular/forms';
+import { map, Observable, tap } from 'rxjs';
 import { Tag } from 'src/app/core';
 import { TagService } from 'src/app/core/services/tag.service';
 
@@ -11,13 +12,16 @@ import { TagService } from 'src/app/core/services/tag.service';
 })
 export class TagsComponent implements OnInit{
   tags$!: Observable<Tag[]>;
+  formControl = new FormControl(['test']);
 
   constructor(
     private tagService: TagService,
   ) { }
 
   ngOnInit(): void {
-    this.tags$ = this.tagService.getPopularTags({});
+    this.tags$ = this.tagService.getPopularTags({}).pipe(
+      map(e => [...e, ...e, ...e, ...e, ...e])
+    );
   }
 
 }

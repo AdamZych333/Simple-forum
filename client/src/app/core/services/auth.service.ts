@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { map, Observable, ReplaySubject} from 'rxjs';
+import { delay, map, Observable, ReplaySubject} from 'rxjs';
 import { AuthenticatedUser } from '../models';
 import { ApiService } from './api.service';
 import { JwtService } from './jwt.service';
@@ -21,7 +20,6 @@ export class AuthService {
   constructor(
     private apiService: ApiService,
     private jwtService: JwtService,
-    private router: Router,
   ) { }
     
   initAuth(){
@@ -48,8 +46,6 @@ export class AuthService {
   removeAuth(){
     this.jwtService.destroyToken();
     this.currentUserSubject.next({} as AuthenticatedUser);
-    
-    this.router.navigateByUrl('/login');
   }
 
   login(credentials: ILoginCredencials): Observable<void>{
