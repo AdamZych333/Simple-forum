@@ -29,17 +29,23 @@ export class PostService {
     return this.apiService.get('/posts', 
       new HttpParams({fromObject: mappedParams}),
     ).pipe(
-      // Map userID to username
-      map((posts) => {
-        return posts.map((post: any) => {
-          this.userService.getUser(post.userID).subscribe({
-            next: (user) => post.username = user.name,
-            error: () => console.log(`error fetching username for post ${post.id}`)
-          })
-
-          return post;
-        })
-      })
+      map((posts) => posts.map((post: any) => this.mapPost(post))),
     );
+  }
+
+  private mapPost(post: any){
+    // Map userID to username
+    this.userService.getUser(post.userID).subscribe({
+      next: (user) => post.username = user.name,
+      error: () => console.log(`error fetching username for post ${post.id}`)
+    })
+    
+    // Map votes to count
+    post.vote = {
+      up: post.votes.find((v: {type: string, count: number}) => v.type == "UP").count,
+      down: post.votes.find((v: {type: string, count: number}) => v.type == "DOWN").count,
+    }
+
+    return post;
   }
 }

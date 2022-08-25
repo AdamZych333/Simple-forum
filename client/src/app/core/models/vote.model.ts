@@ -1,9 +1,4 @@
-export enum VoteType{
-    UP='UP', 
-    DOWN='DOWN',
-}
-
-export interface Vote{
-    type: VoteType,
-    count: number,
+export interface Votes{
+    up: number,
+    down: number,
 }

@@ -1,5 +1,5 @@
 import { Tag } from "./tag.model";
-import { Vote } from "./vote.model";
+import { Votes } from "./vote.model";
 
 export interface Post{
     id: number,
@@ -9,7 +9,7 @@ export interface Post{
     lastModificationAt: Date,
     username: string,
     tags: Tag[],
-    votes: Vote[],
+    vote: Votes,
     commentsCount: number,
     followsCount: number,
 }
