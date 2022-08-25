@@ -12,6 +12,12 @@ export interface IPostQueryParams{
   page?: number,
 }
 
+export interface ICreatePostBody{
+  title: string,
+  content: string,
+  tags?: {name: string}[],
+}
+
 @Injectable()
 export class PostService {
   private PAGE_SIZE = 7;
@@ -37,6 +43,11 @@ export class PostService {
     return this.apiService.get(`/tags/${tagId}/posts`).pipe(
       map((posts) => posts.map((post: any) => this.mapPost(post))),
     );
+  }
+
+  addPost(body: ICreatePostBody): Observable<void>{
+    
+    return this.apiService.post('/posts', body);
   }
 
   private mapPost(post: any){

@@ -1,0 +1,31 @@
+@import "~src/app/shared/styles/variables"
+
+:host
+    display: flex
+    justify-content: center
+    padding: 2em
+
+    .container
+        display: flex
+        flex-direction: column
+        align-items: center
+        width: fit-content
+
+        .mat-form-field
+            width: 40vw
+
+        .content
+            textarea
+                height: 20vh
+
+@media (max-width: $layout-max-breakpoint-md)
+    :host
+        .container
+            .mat-form-field
+                width: 60vw
+
+@media (max-width: $layout-max-breakpoint-sm)
+    :host
+        .container
+            .mat-form-field
+                width: 90vw
