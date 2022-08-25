@@ -63,6 +63,6 @@
     </div>
 
 </div>
-<home-tags></home-tags>
+<home-tags (onTagSelect)="searchByTag($event)"></home-tags>
 
 <ng-template #loadingPosts>Loading posts</ng-template>

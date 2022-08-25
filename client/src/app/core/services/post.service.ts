@@ -33,6 +33,12 @@ export class PostService {
     );
   }
 
+  getByTag(tagId: number){
+    return this.apiService.get(`/tags/${tagId}/posts`).pipe(
+      map((posts) => posts.map((post: any) => this.mapPost(post))),
+    );
+  }
+
   private mapPost(post: any){
     // Map userID to username
     this.userService.getUser(post.userID).subscribe({

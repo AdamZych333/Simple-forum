@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { BehaviorSubject, map, Observable, of } from 'rxjs';
-import { Post } from '../core';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Post, Tag } from '../core';
 import { IPostQueryParams, PostService } from '../core/services/post.service';
 
 @Component({
@@ -24,8 +24,15 @@ export class HomeComponent implements OnInit{
   searchPosts(){
     this.posts$ = this.postService.queryPosts(this.params);
 
-    this.title = this.params.query?
-      `Results of search: ${this.params.query}`:
-      "Recent posts";
+    this.title = this.params.query? 
+    `Results of search: ${this.params.query}`:
+    "Recent posts";
   }
+
+  searchByTag(tag: Tag){
+    this.posts$ = this.postService.getByTag(tag.id);
+    
+    this.title = `Posts with tag: #${tag.name}`;
+  }
+
 }

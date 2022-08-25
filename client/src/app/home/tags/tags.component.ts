@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { map, Observable, tap } from 'rxjs';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Tag } from 'src/app/core';
 import { TagService } from 'src/app/core/services/tag.service';
 
@@ -12,6 +11,7 @@ import { TagService } from 'src/app/core/services/tag.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TagsComponent implements OnInit{
+  @Output() onTagSelect = new EventEmitter<Tag>();
   tags$!: Observable<Tag[]>;
 
   constructor(
