@@ -1,0 +1,49 @@
+<mat-form-field class="title"
+                appearance="outline" 
+                color="primary">
+    <mat-label>Title</mat-label>
+    <input matInput
+            [formControl]="titleForm" 
+            required>
+    <mat-error *ngIf="titleForm.errors?.['required']">You must enter a title</mat-error>
+    <mat-error *ngIf="titleForm.errors?.['minlength']">Title must be at least 5 characters long</mat-error>
+    <mat-error *ngIf="titleForm.errors?.['maxlength']">Title must be at most 30 characters long</mat-error>
+</mat-form-field>
+
+<mat-form-field class="content" 
+                color="primary"
+                appearance="outline">
+    <mat-label>Content</mat-label>
+    <textarea matInput 
+            [formControl]="contentForm" 
+            required>
+    </textarea>
+    <mat-error *ngIf="contentForm.errors?.['required']">You must enter an email</mat-error>
+    <mat-error *ngIf="contentForm.errors?.['minlength']">Title must be at least 5 characters long</mat-error>
+    <mat-error *ngIf="contentForm.errors?.['maxlength']">Title must be at most 30 characters long</mat-error>
+</mat-form-field>
+
+<mat-form-field class="tags" 
+                color="primary"
+                appearance="fill">
+    <mat-label>Tags</mat-label>
+    <mat-chip-list #chipList aria-label="Fruit selection">
+      <mat-chip *ngFor="let tag of selectedTags" (removed)="removeTag(tag)">
+        {{tag}}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+      <input placeholder="New fruit..."
+             [matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeyCodes"
+             (matChipInputTokenEnd)="addTag($event)">
+    </mat-chip-list>
+  </mat-form-field>
+
+  <button class="submit-btn"
+            color="primary"
+            (click)="onSubmit()"
+            mat-raised-button>
+        Submit
+  </button>

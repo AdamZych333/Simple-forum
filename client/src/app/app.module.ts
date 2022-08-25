@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core';
 import { AppGuard } from './app-guard.service';
+import { CreatorModule } from './creator/creator.module';
 
 @NgModule({
   declarations: [
@@ -21,14 +22,15 @@ import { AppGuard } from './app-guard.service';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     SharedModule,
-    HomeModule,
-    AuthModule,
-    CoreModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatButtonModule,
+    AppRoutingModule,
+    HomeModule,
+    AuthModule,
+    CoreModule,
+    CreatorModule,
   ],
   providers: [
     AppGuard,
