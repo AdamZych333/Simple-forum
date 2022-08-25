@@ -3,9 +3,12 @@
     <div class="searchbar">
         <mat-form-field class="search-form" appearance="outline">
             <mat-label>Search posts</mat-label>
-            <input matInput type="text" [(ngModel)]="query">
+            <input matInput type="text" 
+                    (keyup.enter)="searchPosts()"
+                    [(ngModel)]="params.query">
             <button mat-icon-button
                     matSuffix
+                    (click)="searchPosts()"
                     color="primary"
                     class="search-btn">
                 <mat-icon color="primary">search</mat-icon>
@@ -13,8 +16,8 @@
         </mat-form-field>
     </div>
 
+    <h1 class="title">{{title}}</h1>
     <div class="content" *ngIf="posts$ | async as posts; else loadingPosts">
-        <h1 class="title">{{title}}</h1>
         <mat-card class="post" *ngFor="let post of posts">
             <mat-card-content>
                 <button mat-stroked-button 
@@ -58,7 +61,7 @@
             </mat-card-actions>
         </mat-card>
     </div>
-    
+
 </div>
 <home-tags></home-tags>
 

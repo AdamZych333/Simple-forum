@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, of } from 'rxjs';
 import { Post } from '../core';
-import { PostService } from '../core/services/post.service';
+import { IPostQueryParams, PostService } from '../core/services/post.service';
 
 @Component({
   selector: 'app-home-page',
@@ -9,16 +9,23 @@ import { PostService } from '../core/services/post.service';
   styleUrls: ['./home.component.sass'],
 })
 export class HomeComponent implements OnInit{
-  query: string = "";
   title: string = 'Recent posts';
   posts$!: Observable<Post[]>;
+  params: IPostQueryParams = {};
 
   constructor(
     private postService: PostService
   ){}
 
   ngOnInit(): void {
-    this.posts$ = this.postService.queryPosts({});
+    this.searchPosts();
   }
  
+  searchPosts(){
+    this.posts$ = this.postService.queryPosts(this.params);
+
+    this.title = this.params.query?
+      `Results of search: ${this.params.query}`:
+      "Recent posts";
+  }
 }
