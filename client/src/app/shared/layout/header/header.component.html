@@ -14,12 +14,12 @@
     <ng-container *ngIf="isNotAuthenticated$ | async; else loggedInUser">
         <button mat-button class="nav-link" 
                 color="link"
-                routerLink="/login">
+                routerLink="/auth/login">
             Sign in
         </button>
         <button mat-button class="nav-link" 
                 color="link"
-                routerLink="/register">
+                routerLink="/auth/register">
             Sign up
         </button>
     </ng-container>
@@ -34,6 +34,7 @@
     </button>
     <button mat-button class="nav-link" 
                 color="link"
+                routerLink="/auth/login"
                 (click)="onSignOutClick()">
             Sign out
     </button>

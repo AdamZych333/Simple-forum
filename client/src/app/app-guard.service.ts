@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
-import { Observable, tap } from "rxjs";
+import { Observable, of, tap } from "rxjs";
 import { AuthService } from "./core";
 
 @Injectable()
@@ -14,7 +14,7 @@ export class AppGuard implements CanActivate {
         
         return this.authService.isAuthenticated().pipe(
             tap(isAuth => {
-                if(!isAuth) this.router.navigateByUrl('/login');
+                if(!isAuth) this.router.navigateByUrl('/auth/login');
             })
         );
     }

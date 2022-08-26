@@ -30,7 +30,7 @@
             </mat-card-content>
             <mat-card-title>{{post.title | titlecase}}</mat-card-title>
             <mat-card-subtitle class="subtitle">
-                <p>{{post.username}}</p>
+                <button-username [userID]="post.userID"></button-username>
                 <p>{{post.lastModificationAt | date:'hh:mm a MMM d, y'}}</p>
             </mat-card-subtitle>
             <mat-card-content>

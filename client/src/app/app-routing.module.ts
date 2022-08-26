@@ -1,18 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppGuard } from './app-guard.service';
-import { CreatorComponent } from './creator/creator.component';
 import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: HomeComponent,
-    canActivate: [AppGuard]
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
   },
   {
     path: 'creator',
     loadChildren: () => import('./creator/creator.module').then(m => m.CreatorModule),
+    canActivate: [AppGuard],
+  },
+  {
+    path: '',
+    component: HomeComponent,
     canActivate: [AppGuard],
   },
   {

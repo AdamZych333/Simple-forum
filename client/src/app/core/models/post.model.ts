@@ -7,7 +7,7 @@ export interface Post{
     content: string,
     createdAt: Date,
     lastModificationAt: Date,
-    username: string,
+    userID: number,
     tags: Tag[],
     vote: Votes,
     commentsCount: number,

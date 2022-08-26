@@ -24,6 +24,5 @@ export class HeaderComponent implements OnInit {
 
   onSignOutClick(){
     this.authService.removeAuth();
-    this.router.navigateByUrl('/login');
   }
 }

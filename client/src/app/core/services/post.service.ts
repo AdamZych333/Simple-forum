@@ -25,7 +25,6 @@ export class PostService {
 
   constructor(
     private apiService: ApiService,
-    private userService: UserService,
   ) { }
 
   queryPosts(params: IPostQueryParams): Observable<Post[]> {
@@ -50,13 +49,7 @@ export class PostService {
     return this.apiService.post('/posts', body);
   }
 
-  private mapPost(post: any){
-    // Map userID to username
-    this.userService.getUser(post.userID).subscribe({
-      next: (user) => post.username = user.name,
-      error: () => console.log(`error fetching username for post ${post.id}`)
-    })
-    
+  private mapPost(post: any){    
     // Map votes to count
     post.vote = {
       up: post.votes.find((v: {type: string, count: number}) => v.type == "UP").count,
