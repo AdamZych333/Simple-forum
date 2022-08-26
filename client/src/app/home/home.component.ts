@@ -10,7 +10,8 @@ import { IPostQueryParams, PostService } from '../core/services/post.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit{
-  title: string = 'Recent posts';
+  DEFAULT_TITLE = 'Recent posts'
+  title: string = this.DEFAULT_TITLE;
   posts$!: Observable<Post[]>;
   params: IPostQueryParams = {};
 
@@ -27,7 +28,7 @@ export class HomeComponent implements OnInit{
 
     this.title = this.params.query? 
     `Results of search: ${this.params.query}`:
-    "Recent posts";
+    this.DEFAULT_TITLE;
   }
 
   searchByTag(tag: Tag){
@@ -36,4 +37,8 @@ export class HomeComponent implements OnInit{
     this.title = `Posts with tag: #${tag.name}`;
   }
 
+  onCancelClick(){
+    this.params = {}
+    this.searchPosts();
+  }
 }
