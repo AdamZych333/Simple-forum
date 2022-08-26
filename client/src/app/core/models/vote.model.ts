@@ -1,4 +1,6 @@
 export interface Votes{
-    up: number,
-    down: number,
+    type: string,
+    postID: number,
+    count: number,
+    voted: boolean,
 }

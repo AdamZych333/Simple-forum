@@ -33,15 +33,11 @@ export class PostService {
 
     return this.apiService.get('/posts', 
       new HttpParams({fromObject: mappedParams}),
-    ).pipe(
-      map((posts) => posts.map((post: any) => this.mapPost(post))),
     );
   }
 
   getByTag(tagId: number): Observable<Post[]>{
-    return this.apiService.get(`/tags/${tagId}/posts`).pipe(
-      map((posts) => posts.map((post: any) => this.mapPost(post))),
-    );
+    return this.apiService.get(`/tags/${tagId}/posts`);
   }
 
   addPost(body: ICreatePostBody): Observable<void>{
@@ -54,15 +50,5 @@ export class PostService {
 
   unfollowPost(postID: number): Observable<void>{
     return this.apiService.delete(`/posts/${postID}/follows`);
-  }
-
-  private mapPost(post: any){    
-    // Map votes to count
-    post.vote = {
-      up: post.votes.find((v: {type: string, count: number}) => v.type == "UP").count,
-      down: post.votes.find((v: {type: string, count: number}) => v.type == "DOWN").count,
-    }
-
-    return post;
   }
 }

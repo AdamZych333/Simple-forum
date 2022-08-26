@@ -2,15 +2,15 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@a
 import { PostService } from 'src/app/core/services/post.service';
 
 @Component({
-  selector: 'app-button-follow[postID][count][isFollowed]',
+  selector: 'app-button-follow[postID]',
   templateUrl: './follow-button.component.html',
   styleUrls: ['./follow-button.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FollowButtonComponent {
   @Input() postID: number = 0;
-  @Input() count: number = 0;
-  @Input() isFollowed: boolean = false;
+  count: number = 0;
+  isFollowed: boolean = false;
 
   constructor(
     private postService: PostService,

@@ -46,9 +46,7 @@
               <p>{{post.content}}</p>
             </mat-card-content>
             <mat-card-actions class="actions">
-                <app-button-follow [postID]="post.id"
-                    [count]="post.followsCount"
-                    [isFollowed]="post.followed">
+                <app-button-follow [postID]="post.id">
 
                 </app-button-follow>
                 
@@ -60,12 +58,12 @@
                 <button mat-icon-button
                         color="primary">
                     <mat-icon>thumb_up</mat-icon>
-                    {{post.vote.up}}
+                    {{0}}
                 </button>
                 <button mat-icon-button
                         color="primary">
                     <mat-icon>thumb_down</mat-icon>
-                    {{post.vote.down}}
+                    {{0}}
                 </button>
             </mat-card-actions>
         </mat-card>
