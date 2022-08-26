@@ -7,9 +7,6 @@ import { Follow, FollowService } from 'src/app/core';
   templateUrl: './follow-button.component.html',
   styleUrls: ['./follow-button.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    FollowService,
-  ]
 })
 export class FollowButtonComponent implements OnInit{
   @Input() postID: number = 0;

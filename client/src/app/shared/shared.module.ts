@@ -8,6 +8,9 @@ import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { FollowButtonComponent, VoteButtonComponent } from './buttons';
 import { PostComponent } from './post/post.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,7 @@ import { PostComponent } from './post/post.component';
     MatButtonModule,
     MatIconModule,
     RouterModule,
+    MatCardModule,
   ],
   exports: [
     UsernameButtonComponent,
@@ -31,6 +35,7 @@ import { PostComponent } from './post/post.component';
     FooterComponent,
     FollowButtonComponent,
     VoteButtonComponent,
+    PostComponent,
   ]
 })
 export class SharedModule { }

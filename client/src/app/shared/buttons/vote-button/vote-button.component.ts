@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Votes, VoteService, VoteTypes } from 'src/app/core';
 
@@ -6,9 +6,7 @@ import { Votes, VoteService, VoteTypes } from 'src/app/core';
   selector: 'app-button-vote[postID][type]',
   templateUrl: './vote-button.component.html',
   styleUrls: ['./vote-button.component.sass'],
-  providers: [
-    VoteService
-  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VoteButtonComponent implements OnInit {
   @Input() postID: number = 0;

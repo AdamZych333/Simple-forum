@@ -26,38 +26,7 @@
         </button>
     </h1>
     <div class="content" *ngIf="posts$ | async as posts; else loadingPosts">
-        <mat-card class="post" *ngFor="let post of posts">
-            <mat-card-content>
-                <button mat-stroked-button 
-                        color="primary"
-                        class="tag" 
-                        disableRipple="true"
-                        *ngFor="let tag of post.tags">
-                    #{{tag.name}}
-                </button>
-            </mat-card-content>
-            <mat-card-title>{{post.title | titlecase}}</mat-card-title>
-            <mat-card-subtitle class="subtitle">
-                <app-button-username [userID]="post.userID"></app-button-username>
-                <p>{{post.lastModificationAt | date:'hh:mm a MMM d, y'}}</p>
-            </mat-card-subtitle>
-            <mat-card-content>
-              <p>{{post.content}}</p>
-            </mat-card-content>
-            <mat-card-actions class="actions">
-                <app-button-follow [postID]="post.id"></app-button-follow>
-                
-                <button mat-icon-button
-                        color="primary">
-                    <mat-icon> comment</mat-icon>
-                    {{post.commentsCount}}
-                </button>
-
-                <app-button-vote [postID]="post.id" [type]="VOTE_UP"></app-button-vote>
-                <app-button-vote [postID]="post.id" [type]="VOTE_DOWN"></app-button-vote>
-
-            </mat-card-actions>
-        </mat-card>
+        <app-post *ngFor="let post of posts" [post]="post"></app-post>
     </div>
 
 </div>
