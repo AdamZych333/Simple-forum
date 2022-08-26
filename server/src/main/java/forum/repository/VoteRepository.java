@@ -10,7 +10,7 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
 
     Optional<Vote> findByUser_IdAndPost_Id(Long userID, Long postID);
 
-    boolean existsByUser_IdAndPost_Id(Long userID, Long postID);
+    boolean existsByTypeAndUser_IdAndPost_Id(String type, Long userID, Long postID);
 
     Set<Vote> findAllByPost_IdAndType(Long postID, String type);
 }

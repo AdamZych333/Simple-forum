@@ -6,7 +6,7 @@ import forum.entity.User;
 import forum.entity.Vote;
 import forum.repository.PostRepository;
 import forum.repository.VoteRepository;
-import forum.service.dto.VoteDTO;
+import forum.service.dto.VotesDTO;
 import forum.service.exception.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -36,23 +34,21 @@ public class VoteService {
         this.postRepository = postRepository;
     }
 
-    public List<VoteDTO> getVotes(Long postID){
-        log.debug("Fetching: votes of post {}", postID);
+    public VotesDTO getVotes(Constants.Vote type, Long postID, Long userID){
+        log.debug("Fetching: votes of post {} of type {}", postID, type);
 
         if(!postRepository.existsById(postID)) {
             throw new EntityNotFoundException("Post with requesting id doesn't exist");
         }
 
-        List<VoteDTO> voteDTOS = new ArrayList<>();
-        for(Constants.Vote type : Constants.Vote.values()){
-            Set<Vote> votes = voteRepository.findAllByPost_IdAndType(postID, type.name);
-            VoteDTO voteDTO = new VoteDTO();
-            voteDTO.setType(type);
-            voteDTO.setCount(votes.size());
-            voteDTOS.add(voteDTO);
-        }
+        Set<Vote> votes = voteRepository.findAllByPost_IdAndType(postID, type.name);
+        VotesDTO voteDTO = new VotesDTO();
+        voteDTO.setType(type);
+        voteDTO.setCount(votes.size());
+        voteDTO.setVoted(isVoted(type, postID, userID));
+        voteDTO.setPostID(postID);
 
-        return voteDTOS;
+        return voteDTO;
 
     }
 
@@ -77,9 +73,9 @@ public class VoteService {
         voteRepository.delete(vote);
     }
 
-    public boolean isVoted(Long postID, Long userID){
+    public boolean isVoted(Constants.Vote type, Long postID, Long userID){
         log.debug("Checking: post {} voted by {}", postID, userID);
 
-        return voteRepository.existsByUser_IdAndPost_Id(userID, postID);
+        return voteRepository.existsByTypeAndUser_IdAndPost_Id(type.name, userID, postID);
     }
 }

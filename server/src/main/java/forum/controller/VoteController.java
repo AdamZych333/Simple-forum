@@ -3,7 +3,7 @@ package forum.controller;
 import forum.entity.User;
 import forum.service.VoteService;
 import forum.service.dto.CreatedVoteDTO;
-import forum.service.dto.VoteDTO;
+import forum.service.dto.VotesDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -43,14 +42,16 @@ public class VoteController {
     }
 
     @GetMapping
-    public ResponseEntity<List<VoteDTO>> getVotes(
-            @PathVariable Long postID
+    public ResponseEntity<VotesDTO> getVotes(
+            @PathVariable Long postID,
+            @RequestBody CreatedVoteDTO vote,
+            @AuthenticationPrincipal User authenticatedUser
     ) {
         log.debug("Request to get: vote up on {}", postID);
 
-        List<VoteDTO> voteDTOList = voteService.getVotes(postID);
+        VotesDTO voteDTO = voteService.getVotes(vote.getType(), postID, authenticatedUser.getId());
 
-        return ResponseEntity.ok(voteDTOList);
+        return ResponseEntity.ok(voteDTO);
     }
 
     @DeleteMapping
