@@ -2,8 +2,12 @@ package forum.service.dto;
 
 import forum.config.Constants;
 
+import javax.validation.constraints.NotNull;
+
 public class CreatedVoteDTO {
 
+
+    @NotNull
     private Constants.Vote type;
 
     public Constants.Vote getType() {

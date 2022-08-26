@@ -5,9 +5,9 @@ import { HeaderComponent, FooterComponent } from './layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
-import { FollowButtonComponent } from './buttons/follow-button/follow-button.component';
-import { VoteupButtonComponent } from './buttons/voteup-button/voteup-button.component';
 import { MatIconModule } from '@angular/material/icon';
+import { FollowButtonComponent, VoteButtonComponent } from './buttons';
+import { PostComponent } from './post/post.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +15,8 @@ import { MatIconModule } from '@angular/material/icon';
     HeaderComponent,
     FooterComponent,
     FollowButtonComponent,
-    VoteupButtonComponent,
+    VoteButtonComponent,
+    PostComponent,
   ],
   imports: [
     CommonModule,
@@ -29,7 +30,7 @@ import { MatIconModule } from '@angular/material/icon';
     HeaderComponent,
     FooterComponent,
     FollowButtonComponent,
-    VoteupButtonComponent,
+    VoteButtonComponent,
   ]
 })
 export class SharedModule { }

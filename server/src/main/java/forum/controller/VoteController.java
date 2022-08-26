@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -31,7 +32,7 @@ public class VoteController {
     @PostMapping
     public ResponseEntity<Void> vote(
             @PathVariable Long postID,
-            @RequestBody CreatedVoteDTO vote,
+            @RequestBody @Validated CreatedVoteDTO vote,
             @AuthenticationPrincipal User authenticatedUser
     ) throws URISyntaxException {
         log.debug("Request to save: vote up on {} by {}", postID, authenticatedUser);
@@ -44,7 +45,7 @@ public class VoteController {
     @GetMapping
     public ResponseEntity<VotesDTO> getVotes(
             @PathVariable Long postID,
-            @RequestBody CreatedVoteDTO vote,
+            @Validated CreatedVoteDTO vote,
             @AuthenticationPrincipal User authenticatedUser
     ) {
         log.debug("Request to get: vote up on {}", postID);

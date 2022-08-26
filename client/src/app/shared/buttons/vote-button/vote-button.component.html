@@ -1,0 +1,36 @@
+<ng-container *ngIf="votes$ | async as votes; else loading">
+    <ng-container *ngIf="votes.voted; else notVoted">
+
+        <button mat-icon-button
+            (click)="onUnvoteClick()"
+            color="accent">
+    
+            <ng-container *ngIf="type === VOTE_UP; else voteDown">
+                <mat-icon>thumb_up</mat-icon>
+            </ng-container>
+    
+            {{votes.count}}
+        </button>
+
+    </ng-container>
+
+    <ng-template #notVoted>
+        <button mat-icon-button
+                (click)="onVoteClick()"
+                color="primary">
+        
+            <ng-container *ngIf="type === VOTE_UP; else voteDown">
+                <mat-icon>thumb_up</mat-icon>
+            </ng-container>
+        
+            {{votes.count}}
+        </button>
+    </ng-template>
+
+</ng-container>
+
+<ng-template #loading>Loading</ng-template>
+
+<ng-template #voteDown>
+    <mat-icon >thumb_down</mat-icon>
+</ng-template>

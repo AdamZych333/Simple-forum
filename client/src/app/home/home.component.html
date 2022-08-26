@@ -53,13 +53,9 @@
                     {{post.commentsCount}}
                 </button>
 
-                <app-button-voteup [postID]="post.id"></app-button-voteup>
-                
-                <button mat-icon-button
-                        color="primary">
-                    <mat-icon>thumb_down</mat-icon>
-                    {{0}}
-                </button>
+                <app-button-vote [postID]="post.id" [type]="VOTE_UP"></app-button-vote>
+                <app-button-vote [postID]="post.id" [type]="VOTE_DOWN"></app-button-vote>
+
             </mat-card-actions>
         </mat-card>
     </div>

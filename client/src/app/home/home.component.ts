@@ -1,7 +1,7 @@
 import { I } from '@angular/cdk/keycodes';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IPostQueryParams, Post, PostService, Tag } from '../core';
+import { IPostQueryParams, Post, PostService, Tag, VoteTypes } from '../core';
 
 @Component({
   selector: 'app-home-page',
@@ -11,6 +11,8 @@ import { IPostQueryParams, Post, PostService, Tag } from '../core';
 })
 export class HomeComponent implements OnInit{
   DEFAULT_TITLE = 'Recent posts'
+  VOTE_UP = VoteTypes.UP;
+  VOTE_DOWN = VoteTypes.DOWN;
   title: string = this.DEFAULT_TITLE;
   posts$!: Observable<Post[]>;
   params: IPostQueryParams = {};
@@ -41,5 +43,5 @@ export class HomeComponent implements OnInit{
     this.params = {}
     this.searchPosts();
   }
-  
+
 }
