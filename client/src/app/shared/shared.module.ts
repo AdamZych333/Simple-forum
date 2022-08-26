@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { FollowButtonComponent } from './buttons/follow-button/follow-button.component';
+import { VoteupButtonComponent } from './buttons/voteup-button/voteup-button.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -13,11 +15,13 @@ import { FollowButtonComponent } from './buttons/follow-button/follow-button.com
     HeaderComponent,
     FooterComponent,
     FollowButtonComponent,
+    VoteupButtonComponent,
   ],
   imports: [
     CommonModule,
     MatToolbarModule,
     MatButtonModule,
+    MatIconModule,
     RouterModule,
   ],
   exports: [
@@ -25,6 +29,7 @@ import { FollowButtonComponent } from './buttons/follow-button/follow-button.com
     HeaderComponent,
     FooterComponent,
     FollowButtonComponent,
+    VoteupButtonComponent,
   ]
 })
 export class SharedModule { }

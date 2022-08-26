@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Follow, FollowService } from 'src/app/core';
 
@@ -17,7 +17,6 @@ export class FollowButtonComponent implements OnInit{
 
   constructor(
     private followService: FollowService,
-    private changeDetectorRef: ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
@@ -25,27 +24,10 @@ export class FollowButtonComponent implements OnInit{
   }
 
   onFollowClick(){
-    this.followService.followPost(this.postID);
-    // if(this.postID <= 0) return;
-    // this.followService.followPost(this.postID).subscribe({
-    //   next: () => {
-    //     this.count++;
-    //     this.isFollowed = true;
-    //     this.changeDetectorRef.detectChanges();
-    //   },
-    // });
-    
+    this.followService.followPost(this.postID);    
   }
 
   onUnfollowClick(){
     this.followService.unfollowPost(this.postID);
-    // if(this.postID <= 0) return;
-    // this.followService.unfollowPost(this.postID).subscribe({
-    //   next: () => {
-    //     this.count--;
-    //     this.isFollowed = false;
-    //     this.changeDetectorRef.detectChanges();
-    //   },
-    // });
   }
 }
