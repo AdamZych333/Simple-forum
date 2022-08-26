@@ -77,9 +77,6 @@ public class UserController {
         log.debug("Request to get: posts of user {}", id);
 
         List<PostDTO> postDTOS = postService.getUserPosts(id, sortBy, order, Math.max(page, 0), pageSize);
-        postDTOS.forEach(p -> {
-            postService.addVotesAndFollows(p, authenticatedUser.getId());
-        });
 
         return ResponseEntity.ok(postDTOS);
     }
@@ -103,9 +100,6 @@ public class UserController {
         log.debug("Request to get: posts of user {}", id);
 
         List<FollowedPostDTO> postDTOS = postService.getFollowedPosts(id);
-        postDTOS.forEach(p -> {
-            postService.addVotesAndFollows(p, authenticatedUser.getId());
-        });
 
         return ResponseEntity.ok(postDTOS);
     }

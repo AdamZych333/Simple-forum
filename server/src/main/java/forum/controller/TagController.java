@@ -57,9 +57,6 @@ public class TagController {
         log.debug("Request to get: posts with tag {}", id);
 
         List<PostDTO> postDTOS = postService.getPostsByTag(id, query, sortBy, order, Math.max(page, 0), pageSize);
-        postDTOS.forEach(p -> {
-            postService.addVotesAndFollows(p, authenticatedUser.getId());
-        });
 
         return ResponseEntity.ok(postDTOS);
     }

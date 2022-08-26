@@ -2,6 +2,7 @@ package forum.controller;
 
 import forum.entity.User;
 import forum.service.FollowService;
+import forum.service.dto.FollowsDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,18 @@ public class FollowController {
         followService.follow(postID, authenticatedUser);
 
         return ResponseEntity.created(new URI("")).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<FollowsDTO> getFollows(
+            @PathVariable Long postID,
+            @AuthenticationPrincipal User authenticatedUser
+    ) {
+        log.debug("Request to save: follow {} by {}", postID, authenticatedUser);
+
+        FollowsDTO followsDTO = followService.getFollows(postID, authenticatedUser.getId());
+
+        return ResponseEntity.ok(followsDTO);
     }
 
     @DeleteMapping

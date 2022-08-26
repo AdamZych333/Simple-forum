@@ -5,6 +5,7 @@ import forum.entity.Post;
 import forum.entity.User;
 import forum.repository.FollowRepository;
 import forum.repository.PostRepository;
+import forum.service.dto.FollowsDTO;
 import forum.service.exception.EntityAlreadyExistsException;
 import forum.service.exception.EntityNotFoundException;
 import org.slf4j.Logger;
@@ -69,6 +70,22 @@ public class FollowService {
         follow.get().setLastVisitAt(new Timestamp(System.currentTimeMillis()));
 
         followRepository.save(follow.get());
+    }
+
+    public FollowsDTO getFollows(Long postID, Long userID){
+        log.debug("Fetching: follow {} by {}", postID, userID);
+
+        int count = followRepository.countAllByPost_Id(postID);
+        boolean isFollowed = followRepository.existsByUser_IdAndPost_Id(userID, postID);
+
+        FollowsDTO followsDTO = new FollowsDTO();
+        followsDTO.setPostID(postID);
+        followsDTO.setCount(count);
+        followsDTO.setFollowed(isFollowed);
+
+        return followsDTO;
+
+
     }
 
     public boolean isFollowed(Long postID, Long userID){

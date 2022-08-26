@@ -21,14 +21,6 @@ public class PostDTO {
 
     private int commentsCount;
 
-    private int followsCount;
-
-    private List<VoteDTO> votes;
-
-    private boolean isVoted;
-
-    private boolean isFollowed;
-
     public Long getId() {
         return id;
     }
@@ -93,35 +85,4 @@ public class PostDTO {
         this.commentsCount = commentsCount;
     }
 
-    public List<VoteDTO> getVotes() {
-        return votes;
-    }
-
-    public void setVotes(List<VoteDTO> votes) {
-        this.votes = votes;
-    }
-
-    public int getFollowsCount() {
-        return followsCount;
-    }
-
-    public void setFollowsCount(int followsCount) {
-        this.followsCount = followsCount;
-    }
-
-    public boolean isVoted() {
-        return isVoted;
-    }
-
-    public void setVoted(boolean voted) {
-        isVoted = voted;
-    }
-
-    public boolean isFollowed() {
-        return isFollowed;
-    }
-
-    public void setFollowed(boolean followed) {
-        isFollowed = followed;
-    }
 }
