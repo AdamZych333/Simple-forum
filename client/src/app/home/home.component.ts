@@ -1,7 +1,7 @@
+import { I } from '@angular/cdk/keycodes';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Post, Tag } from '../core';
-import { IPostQueryParams, PostService } from '../core/services/post.service';
+import { IPostQueryParams, Post, PostService, Tag } from '../core';
 
 @Component({
   selector: 'app-home-page',
@@ -41,8 +41,5 @@ export class HomeComponent implements OnInit{
     this.params = {}
     this.searchPosts();
   }
-
-  checkRender(id: number){
-    console.log(id + " " + new Date());
-  }
+  
 }

@@ -44,11 +44,4 @@ export class PostService {
     return this.apiService.post('/posts', body);
   }
 
-  followPost(postID: number): Observable<void>{
-    return this.apiService.post(`/posts/${postID}/follows`);
-  }
-
-  unfollowPost(postID: number): Observable<void>{
-    return this.apiService.delete(`/posts/${postID}/follows`);
-  }
 }

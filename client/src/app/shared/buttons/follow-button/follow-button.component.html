@@ -1,16 +1,21 @@
-<ng-container *ngIf="isFollowed; else notFollowed">
-    <button mat-raised-button
-            (click)="onUnfollowClick()"
+<ng-container *ngIf="follows$ | async as follows; else loading">
+    <ng-container *ngIf="follows.followed; else notFollowed">
+        <button mat-raised-button
+                (click)="onUnfollowClick()"
+                color="primary">
+                FOLLOWED
+                {{follows.count}}
+        </button>
+    </ng-container>
+    <ng-template #notFollowed>
+        <button mat-stroked-button
+            (click)="onFollowClick()"
             color="primary">
-            FOLLOWED
-            {{count}}
-    </button>
+            FOLLOW
+            {{follows.count}}
+        </button>
+    </ng-template>
 </ng-container>
-<ng-template #notFollowed>
-    <button mat-stroked-button
-        (click)="onFollowClick()"
-        color="primary">
-        FOLLOW
-        {{count}}
-    </button>
+<ng-template #loading>
+    Loading follows
 </ng-template>

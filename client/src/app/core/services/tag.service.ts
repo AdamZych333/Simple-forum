@@ -8,9 +8,7 @@ export interface ITagQueryParams{
   page?: number,
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class TagService {
   private PAGE_SIZE = 5;
 
