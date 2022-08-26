@@ -38,15 +38,22 @@ export class PostService {
     );
   }
 
-  getByTag(tagId: number){
+  getByTag(tagId: number): Observable<Post[]>{
     return this.apiService.get(`/tags/${tagId}/posts`).pipe(
       map((posts) => posts.map((post: any) => this.mapPost(post))),
     );
   }
 
   addPost(body: ICreatePostBody): Observable<void>{
-    
     return this.apiService.post('/posts', body);
+  }
+
+  followPost(postID: number): Observable<void>{
+    return this.apiService.post(`/posts/${postID}/follows`);
+  }
+
+  unfollowPost(postID: number): Observable<void>{
+    return this.apiService.delete(`/posts/${postID}/follows`);
   }
 
   private mapPost(post: any){    

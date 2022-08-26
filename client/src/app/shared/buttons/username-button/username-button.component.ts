@@ -3,7 +3,7 @@ import { map, Observable, of, tap } from 'rxjs';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
-  selector: 'button-username',
+  selector: 'app-button-username[userID]',
   templateUrl: './username-button.component.html',
   styleUrls: ['./username-button.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,

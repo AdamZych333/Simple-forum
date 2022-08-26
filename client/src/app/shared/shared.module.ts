@@ -5,12 +5,14 @@ import { HeaderComponent, FooterComponent } from './layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
+import { FollowButtonComponent } from './buttons/follow-button/follow-button.component';
 
 @NgModule({
   declarations: [
     UsernameButtonComponent,
     HeaderComponent,
     FooterComponent,
+    FollowButtonComponent,
   ],
   imports: [
     CommonModule,
@@ -22,6 +24,7 @@ import { RouterModule } from '@angular/router';
     UsernameButtonComponent,
     HeaderComponent,
     FooterComponent,
+    FollowButtonComponent,
   ]
 })
 export class SharedModule { }

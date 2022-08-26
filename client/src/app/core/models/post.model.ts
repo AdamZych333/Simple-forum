@@ -12,4 +12,5 @@ export interface Post{
     vote: Votes,
     commentsCount: number,
     followsCount: number,
+    followed: boolean,
 }

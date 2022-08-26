@@ -41,4 +41,8 @@ export class HomeComponent implements OnInit{
     this.params = {}
     this.searchPosts();
   }
+
+  checkRender(id: number){
+    console.log(id + " " + new Date());
+  }
 }

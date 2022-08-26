@@ -1,0 +1,16 @@
+<ng-container *ngIf="isFollowed; else notFollowed">
+    <button mat-raised-button
+            (click)="onUnfollowClick()"
+            color="primary">
+            FOLLOWED
+            {{count}}
+    </button>
+</ng-container>
+<ng-template #notFollowed>
+    <button mat-stroked-button
+        (click)="onFollowClick()"
+        color="primary">
+        FOLLOW
+        {{count}}
+    </button>
+</ng-template>
