@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {COMMA, ENTER, SPACE} from '@angular/cdk/keycodes';
 import { FormControl, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -8,12 +8,13 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-creator',
   templateUrl: './creator.component.html',
-  styleUrls: ['./creator.component.sass']
+  styleUrls: ['./creator.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreatorComponent {
   MAX_NUMBER_OF_TAGS = 5;
   MAX_TAG_LENGTH = 15;
-  titleForm = new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]);
+  titleForm = new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]);
   contentForm = new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(500)]);
   tagsForm = new FormControl('');
   readonly separatorKeyCodes = [ENTER, COMMA, SPACE] as const;
@@ -25,7 +26,7 @@ export class CreatorComponent {
   ) { }
 
   addTag(event: MatChipInputEvent): void {
-    const value = (event.value || '').replaceAll(/[^a-zA-Z0-9]/g, '');
+    const value = (event.value || '').replaceAll(/[^a-zA-Z0-9]/g, '').toLowerCase();
     if(value.length > this.MAX_TAG_LENGTH) return;
     if(value){
       this.selectedTags.push(value);

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first } from 'rxjs';
@@ -8,7 +8,8 @@ import { AuthService } from 'src/app/core';
 @Component({
   selector: 'auth-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.sass']
+  styleUrls: ['./login.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
   email = new FormControl('', [Validators.required]);

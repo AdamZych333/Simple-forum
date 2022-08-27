@@ -21,4 +21,8 @@ export class PostComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  testRender(){
+    console.log(this.post.id);
+  }
+
 }

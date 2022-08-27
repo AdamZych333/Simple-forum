@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { AuthService } from 'src/app/core';
 import { Router } from '@angular/router';
@@ -6,7 +6,8 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'layout-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.sass']
+  styleUrls: ['./header.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
   isNotAuthenticated$ = new Observable<boolean>;

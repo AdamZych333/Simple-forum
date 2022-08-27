@@ -4,11 +4,11 @@
         <mat-form-field class="search-form" appearance="outline">
             <mat-label>Search posts</mat-label>
             <input matInput type="text" 
-                    (keyup.enter)="searchPosts()"
+                    (keyup.enter)="onSearch()"
                     [(ngModel)]="params.query">
             <button mat-icon-button
                     matSuffix
-                    (click)="searchPosts()"
+                    (click)="onSearch()"
                     color="primary"
                     class="search-btn">
                 <mat-icon color="primary">search</mat-icon>
@@ -25,11 +25,15 @@
             <mat-icon color="warn">cancel</mat-icon>
         </button>
     </h1>
-    <div class="content" *ngIf="posts$ | async as posts; else loadingPosts">
-        <app-post *ngFor="let post of posts" [post]="post"></app-post>
+    <div *ngIf="posts$ | async as posts"
+        infiniteScroll
+        [infiniteScrollDistance]="2"
+        [infiniteScrollThrottle]="1000"
+        (scrolled)="onScrolled()"
+        class="content">
+        <app-post *ngFor="let post of posts; trackBy: trackById" [post]="post"></app-post>
     </div>
-
+    <div class="finnished-message" *ngIf="finnished; else nextPage">The end. Comeback later for more posts.</div>
+    <ng-template #nextPage><mat-spinner color="primary"></mat-spinner></ng-template>
 </div>
-<home-tags (onTagSelect)="searchByTag($event)"></home-tags>
-
-<ng-template #loadingPosts>Loading posts</ng-template>
+<home-tags (onTagSelect)="onTagSelect($event)"></home-tags>

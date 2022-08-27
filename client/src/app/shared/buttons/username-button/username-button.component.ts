@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { map, Observable, of, tap } from 'rxjs';
+import { map, Observable} from 'rxjs';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({

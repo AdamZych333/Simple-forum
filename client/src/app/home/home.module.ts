@@ -9,6 +9,8 @@ import {MatInputModule} from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { TagsComponent } from './tags/tags.component';
 import { MatButtonModule } from '@angular/material/button';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -25,6 +27,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatInputModule,
     MatIconModule,
     MatButtonModule,
+    InfiniteScrollModule,
+    MatProgressSpinnerModule,
   ]
 })
 export class HomeModule {}

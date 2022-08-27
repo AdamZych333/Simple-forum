@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AsyncSubject, BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Follow } from '../models';
 import { ApiService } from './api.service';
 

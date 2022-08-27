@@ -17,16 +17,15 @@
       <p>{{post.content}}</p>
     </mat-card-content>
     <mat-card-actions class="actions">
-        <app-button-follow [postID]="post.id"></app-button-follow>
-        
+        <app-button-follow class="action" [postID]="post.id"></app-button-follow>
         <button mat-icon-button
+                class="action"
                 color="primary">
             <mat-icon> comment</mat-icon>
             {{post.commentsCount}}
         </button>
-
-        <app-button-vote [postID]="post.id" [type]="VOTE_UP"></app-button-vote>
-        <app-button-vote [postID]="post.id" [type]="VOTE_DOWN"></app-button-vote>
+        <app-button-vote class="action" [postID]="post.id" [type]="VOTE_UP"></app-button-vote>
+        <app-button-vote class="action" [postID]="post.id" [type]="VOTE_DOWN"></app-button-vote>
 
     </mat-card-actions>
 </mat-card>
