@@ -6,4 +6,12 @@
     <mat-card-content>
       <p>{{comment.content}}</p>
     </mat-card-content>
+    <mat-card-actions class="actions">
+        <button mat-icon-button
+                class="action"
+                color="primary">
+            <mat-icon>comment</mat-icon>
+            {{comment | countChildren}}
+        </button>
+    </mat-card-actions>
 </mat-card>

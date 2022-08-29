@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { PostListComponent } from './post-list/post-list.component';
 import { CommentComponent } from './comment/comment.component';
 import { CommentListComponent } from './comment-list/comment-list.component';
+import { CountChildrenPipe } from './comment/count-children.pipe';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { CommentListComponent } from './comment-list/comment-list.component';
     PostListComponent,
     CommentComponent,
     CommentListComponent,
+    CountChildrenPipe,
   ],
   imports: [
     CommonModule,
