@@ -1,6 +1,6 @@
 import { I } from '@angular/cdk/keycodes';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BehaviorSubject, map, Observable, switchMap, tap } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { BehaviorSubject, combineLatest, concat, concatMap, concatMapTo, defaultIfEmpty, exhaustMap, forkJoin, map, Observable, of, startWith, switchMap, tap, zip } from 'rxjs';
 import { IPostQueryParams, Post, PostService, Tag } from '../core';
 
 @Component({
@@ -18,19 +18,25 @@ export class HomeComponent {
   };
   selectedTag: Tag | null = null;
   finnished = false;
+
+  curPosts = [] as Post[];
   private pageSubject = new BehaviorSubject<number>(0);
-  
-  posts$: Observable<Post[]> = this.pageSubject.pipe(
+  posts$ = this.pageSubject.pipe(
     tap(page => {
-      if(page === 0) this.finnished = false;
-      this.params = {...this.params, page: 0, pageSize: (page+1)*this.PAGE_SIZE}
+      if(page === 0) {
+        this.finnished = false;
+        this.curPosts = [] as Post[];
+      }
+      this.params = {...this.params, page: page}
       this.updateTitle();
     }),
     switchMap(() => this.postService.queryPosts(this.selectedTag, this.params,)),
-    tap(posts => {
-      if(posts.length%this.PAGE_SIZE != 0) this.finnished = true;
+    tap(newPosts => {
+      if(newPosts.length%this.PAGE_SIZE != 0) this.finnished = true;
     }),
-  );
+    map(newPosts => [...this.curPosts, ...newPosts]),
+    tap((posts) => this.curPosts = posts)
+  )
 
   constructor(
     private postService: PostService

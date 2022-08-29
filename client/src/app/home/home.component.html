@@ -25,7 +25,7 @@
             <mat-icon color="warn">cancel</mat-icon>
         </button>
     </h1>
-    <div *ngIf="posts$ | async as posts"
+    <div *ngIf="posts$ | async as posts; else loading"
         infiniteScroll
         [infiniteScrollDistance]="2"
         [infiniteScrollThrottle]="1000"
@@ -37,3 +37,5 @@
     <ng-template #nextPage><mat-spinner color="primary"></mat-spinner></ng-template>
 </div>
 <home-tags (onTagSelect)="onTagSelect($event)"></home-tags>
+
+<ng-template #loading>Loading</ng-template>

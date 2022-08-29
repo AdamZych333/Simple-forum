@@ -38,14 +38,9 @@ export class PostService {
     );
   }
 
-  // getByTag(tagId: number, params: IPostQueryParams): Observable<Post[]>{
-  //   const mappedParams: {[param: string]: string | number} = {...params};
-  //   mappedParams['pageSize'] = this.PAGE_SIZE;
-
-  //   return this.apiService.get(`/tags/${tagId}/posts`,
-  //     new HttpParams({fromObject: mappedParams}),
-  //   );
-  // }
+  getById(postID: number){
+    return this.apiService.get(`/posts/${postID}`);
+  }
 
   addPost(body: ICreatePostBody): Observable<void>{
     return this.apiService.post('/posts', body);
