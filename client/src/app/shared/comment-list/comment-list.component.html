@@ -1,8 +1,11 @@
-<ng-container *ngIf="comments$ | async as comments; else loading">
-    <app-comment *ngFor="let comment of comments; trackBy: trackById" 
+<ng-container *ngIf="currentComments$ | async as comments; else loading">
+    <app-comment *ngFor="let comment of comments; trackBy: trackById"
+        infiniteScroll
+        [infiniteScrollDistance]="2"
+        [infiniteScrollThrottle]="1000"
+        (scrolled)="nextPage()"
         [comment]="comment">
     </app-comment>
     <p *ngIf="comments.length === 0">There are no comments.</p>
 </ng-container>
 <ng-template #loading>Loading comments</ng-template>
-{{renderTest()}}

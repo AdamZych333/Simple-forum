@@ -18,6 +18,7 @@ import { CountChildrenPipe } from './comment/count-children.pipe';
 import { CommentFormComponent } from './comment-form/comment-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatChipsModule} from '@angular/material/chips';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import {MatChipsModule} from '@angular/material/chips';
     RouterModule,
     MatCardModule,
     MatChipsModule,
+    InfiniteScrollModule,
   ],
   exports: [
     UsernameButtonComponent,
