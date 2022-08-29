@@ -65,10 +65,6 @@ export class HomeComponent {
 
   }
 
-  trackById(index: number, item: Post){
-    return item.id;
-  }
-
   private updateTitle(){
     if(this.selectedTag){
       this.title = `Posts with tag: #${this.selectedTag.name}`;

@@ -1,0 +1,4 @@
+<div *ngIf="posts$ | async as posts"
+        class="content">
+    <app-post *ngFor="let post of posts; trackBy: trackById" [post]="post"></app-post>
+</div>

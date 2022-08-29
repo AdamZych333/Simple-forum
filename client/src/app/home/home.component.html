@@ -25,17 +25,13 @@
             <mat-icon color="warn">cancel</mat-icon>
         </button>
     </h1>
-    <div *ngIf="posts$ | async as posts; else loading"
+    <app-post-list [posts]="posts$"
         infiniteScroll
         [infiniteScrollDistance]="2"
         [infiniteScrollThrottle]="1000"
         (scrolled)="onScrolled()"
-        class="content">
-        <app-post *ngFor="let post of posts; trackBy: trackById" [post]="post"></app-post>
-    </div>
+    ></app-post-list>
     <div class="finnished-message" *ngIf="finnished; else nextPage">The end. Comeback later for more posts.</div>
     <ng-template #nextPage><mat-spinner color="primary"></mat-spinner></ng-template>
 </div>
 <home-tags (onTagSelect)="onTagSelect($event)"></home-tags>
-
-<ng-template #loading>Loading</ng-template>
