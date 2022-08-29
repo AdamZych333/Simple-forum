@@ -1,8 +1,5 @@
-<ng-container *ngIf="post$ | async as post; else loading">
-    <app-post [post]="post"></app-post>
-</ng-container>
+<app-post [post]="post" *ngIf="post$ | async as post; else loading"></app-post>
 
-<ng-template #loading>
+<ng-template #loading>Loading post</ng-template>
 
-</ng-template>
-
+<app-comment-list [comments]="comments$"></app-comment-list>

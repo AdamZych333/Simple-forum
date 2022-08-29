@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { HttpTokenInterceptor } from './interceptors';
-import { ApiService, AuthService, FollowService, JwtService, TagService } from './services';
+import { ApiService, AuthService, CommentService, FollowService, JwtService, TagService, VoteService } from './services';
 import { PostService } from './services/post.service';
 import { UserService } from './services/user.service';
 
@@ -22,6 +22,7 @@ import { UserService } from './services/user.service';
     PostService,
     UserService,
     TagService,
+    CommentService,
   ]
 })
 export class CoreModule { }

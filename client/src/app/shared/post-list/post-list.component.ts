@@ -1,11 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Post } from 'src/app/core';
 
 @Component({
   selector: 'app-post-list[posts]',
   templateUrl: './post-list.component.html',
-  styleUrls: ['./post-list.component.sass']
+  styleUrls: ['./post-list.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostListComponent {
   @Input('posts') posts$!: Observable<Post[]>;
