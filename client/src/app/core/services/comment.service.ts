@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Comment } from '../models';
 import { ApiService } from './api.service';
 
 interface ICommentBody{
   content: string,
-  parentID: number,
+  parentID: number | null,
 }
 
 @Injectable()
@@ -19,7 +19,7 @@ export class CommentService {
     return this.apiService.get(`/posts/${postID}/comments`);
   }
 
-  addComment(postID: number, body: ICommentBody): Observable<void>{
+  addComment(postID: number, body: ICommentBody): Observable<Comment>{
     return this.apiService.post(`/posts/${postID}/comments`, body);
   }
 }

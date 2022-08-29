@@ -8,6 +8,7 @@ export class CountChildrenPipe implements PipeTransform {
 
   transform(parent: Comment): number {
     let count = 0;
+    if(parent.children == null) return count;
     for(let child of parent.children){
       count+=this.transform(child);
     }

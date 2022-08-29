@@ -1,5 +1,11 @@
-<app-post class="post" [post]="post" *ngIf="post$ | async as post; else loading"></app-post>
-<h1><b>Comments</b></h1>
-<app-comment-list [comments]="comments$"></app-comment-list>
+<ng-container *ngIf="post$ | async as post; else loading">
+    <app-post class="post" [post]="post"></app-post>
+
+    <h1><b>Add comment</b></h1>
+    <app-comment-form [postID]="post.id" (onSuccess)="addComment($event)"></app-comment-form>
+    
+    <h1><b>Comments</b></h1>
+    <app-comment-list [comments]="comments$"></app-comment-list>
+</ng-container>
 
 <ng-template #loading>Loading post</ng-template>

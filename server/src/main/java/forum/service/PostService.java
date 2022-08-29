@@ -51,7 +51,7 @@ public class PostService {
         this.followRepository = followRepository;
     }
 
-    public void save(CreatedPostDTO createdPostDTO, User authenticatedUser){
+    public PostDTO save(CreatedPostDTO createdPostDTO, User authenticatedUser){
         log.debug("Saving: post {}", createdPostDTO);
 
         Post post = postMapper.toPostFromCreatedPostDTO(createdPostDTO);
@@ -61,6 +61,7 @@ public class PostService {
 
         Post newPost = postRepository.save(post);
         tagService.updateTags(createdPostDTO.getTags(), newPost);
+        return postMapper.toDto(newPost);
     }
 
     public PostDTO getPost(Long id){

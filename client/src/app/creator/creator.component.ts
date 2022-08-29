@@ -50,7 +50,6 @@ export class CreatorComponent {
   }
 
   onSubmit(){
-    console.log(this.titleForm.invalid, this.contentForm.invalid);
     if(this.titleForm.invalid || this.contentForm.invalid) return;
     this.postService.addPost({
       title: this.titleForm.value || '', 

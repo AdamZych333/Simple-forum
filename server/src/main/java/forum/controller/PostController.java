@@ -36,15 +36,15 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> addPost(
+    public ResponseEntity<PostDTO> addPost(
             @RequestBody @Validated CreatedPostDTO createdPostDTO,
             @AuthenticationPrincipal User authenticatedUser
-    ) throws URISyntaxException {
+    ) {
         log.debug("Request to save: post : {}", createdPostDTO);
 
-        postService.save(createdPostDTO, authenticatedUser);
+        PostDTO postDTO = postService.save(createdPostDTO, authenticatedUser);
 
-        return ResponseEntity.created(new URI("")).build();
+        return ResponseEntity.ok(postDTO);
     }
 
     @GetMapping("/{id}")

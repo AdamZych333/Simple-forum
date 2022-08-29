@@ -45,12 +45,12 @@ public class CommentService {
         this.userRepository = userRepository;
     }
 
-    public void save(CreatedCommentDTO createdCommentDTO, User authenticatedUser, Long postID){
+    public CommentDTO save(CreatedCommentDTO createdCommentDTO, User authenticatedUser, Long postID){
         log.debug("Saving: comment {} in post {}", createdCommentDTO, postID);
 
         Post post = postRepository.findById(postID)
                 .orElseThrow(() -> new EntityNotFoundException("Post with requested id doesn't exists."));
-        Comment parent = commentRepository.findByIdAndPost_Id(createdCommentDTO.getParentID(), postID)
+        Comment parent = commentRepository.findByIdAndPost_IdOrderByCreatedAtDesc(createdCommentDTO.getParentID(), postID)
                 .orElse(null);
 
         Comment comment = commentMapper.toCommentFromCreatedCommentDTO(createdCommentDTO);
@@ -60,14 +60,14 @@ public class CommentService {
         comment.setUser(authenticatedUser);
         comment.setParent(parent);
 
-        commentRepository.save(comment);
+        return commentMapper.toDto(commentRepository.save(comment));
     }
 
     public List<CommentDTO> getPostComments(Long postID){
         log.debug("Fetching: comments of post {}", postID);
 
         handleIfPostExists(postID);
-        List<Comment> comments = commentRepository.findAllByPost_IdAndParent_Id(postID, null);
+        List<Comment> comments = commentRepository.findAllByPost_IdAndParent_IdOrderByCreatedAtDesc(postID, null);
 
         return commentMapper.toDto(comments);
     }
@@ -76,7 +76,7 @@ public class CommentService {
         log.debug("Fetching: comment {} of post {}", id, postID);
 
         handleIfPostExists(postID);
-        Comment comment = commentRepository.findByIdAndPost_Id(id, postID)
+        Comment comment = commentRepository.findByIdAndPost_IdOrderByCreatedAtDesc(id, postID)
                 .orElseThrow(() -> new EntityNotFoundException("Comment with requested id doesn't exist under requested post"));
 
         return commentMapper.toDto(comment);
@@ -88,7 +88,7 @@ public class CommentService {
         if(!userRepository.existsById(userID)){
             throw new EntityNotFoundException("User with requested id doesn't exist.");
         }
-        List<Comment> comments = commentRepository.findAllByUser_Id(userID);
+        List<Comment> comments = commentRepository.findAllByUser_IdOrderByCreatedAtDesc(userID);
 
         return commentMapper.toDto(comments);
     }
@@ -124,7 +124,7 @@ public class CommentService {
 
     private Comment getEditableComment(Long id, Long postID, User authenticatedUser){
         handleIfPostExists(postID);
-        Comment comment = commentRepository.findByIdAndPost_Id(id, postID)
+        Comment comment = commentRepository.findByIdAndPost_IdOrderByCreatedAtDesc(id, postID)
                 .orElseThrow(() -> new EntityNotFoundException("Comment with requested id doesn't exist under requested post."));
         if(!UserRightsChecker.hasRights(authenticatedUser, comment.getUser().getId())){
             throw new ForbiddenException("Requesting user doesn't have rights to update this comment.");

@@ -19,6 +19,7 @@
     <mat-card-actions class="actions">
         <app-button-follow class="action" [postID]="post.id"></app-button-follow>
         <button mat-icon-button
+                routerLink="/posts/{{post.id}}"
                 class="action"
                 color="primary">
             <mat-icon> comment</mat-icon>

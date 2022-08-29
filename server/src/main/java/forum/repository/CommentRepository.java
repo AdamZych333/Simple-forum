@@ -9,11 +9,11 @@ import java.util.Optional;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    List<Comment> findAllByPost_IdAndParent_Id(Long id, Long parentID);
+    List<Comment> findAllByPost_IdAndParent_IdOrderByCreatedAtDesc(Long id, Long parentID);
 
-    Optional<Comment> findByIdAndPost_Id(Long id, Long postID);
+    Optional<Comment> findByIdAndPost_IdOrderByCreatedAtDesc(Long id, Long postID);
 
-    List<Comment> findAllByUser_Id(Long userID);
+    List<Comment> findAllByUser_IdOrderByCreatedAtDesc(Long userID);
 
     @Query("select c from Comment c where c.content like %:content% and " +
             "(:userID is null or c.user.id = :userID) and" +

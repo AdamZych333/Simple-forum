@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Comment } from 'src/app/core';
 
 @Component({
@@ -13,4 +13,11 @@ export class CommentListComponent {
 
   constructor() { }
 
+  trackById(index: number, item: Comment){
+    return item.id;
+  }
+
+  renderTest(){
+    console.log('render')
+  }
 }

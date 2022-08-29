@@ -15,6 +15,9 @@ import { PostListComponent } from './post-list/post-list.component';
 import { CommentComponent } from './comment/comment.component';
 import { CommentListComponent } from './comment-list/comment-list.component';
 import { CountChildrenPipe } from './comment/count-children.pipe';
+import { CommentFormComponent } from './comment-form/comment-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -28,14 +31,19 @@ import { CountChildrenPipe } from './comment/count-children.pipe';
     CommentComponent,
     CommentListComponent,
     CountChildrenPipe,
+    CommentFormComponent,
   ],
   imports: [
     CommonModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatInputModule,
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
     RouterModule,
     MatCardModule,
+    MatChipsModule,
   ],
   exports: [
     UsernameButtonComponent,
@@ -47,6 +55,7 @@ import { CountChildrenPipe } from './comment/count-children.pipe';
     PostListComponent,
     CommentComponent,
     CommentListComponent,
+    CommentFormComponent,
   ]
 })
 export class SharedModule { }

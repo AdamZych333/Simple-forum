@@ -1,1 +1,8 @@
-<app-comment *ngFor="let comment of comments$ | async" [comment]="comment"></app-comment>
+<ng-container *ngIf="comments$ | async as comments; else loading">
+    <app-comment *ngFor="let comment of comments; trackBy: trackById" 
+        [comment]="comment">
+    </app-comment>
+    <p *ngIf="comments.length === 0">There are no comments.</p>
+</ng-container>
+<ng-template #loading>Loading comments</ng-template>
+{{renderTest()}}

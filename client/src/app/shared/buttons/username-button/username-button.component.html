@@ -1,6 +1,6 @@
 <a class="profile-link"
     routerLink="/"
     *ngIf="username$ | async as username; else loading">
-    @{{username}}
+    {{username}}
 </a>
 <ng-template #loading>Loading username</ng-template>

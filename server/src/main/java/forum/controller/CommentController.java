@@ -68,16 +68,16 @@ public class CommentController {
     }
 
     @PostMapping("/posts/{postID}/comments")
-    public ResponseEntity<Void> addComment(
+    public ResponseEntity<CommentDTO> addComment(
             @PathVariable final Long postID,
             @RequestBody @Validated CreatedCommentDTO createdCommentDTO,
             @AuthenticationPrincipal User authenticatedUser
-    ) throws URISyntaxException {
+    ) {
         log.debug("Request to save: comment {} in post {}", createdCommentDTO, postID);
 
-        commentService.save(createdCommentDTO, authenticatedUser, postID);
+        CommentDTO commentDTO = commentService.save(createdCommentDTO, authenticatedUser, postID);
 
-        return ResponseEntity.created(new URI("")).build();
+        return ResponseEntity.ok(commentDTO);
     }
 
     @PutMapping("/posts/{postID}/comments/{id}")
