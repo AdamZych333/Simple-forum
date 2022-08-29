@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FollowService, Post, VoteService, VoteTypes } from 'src/app/core';
 
 @Component({
@@ -11,18 +11,11 @@ import { FollowService, Post, VoteService, VoteTypes } from 'src/app/core';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PostComponent implements OnInit {
+export class PostComponent {
   @Input() post!: Post;
   VOTE_UP = VoteTypes.UP;
   VOTE_DOWN = VoteTypes.DOWN;
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
-
-  testRender(){
-    console.log(this.post.id);
-  }
 
 }

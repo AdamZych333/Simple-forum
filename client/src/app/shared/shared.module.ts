@@ -12,6 +12,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { PostListComponent } from './post-list/post-list.component';
+import { CommentComponent } from './comment/comment.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { PostListComponent } from './post-list/post-list.component';
     VoteButtonComponent,
     PostComponent,
     PostListComponent,
+    CommentComponent,
   ],
   imports: [
     CommonModule,
@@ -39,6 +41,7 @@ import { PostListComponent } from './post-list/post-list.component';
     VoteButtonComponent,
     PostComponent,
     PostListComponent,
+    CommentComponent,
   ]
 })
 export class SharedModule { }
