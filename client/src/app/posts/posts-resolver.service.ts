@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from "@angular/router";
-import { catchError, Observable } from "rxjs";
+import { catchError, map, Observable, tap } from "rxjs";
 import { Post, PostService } from "../core";
 
 @Injectable()
@@ -11,10 +11,11 @@ export class PostsResolver implements Resolve<Post> {
         private router: Router,
     ){}
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Post> {
         
         return this.postService.getById(route.params['id']).pipe(
-            catchError(() => this.router.navigateByUrl('/'))
+            catchError(() => this.router.navigateByUrl('/')),
+            map(post => post),
         )
     }
     

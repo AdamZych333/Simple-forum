@@ -1,1 +1,8 @@
-<p>posts works!</p>
+<ng-container *ngIf="post$ | async as post; else loading">
+    <app-post [post]="post"></app-post>
+</ng-container>
+
+<ng-template #loading>
+
+</ng-template>
+

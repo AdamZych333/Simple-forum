@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { PostsComponent } from './posts.component';
 import { PostsRoutnigModule } from './posts-routing.module';
 import { PostsResolver } from './posts-resolver.service';
+import { SharedModule } from '../shared';
 
 
 
@@ -13,6 +14,7 @@ import { PostsResolver } from './posts-resolver.service';
   imports: [
     CommonModule,
     PostsRoutnigModule,
+    SharedModule,
   ],
   providers: [
     PostsResolver,
