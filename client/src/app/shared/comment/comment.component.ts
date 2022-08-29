@@ -1,16 +1,15 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Comment } from 'src/app/core';
 
 @Component({
-  selector: 'app-comment',
+  selector: 'app-comment[comment]',
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CommentComponent implements OnInit {
-  
-  constructor() { }
+export class CommentComponent {
+  @Input() comment!: Comment;
 
-  ngOnInit(): void {
-  }
+  constructor() { }
 
 }

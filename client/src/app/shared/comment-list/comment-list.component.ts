@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Comment } from 'src/app/core';
 
 @Component({
   selector: 'app-comment-list[comments]',

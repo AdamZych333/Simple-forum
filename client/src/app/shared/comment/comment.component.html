@@ -1,1 +1,9 @@
-<p>comment works!</p>
+<mat-card class="comment">
+    <mat-card-subtitle class="subtitle">
+        <app-button-username [userID]="comment.userID"></app-button-username>
+        <p>{{comment.lastModificationAt | date:'hh:mm a MMM d, y'}}</p>
+    </mat-card-subtitle>
+    <mat-card-content>
+      <p>{{comment.content}}</p>
+    </mat-card-content>
+</mat-card>

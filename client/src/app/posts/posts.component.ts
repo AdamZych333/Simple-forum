@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, Observable, switchMap } from 'rxjs';
-import { Post } from '../core';
+import { Comment, Post } from '../core';
 import { CommentService } from '../core/services/comment.service';
 
 @Component({

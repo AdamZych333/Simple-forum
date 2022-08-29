@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Comment } from '../models';
 import { ApiService } from './api.service';
 
 interface ICommentBody{
