@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { Comment } from '../models';
 import { ApiService } from './api.service';
 
@@ -16,10 +16,31 @@ export class CommentService {
   ) { }
 
   getPostComments(postID: number): Observable<Comment[]>{
-    return this.apiService.get(`/posts/${postID}/comments`);
+    return this.apiService.get(`/posts/${postID}/comments`).pipe(
+      map(comments => {
+        let allComments = [] as Comment[];
+        for(let comment of comments) {
+          allComments = allComments.concat(this.mapChildern(comment));
+        };
+        return allComments;
+      })
+    );
   }
 
   addComment(postID: number, body: ICommentBody): Observable<Comment>{
     return this.apiService.post(`/posts/${postID}/comments`, body);
+  }
+
+  private mapChildern(comment: Comment): Comment[]{
+    let list = [comment];
+    if(comment.children == null || comment.children.length === 0){
+      return list;
+    }
+
+    for(let child of comment.children){
+      list = list.concat(this.mapChildern(child));
+    }
+
+    return list;
   }
 }

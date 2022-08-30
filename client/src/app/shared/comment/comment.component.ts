@@ -9,7 +9,16 @@ import { Comment } from 'src/app/core';
 })
 export class CommentComponent {
   @Input() comment!: Comment;
+  showForm = false;
 
   constructor() { }
 
+
+  onAnswerClick(){
+    this.showForm = !this.showForm;
+  }
+
+  addComment(comment: Comment){
+    //comment.children.unshift(comment);
+  }
 }

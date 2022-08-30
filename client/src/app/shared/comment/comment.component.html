@@ -7,6 +7,12 @@
       <p>{{comment.content}}</p>
     </mat-card-content>
     <mat-card-actions class="actions">
+        <button mat-stroked-button
+                (click)="onAnswerClick()"
+                class="action"
+                color="primary">
+            Answer
+        </button>
         <button mat-icon-button
                 class="action"
                 color="primary">
@@ -15,3 +21,8 @@
         </button>
     </mat-card-actions>
 </mat-card>
+<app-comment-form *ngIf="showForm" 
+    [postID]="comment.postID" 
+    [parent]="comment"
+    (onSuccess)="addComment($event)">
+</app-comment-form>

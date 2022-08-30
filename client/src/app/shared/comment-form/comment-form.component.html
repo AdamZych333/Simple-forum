@@ -9,7 +9,7 @@
     </textarea>
     <mat-error *ngIf="contentForm.errors?.['required']">You must enter a content</mat-error>
     <mat-error *ngIf="contentForm.errors?.['minlength']">Content must be at least 5 characters long</mat-error>
-    <mat-error *ngIf="contentForm.errors?.['maxlength']">Content must be at most 400 characters long</mat-error>
+    <mat-error *ngIf="contentForm.errors?.['maxlength']">Content must be at most 300 characters long</mat-error>
 </mat-form-field>
 <button mat-flat-button color="primary" (click)="onSubmit()">Submit</button>
 

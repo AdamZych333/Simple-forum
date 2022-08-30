@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { BehaviorSubject, map, mapTo, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, map, Observable, switchMap } from 'rxjs';
 import { Comment } from 'src/app/core';
 
 @Component({
@@ -13,12 +13,11 @@ export class CommentListComponent {
   PAGE_SIZE = 5;
   private pageSubject = new BehaviorSubject<number>(1);
   currentComments$: Observable<Comment[]> = this.pageSubject.pipe(
-    switchMap(page => {
-      return this.comments$.pipe(
-        map(comments => comments.slice(0, this.PAGE_SIZE*(page)))
-      )
-    })
+    switchMap(page => this.comments$.pipe(
+      map(comments => comments.slice(0, this.PAGE_SIZE*page))
+    ))
   );
+
 
   constructor() { }
 
