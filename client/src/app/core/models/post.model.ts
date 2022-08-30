@@ -9,4 +9,5 @@ export interface Post{
     userID: number,
     tags: Tag[],
     commentsCount: number,
+    newActivity?: number,
 }

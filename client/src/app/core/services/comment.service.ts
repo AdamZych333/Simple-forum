@@ -27,7 +27,7 @@ export class CommentService {
     );
   }
 
-  getByUser(userID: number){
+  getByUser(userID: number): Observable<Comment[]>{
     return this.apiService.get(`/users/${userID}/comments`);
   }
 

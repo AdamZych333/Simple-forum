@@ -38,15 +38,15 @@ export class PostService {
     );
   }
 
-  getById(postID: number){
+  getById(postID: number): Observable<Post>{
     return this.apiService.get(`/posts/${postID}`);
   }
 
-  getByUser(userID: number){
+  getByUser(userID: number): Observable<Post[]>{
     return this.apiService.get(`/users/${userID}/posts`);
   }
 
-  getFollowedPosts(userID: number){
+  getFollowedPosts(userID: number): Observable<Post[]>{
     return this.apiService.get(`/users/${userID}/follows`);
   }
 

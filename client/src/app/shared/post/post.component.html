@@ -8,7 +8,10 @@
             #{{tag.name}}
         </button>
     </mat-card-content>
-    <mat-card-title routerLink="/posts/{{post.id}}">{{post.title | titlecase}}</mat-card-title>
+    <mat-card-title routerLink="/posts/{{post.id}}">
+        <h1>{{post.title | titlecase}}</h1>
+        <h1 class="activity" *ngIf="post.newActivity">({{post.newActivity}})</h1>
+    </mat-card-title>
     <mat-card-subtitle class="subtitle">
         <app-button-username [userID]="post.userID"></app-button-username>
         <p>{{post.lastModificationAt | date:'hh:mm a MMM d, y'}}</p>

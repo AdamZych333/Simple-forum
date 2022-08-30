@@ -16,10 +16,12 @@ const routes: Routes = [
   {
     path: 'posts',
     loadChildren: () => import('./posts/posts.module').then(m => m.PostsModule),
+    canActivate: [AppGuard],
   },
   {
     path: 'users',
     loadChildren: () => import('./users/users.module').then(m => m.UsersModule),
+    canActivate: [AppGuard],
   },
   {
     path: '',

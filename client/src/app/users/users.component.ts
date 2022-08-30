@@ -21,6 +21,16 @@ export class UsersComponent implements OnInit {
   follows$ = this.user$.pipe(
     switchMap(user => this.postService.getFollowedPosts(user.id)),
   )
+  newActivity$ = this.follows$.pipe(
+    map(posts => {
+      let sum = 0;
+      for(let post of posts){
+        if(!post.newActivity) continue;
+        sum+=post.newActivity;
+      }
+      return sum;
+    })
+  )
 
   constructor(
     private route: ActivatedRoute,

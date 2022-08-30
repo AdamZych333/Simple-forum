@@ -17,5 +17,4 @@ export class PostComponent {
   VOTE_DOWN = VoteTypes.DOWN;
 
   constructor() { }
-
 }
