@@ -17,8 +17,4 @@ export class CommentComponent {
   onAnswerClick(){
     this.showForm = !this.showForm;
   }
-
-  addComment(comment: Comment){
-    //comment.children.unshift(comment);
-  }
 }

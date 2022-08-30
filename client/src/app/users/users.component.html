@@ -6,7 +6,9 @@
     <mat-tab class="content" label="Posts">
         <app-post-list [posts]="createdPosts$"></app-post-list>
     </mat-tab>
-    <mat-tab class="content" label="Comments">Comments </mat-tab>
+    <mat-tab class="content" label="Comments">
+        <app-comment-list [comments]="createdComments$"></app-comment-list>
+    </mat-tab>
     <mat-tab class="content" label="Follows">Follows</mat-tab>
   </mat-tab-group>
   

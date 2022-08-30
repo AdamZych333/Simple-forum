@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, map, tap, switchMap } from 'rxjs';
-import { PostService, User } from '../core';
+import { CommentService, PostService, User } from '../core';
 
 @Component({
   selector: 'app-users',
@@ -15,10 +15,14 @@ export class UsersComponent implements OnInit {
   createdPosts$ = this.user$.pipe(
     switchMap(user => this.postService.getByUser(user.id)),
   )
+  createdComments$ = this.user$.pipe(
+    switchMap(user => this.commentService.getByUser(user.id)),
+  )
 
   constructor(
     private route: ActivatedRoute,
     private postService: PostService,
+    private commentService: CommentService,
   ) { }
 
   ngOnInit(): void {

@@ -27,6 +27,10 @@ export class CommentService {
     );
   }
 
+  getByUser(userID: number){
+    return this.apiService.get(`/users/${userID}/comments`);
+  }
+
   addComment(postID: number, body: ICommentBody): Observable<Comment>{
     return this.apiService.post(`/posts/${postID}/comments`, body);
   }

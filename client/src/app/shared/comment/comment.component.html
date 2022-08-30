@@ -23,6 +23,5 @@
 </mat-card>
 <app-comment-form *ngIf="showForm" 
     [postID]="comment.postID" 
-    [parent]="comment"
-    (onSuccess)="addComment($event)">
+    [parent]="comment">
 </app-comment-form>
