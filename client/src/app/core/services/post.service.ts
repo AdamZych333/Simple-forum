@@ -46,6 +46,10 @@ export class PostService {
     return this.apiService.get(`/users/${userID}/posts`);
   }
 
+  getFollowedPosts(userID: number){
+    return this.apiService.get(`/users/${userID}/follows`);
+  }
+
   addPost(body: ICreatePostBody): Observable<void>{
     return this.apiService.post('/posts', body);
   }

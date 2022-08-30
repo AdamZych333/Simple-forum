@@ -18,6 +18,9 @@ export class UsersComponent implements OnInit {
   createdComments$ = this.user$.pipe(
     switchMap(user => this.commentService.getByUser(user.id)),
   )
+  follows$ = this.user$.pipe(
+    switchMap(user => this.postService.getFollowedPosts(user.id)),
+  )
 
   constructor(
     private route: ActivatedRoute,
