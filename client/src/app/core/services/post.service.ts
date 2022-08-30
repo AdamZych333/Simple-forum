@@ -42,6 +42,10 @@ export class PostService {
     return this.apiService.get(`/posts/${postID}`);
   }
 
+  getByUser(userID: number){
+    return this.apiService.get(`/users/${userID}/posts`);
+  }
+
   addPost(body: ICreatePostBody): Observable<void>{
     return this.apiService.post('/posts', body);
   }

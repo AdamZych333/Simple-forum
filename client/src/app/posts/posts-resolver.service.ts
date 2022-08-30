@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from "@angular/router";
-import { catchError, EMPTY, map, Observable, tap } from "rxjs";
+import { catchError, EMPTY, Observable } from "rxjs";
 import { Post, PostService } from "../core";
 
 @Injectable()

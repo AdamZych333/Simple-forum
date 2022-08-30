@@ -27,15 +27,23 @@
 </mat-toolbar>
 
 <ng-template #loggedInUser>
-    <button mat-button class="nav-link" 
-                color="link"
+    <button mat-button 
+        [matMenuTriggerFor]="menu">
+        {{(authenticatedUser$ | async)?.name}}
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item class="nav-link"
                 routerLink="/creator">
             Create post
-    </button>
-    <button mat-button class="nav-link" 
-                color="link"
+        </button>
+        <button mat-menu-item class="nav-link"
+                routerLink="/users/{{(authenticatedUser$ | async)?.id}}">
+            Profile
+        </button>
+        <button mat-menu-item class="nav-link"
                 routerLink="/auth/login"
                 (click)="onSignOutClick()">
             Sign out
-    </button>
+        </button>
+    </mat-menu>
 </ng-template>

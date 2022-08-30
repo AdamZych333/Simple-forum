@@ -1,2 +1,12 @@
-<p>users works!</p>
-<p>{{(user$ | async)?.name}}</p>
+<div class="profile" *ngIf="user$ | async as user">
+    <p>{{user.name}}</p>
+</div>
+
+<mat-tab-group animationDuration="0ms">
+    <mat-tab class="content" label="Posts">
+        <app-post-list [posts]="createdPosts$"></app-post-list>
+    </mat-tab>
+    <mat-tab class="content" label="Comments">Comments </mat-tab>
+    <mat-tab class="content" label="Follows">Follows</mat-tab>
+  </mat-tab-group>
+  

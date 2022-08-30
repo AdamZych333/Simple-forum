@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { AuthService } from 'src/app/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'layout-header',
@@ -11,10 +10,10 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   isNotAuthenticated$ = new Observable<boolean>;
+  authenticatedUser$ = this.authService.getCurrentUser();
 
   constructor(
     private authService: AuthService,
-    private router: Router,
   ){}
 
   ngOnInit(): void {

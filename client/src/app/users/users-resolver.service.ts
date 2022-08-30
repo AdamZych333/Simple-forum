@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Resolve, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
-import { Observable, catchError, map, of, EMPTY } from "rxjs";
+import { Observable, catchError, map, of, EMPTY, tap } from "rxjs";
 import { User } from "../core";
 import { UserService } from "../core/services/user.service";
 
@@ -16,6 +16,7 @@ export class UsersResolver implements Resolve<User> {
         
         return this.userService.getUser(route.params['id']).pipe(
             catchError(() => {
+                console.log('?')
                 this.router.navigateByUrl('/');
                 return EMPTY;
             }),

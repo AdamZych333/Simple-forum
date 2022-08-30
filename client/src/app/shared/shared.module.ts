@@ -19,6 +19,7 @@ import { CommentFormComponent } from './comment-form/comment-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatChipsModule} from '@angular/material/chips';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     MatCardModule,
     MatChipsModule,
     InfiniteScrollModule,
+    MatMenuModule,
   ],
   exports: [
     UsernameButtonComponent,
