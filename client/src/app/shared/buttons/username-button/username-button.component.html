@@ -1,5 +1,5 @@
 <a class="profile-link"
-    routerLink="/"
+    routerLink="/users/{{userID}}"
     *ngIf="username$ | async as username; else loading">
     {{username}}
 </a>

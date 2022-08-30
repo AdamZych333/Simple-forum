@@ -11,9 +11,7 @@ export class UserService {
   ) { }
 
   getUser(userID: number): Observable<User>{
-    return this.apiService.get(
-      `/users/${userID}`,
-    );
+    return this.apiService.get(`/users/${userID}`);
   }
 
 }
