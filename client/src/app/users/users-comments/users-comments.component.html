@@ -4,7 +4,10 @@
     [infiniteScrollThrottle]="1000"
     (scrolled)="nextPage()">
     <app-comment *ngFor="let comment of comments; trackBy: trackById"
-        [comment]="comment">
+        [comment]="comment"
+        [showAuthor]="false"
+        [showPost]="true"
+        [answering]="false">
     </app-comment>
     <p *ngIf="comments.length === 0">There are no comments.</p>
 </div>

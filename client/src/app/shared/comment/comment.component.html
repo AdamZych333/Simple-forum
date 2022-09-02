@@ -1,13 +1,14 @@
 <mat-card class="comment">
     <mat-card-subtitle class="subtitle">
-        <app-button-username [userID]="comment.userID"></app-button-username>
+        <app-button-username *ngIf="showAuthor" [userID]="comment.userID"></app-button-username>
+        <app-button-post *ngIf="showPost" [postID]="comment.postID"></app-button-post>
         <p>{{comment.lastModificationAt | date:'hh:mm a MMM d, y'}}</p>
     </mat-card-subtitle>
     <mat-card-content>
       <p>{{comment.content}}</p>
     </mat-card-content>
     <mat-card-actions class="actions">
-        <button mat-stroked-button
+        <button mat-stroked-button *ngIf="answering"
                 (click)="onAnswerClick()"
                 class="action"
                 color="primary">

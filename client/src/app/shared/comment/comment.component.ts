@@ -9,6 +9,9 @@ import { Comment } from 'src/app/core';
 })
 export class CommentComponent {
   @Input() comment!: Comment;
+  @Input() answering: boolean = true;
+  @Input() showPost: boolean = false;
+  @Input() showAuthor: boolean = true;
   showForm = false;
 
   constructor() { }

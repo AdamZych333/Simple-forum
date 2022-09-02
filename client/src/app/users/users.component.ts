@@ -24,15 +24,10 @@ export class UsersComponent {
       return sum;
     })
   )
-  activeLink = 'posts';
 
   constructor(
     private route: ActivatedRoute,
     private postService: PostService,
   ) { }
-
-  isChecked(value: string){
-    return value === 'posts';
-  }
 
 }

@@ -18,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {MatChipsModule} from '@angular/material/chips';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import {MatMenuModule} from '@angular/material/menu';
+import { PostButtonComponent } from './buttons/post-button/post-button.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {MatMenuModule} from '@angular/material/menu';
     CommentComponent,
     CountChildrenPipe,
     CommentFormComponent,
+    PostButtonComponent,
   ],
   imports: [
     CommonModule,
