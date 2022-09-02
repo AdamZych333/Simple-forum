@@ -7,17 +7,21 @@ import { UsersResolver } from './users-resolver.service';
 import { SharedModule } from '../shared';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { UsersPostsComponent } from './users-posts/users-posts.component';
+import { UsersCommentsComponent } from './users-comments/users-comments.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
     UsersComponent,
     UsersPostsComponent,
+    UsersCommentsComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
     UsersRoutnigModule,
     MatButtonToggleModule,
+    InfiniteScrollModule,
   ],
   providers: [
     UsersResolver,

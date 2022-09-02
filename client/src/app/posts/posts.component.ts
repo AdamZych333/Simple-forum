@@ -17,21 +17,25 @@ export class PostsComponent {
   comments$: Observable<Comment[]> = this.route.data.pipe(
     switchMap(data => this.commentService.getPostComments(data['post'].id))
   )
+  PAGE_SIZE = 5;
+  private pageSubject = new BehaviorSubject<number>(1);
+  currentComments$: Observable<Comment[]> = this.pageSubject.pipe(
+    switchMap(page => this.comments$.pipe(
+      map(comments => comments.slice(0, this.PAGE_SIZE*page))
+    ))
+  );
 
   constructor(
     private route: ActivatedRoute,
     private commentService: CommentService,
   ) { }
 
-  addComment(comment: Comment){
-    // this.comments$ = this.comments$.pipe(
-    //   map(comments => [comment, ...comments]),
-    //   tap(() => {
-    //     this.post$ = this.post$.pipe(map(post => {
-    //       return {...post, commentsCount: post.commentsCount+1}
-    //     }));
-    //   })
-    // )
+  trackById(index: number, item: Comment){
+    return item.id;
+  }
+
+  nextPage(){
+    this.pageSubject.next(this.pageSubject.getValue()+1);
   }
 
 }

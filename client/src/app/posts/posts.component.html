@@ -2,10 +2,20 @@
     <app-post class="post" [post]="post"></app-post>
 
     <h1><b>Add comment</b></h1>
-    <app-comment-form [postID]="post.id" (onSuccess)="addComment($event)"></app-comment-form>
+    <app-comment-form [postID]="post.id"></app-comment-form>
     
     <h1><b>Comments</b></h1>
-    <app-comment-list [comments]="comments$"></app-comment-list>
+    <div *ngIf="currentComments$ | async as comments; else loading"
+    infiniteScroll
+    [infiniteScrollDistance]="2"
+    [infiniteScrollThrottle]="1000"
+    (scrolled)="nextPage()">
+    <app-comment *ngFor="let comment of comments; trackBy: trackById"
+        [comment]="comment">
+    </app-comment>
+    <p *ngIf="comments.length === 0">There are no comments.</p>
+</div>
+<ng-template #loading>Loading comments</ng-template>
 </ng-container>
 
 <ng-template #loading>Loading post</ng-template>

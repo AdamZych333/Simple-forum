@@ -12,7 +12,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CommentComponent } from './comment/comment.component';
-import { CommentListComponent } from './comment-list/comment-list.component';
 import { CountChildrenPipe } from './comment/count-children.pipe';
 import { CommentFormComponent } from './comment-form/comment-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -29,7 +28,6 @@ import {MatMenuModule} from '@angular/material/menu';
     VoteButtonComponent,
     PostComponent,
     CommentComponent,
-    CommentListComponent,
     CountChildrenPipe,
     CommentFormComponent,
   ],
@@ -55,7 +53,6 @@ import {MatMenuModule} from '@angular/material/menu';
     VoteButtonComponent,
     PostComponent,
     CommentComponent,
-    CommentListComponent,
     CommentFormComponent,
   ]
 })

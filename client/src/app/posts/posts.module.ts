@@ -4,6 +4,7 @@ import { PostsComponent } from './posts.component';
 import { PostsRoutnigModule } from './posts-routing.module';
 import { PostsResolver } from './posts-resolver.service';
 import { SharedModule } from '../shared';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 
@@ -15,6 +16,7 @@ import { SharedModule } from '../shared';
     CommonModule,
     PostsRoutnigModule,
     SharedModule,
+    InfiniteScrollModule,
   ],
   providers: [
     PostsResolver,
