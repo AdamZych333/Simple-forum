@@ -9,12 +9,14 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { UsersPostsComponent } from './users-posts/users-posts.component';
 import { UsersCommentsComponent } from './users-comments/users-comments.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { UsersFollowsComponent } from './users-follows/users-follows.component';
 
 @NgModule({
   declarations: [
     UsersComponent,
     UsersPostsComponent,
     UsersCommentsComponent,
+    UsersFollowsComponent,
   ],
   imports: [
     CommonModule,

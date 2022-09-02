@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, map, switchMap, tap, BehaviorSubject, of } from 'rxjs';
 import { Comment, CommentService, User } from 'src/app/core';
@@ -6,7 +6,8 @@ import { Comment, CommentService, User } from 'src/app/core';
 @Component({
   selector: 'app-users-comments',
   templateUrl: './users-comments.component.html',
-  styleUrls: ['./users-comments.component.sass']
+  styleUrls: ['./users-comments.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersCommentsComponent {
   user$: Observable<User> | undefined = this.route.parent?.data.pipe(

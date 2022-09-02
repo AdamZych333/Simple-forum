@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, map, switchMap } from 'rxjs';
 import { CommentService, PostService, User } from '../core';
@@ -6,15 +6,13 @@ import { CommentService, PostService, User } from '../core';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.sass']
+  styleUrls: ['./users.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersComponent {
   user$: Observable<User> = this.route.data.pipe(
     map(data => data[0]),
   );
-  follows$ = this.user$.pipe(
-    switchMap(user => this.postService.getFollowedPosts(user.id)),
-  )
   newActivity$ = this.user$.pipe(
     switchMap(user => this.postService.getFollowedPosts(user.id)),
     map(posts => {
@@ -26,11 +24,15 @@ export class UsersComponent {
       return sum;
     })
   )
+  activeLink = 'posts';
 
   constructor(
     private route: ActivatedRoute,
     private postService: PostService,
-    private commentService: CommentService,
   ) { }
+
+  isChecked(value: string){
+    return value === 'posts';
+  }
 
 }

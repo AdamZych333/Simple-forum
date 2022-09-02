@@ -3,44 +3,24 @@
 </div>
 
 <mat-button-toggle-group name="fontStyle" aria-label="Font Style" *ngIf="user$ | async as user">
-    <mat-button-toggle value="posts" 
+    <mat-button-toggle routerLinkActive=""
+        #postsLink="routerLinkActive"
+        [checked]="postsLink.isActive"
         [routerLink]="['/users', user.id]">
         Posts
     </mat-button-toggle>
-    <mat-button-toggle value="comments" 
+    <mat-button-toggle routerLinkActive=""
+        #commentsLink="routerLinkActive"
+        [checked]="commentsLink.isActive"
         [routerLink]="['/users', user.id, 'comments']">
         Comments
     </mat-button-toggle>
-    <mat-button-toggle value="follows" 
+    <mat-button-toggle routerLinkActive=""
+        #followsLink="routerLinkActive"
+        [checked]="followsLink.isActive"
         [routerLink]="['/users', user.id, 'follows']">
         Follows ({{newActivity$ | async}})
     </mat-button-toggle>
 </mat-button-toggle-group>
 
 <router-outlet></router-outlet>
-
-<!-- <mat-tab-group animationDuration="0ms">
-
-    <mat-tab class="content" label="Posts">
-        <ng-container *ngIf="createdPosts$ | async as posts; else loading"
-            class="content">
-        <app-post *ngFor="let post of posts; trackBy: trackById" [post]="post"></app-post>
-        <p *ngIf="posts.length === 0">There are no posts.</p>
-        </ng-container>
-        <ng-template #loading>Loading posts</ng-template>
-    </mat-tab>
-
-    <mat-tab class="content" label="Comments">
-        <app-comment-list [comments]="createdComments$"></app-comment-list>
-    </mat-tab>
-
-    <mat-tab class="content" label="Follows ({{newActivity$ | async}})">
-        <ng-container *ngIf="follows$ | async as posts; else loading"
-            class="content">
-        <app-post *ngFor="let post of posts; trackBy: trackById" [post]="post"></app-post>
-        <p *ngIf="posts.length === 0">There are no posts.</p>
-        </ng-container>
-        <ng-template #loading>Loading posts</ng-template>
-    </mat-tab>
-    
-</mat-tab-group> -->

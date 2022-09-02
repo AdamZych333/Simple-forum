@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, map, switchMap, tap } from 'rxjs';
 import { Post, PostService, User } from 'src/app/core';
@@ -6,7 +6,8 @@ import { Post, PostService, User } from 'src/app/core';
 @Component({
   selector: 'app-users-posts',
   templateUrl: './users-posts.component.html',
-  styleUrls: ['./users-posts.component.sass']
+  styleUrls: ['./users-posts.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersPostsComponent {
   user$: Observable<User> = this.route.data.pipe(

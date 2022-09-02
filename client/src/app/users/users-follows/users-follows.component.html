@@ -1,0 +1,6 @@
+<ng-container *ngIf="follows$ | async as posts; else loading"
+            class="content">
+    <app-post *ngFor="let post of posts; trackBy: trackById" [post]="post"></app-post>
+    <p *ngIf="posts.length === 0">There are no posts.</p>
+    </ng-container>
+<ng-template #loading>Loading follows</ng-template>
