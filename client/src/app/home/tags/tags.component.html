@@ -6,8 +6,11 @@
         class="tag"
         (click)="onTagSelect.emit(tag)"
         color="primary">
-        #{{tag.name}}
+        #{{tag.name}} ({{tag.count}})
     </button>
 </div>
+<a (click)="seeMoreToggle()">
+    {{(showMore$ | async)? 'Show less': 'Show more'}}
+</a>
 
 <ng-template #loading>Loading tags</ng-template>

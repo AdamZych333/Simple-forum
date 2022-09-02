@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { Tag } from 'src/app/core';
 import { TagService } from 'src/app/core/services/tag.service';
 
@@ -10,16 +10,23 @@ import { TagService } from 'src/app/core/services/tag.service';
   styleUrls: ['./tags.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TagsComponent implements OnInit{
+export class TagsComponent{
+  SHOW_LESS_PAGE_SIZE = 5;
+  SHOW_MORE_PAGE_SIZE = 10;
   @Output() onTagSelect = new EventEmitter<Tag>();
-  tags$!: Observable<Tag[]>;
+  private showMoreSubject = new BehaviorSubject<boolean>(false);
+  tags$: Observable<Tag[]> = this.showMoreSubject.pipe(
+    switchMap(showMore => this.tagService.getPopularTags({
+      pageSize: showMore? this.SHOW_MORE_PAGE_SIZE: this.SHOW_LESS_PAGE_SIZE,
+    }))
+  )
+  showMore$ = this.showMoreSubject.asObservable();
 
   constructor(
     private tagService: TagService,
   ) { }
 
-  ngOnInit(): void {
-    this.tags$ = this.tagService.getPopularTags({});
+  seeMoreToggle(){
+    this.showMoreSubject.next(!this.showMoreSubject.getValue());
   }
-
 }
