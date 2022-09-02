@@ -37,8 +37,16 @@
             Create post
         </button>
         <button mat-menu-item class="nav-link"
-                routerLink="/users/{{(authenticatedUser$ | async)?.id}}">
-            Profile
+                [routerLink]="['/users/', (authenticatedUser$ | async)?.id]">
+            My Posts
+        </button>
+        <button mat-menu-item class="nav-link"
+            [routerLink]="['/users/', (authenticatedUser$ | async)?.id, 'comments']">
+            My comments
+        </button>
+        <button mat-menu-item class="nav-link"
+            [routerLink]="['/users/', (authenticatedUser$ | async)?.id, 'follows']">
+            My follows ({{(newActivity$ | async) || 0}})
         </button>
         <button mat-menu-item class="nav-link"
                 routerLink="/auth/login"

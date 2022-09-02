@@ -1,3 +1,5 @@
+@import "~src/app/shared/styles/variables"
+
 :host
     padding: 0 20vw
     display: flex
@@ -11,3 +13,10 @@
     .mat-button-toggle-group
         width: fit-content
 
+@media (max-width: $layout-max-breakpoint-sm)
+    :host
+        padding: 0vh 10vw
+
+@media (max-width: $layout-max-breakpoint-xs)
+    :host
+        padding: 0vh 2vw
