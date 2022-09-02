@@ -11,7 +11,6 @@ import { PostComponent } from './post/post.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { PostListComponent } from './post-list/post-list.component';
 import { CommentComponent } from './comment/comment.component';
 import { CommentListComponent } from './comment-list/comment-list.component';
 import { CountChildrenPipe } from './comment/count-children.pipe';
@@ -29,7 +28,6 @@ import {MatMenuModule} from '@angular/material/menu';
     FollowButtonComponent,
     VoteButtonComponent,
     PostComponent,
-    PostListComponent,
     CommentComponent,
     CommentListComponent,
     CountChildrenPipe,
@@ -56,7 +54,6 @@ import {MatMenuModule} from '@angular/material/menu';
     FollowButtonComponent,
     VoteButtonComponent,
     PostComponent,
-    PostListComponent,
     CommentComponent,
     CommentListComponent,
     CommentFormComponent,

@@ -16,7 +16,6 @@ export class UsersResolver implements Resolve<User> {
         
         return this.userService.getUser(route.params['id']).pipe(
             catchError(() => {
-                console.log('?')
                 this.router.navigateByUrl('/');
                 return EMPTY;
             }),

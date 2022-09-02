@@ -2,15 +2,45 @@
     <p>{{user.name}}</p>
 </div>
 
-<mat-tab-group animationDuration="0ms">
+<mat-button-toggle-group name="fontStyle" aria-label="Font Style" *ngIf="user$ | async as user">
+    <mat-button-toggle value="posts" 
+        [routerLink]="['/users', user.id]">
+        Posts
+    </mat-button-toggle>
+    <mat-button-toggle value="comments" 
+        [routerLink]="['/users', user.id, 'comments']">
+        Comments
+    </mat-button-toggle>
+    <mat-button-toggle value="follows" 
+        [routerLink]="['/users', user.id, 'follows']">
+        Follows ({{newActivity$ | async}})
+    </mat-button-toggle>
+</mat-button-toggle-group>
+
+<router-outlet></router-outlet>
+
+<!-- <mat-tab-group animationDuration="0ms">
+
     <mat-tab class="content" label="Posts">
-        <app-post-list [posts]="createdPosts$"></app-post-list>
+        <ng-container *ngIf="createdPosts$ | async as posts; else loading"
+            class="content">
+        <app-post *ngFor="let post of posts; trackBy: trackById" [post]="post"></app-post>
+        <p *ngIf="posts.length === 0">There are no posts.</p>
+        </ng-container>
+        <ng-template #loading>Loading posts</ng-template>
     </mat-tab>
+
     <mat-tab class="content" label="Comments">
         <app-comment-list [comments]="createdComments$"></app-comment-list>
     </mat-tab>
+
     <mat-tab class="content" label="Follows ({{newActivity$ | async}})">
-        <app-post-list [posts]="follows$"></app-post-list>
+        <ng-container *ngIf="follows$ | async as posts; else loading"
+            class="content">
+        <app-post *ngFor="let post of posts; trackBy: trackById" [post]="post"></app-post>
+        <p *ngIf="posts.length === 0">There are no posts.</p>
+        </ng-container>
+        <ng-template #loading>Loading posts</ng-template>
     </mat-tab>
-</mat-tab-group>
-  
+    
+</mat-tab-group> -->
