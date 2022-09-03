@@ -54,4 +54,8 @@ export class PostService {
     return this.apiService.post('/posts', body);
   }
 
+  delete(postID: number): Observable<void>{
+    return this.apiService.delete(`/posts/${postID}`);
+  }
+
 }

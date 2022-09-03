@@ -33,11 +33,9 @@
         <ng-container *ngIf="posts$ | async as posts; else loading"
             class="content">
         <app-post *ngFor="let post of posts; trackBy: trackById" [post]="post"></app-post>
-        <p *ngIf="posts.length === 0">There are no posts.</p>
+        <div class="finnished-message" *ngIf="finnished || posts.length === 0; else loading">The end. Comeback later for more posts.</div>
         </ng-container>
-        <ng-template #loading>Loading posts</ng-template>
     </div>
-    <div class="finnished-message" *ngIf="finnished; else nextPage">The end. Comeback later for more posts.</div>
-    <ng-template #nextPage><mat-spinner color="primary"></mat-spinner></ng-template>
+    <ng-template #loading><mat-spinner color="primary"></mat-spinner></ng-template>
 </div>
 <home-tags (onTagSelect)="onTagSelect($event)"></home-tags>

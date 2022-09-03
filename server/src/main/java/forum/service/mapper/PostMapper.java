@@ -16,7 +16,10 @@ public interface PostMapper extends EntityMapper<Post, PostDTO> {
     Post toEntity(PostDTO postDTO);
 
     @Mapping(source = "user.id", target = "userID")
-    @Mapping(target="commentsCount", expression="java(post.getComments().size())")
+    @Mapping(
+            target="commentsCount",
+            expression="java(post.getComments() != null? post.getComments().size(): 0)"
+    )
     PostDTO toDto(Post post);
 
 }

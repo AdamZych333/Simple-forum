@@ -1,12 +1,28 @@
 <mat-card class="post">
-    <mat-card-content>
-        <button mat-stroked-button 
+    <mat-card-content class="header">
+        <div class="tags">
+            <button mat-stroked-button 
                 color="primary"
                 class="tag" 
                 disableRipple="true"
                 *ngFor="let tag of post.tags">
-            #{{tag.name}}
+                #{{tag.name}}
+            </button>
+        </div>
+        <button 
+            *ngIf="canEdit$ | async"
+            mat-icon-button
+            [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
         </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item>Edit</button>
+            <button 
+                mat-menu-item 
+                (click)="onPostDelete()">
+                Delete
+            </button>
+        </mat-menu>
     </mat-card-content>
     <mat-card-title routerLink="/posts/{{post.id}}">
         <h1>{{post.title | titlecase}}</h1>
@@ -14,7 +30,10 @@
     </mat-card-title>
     <mat-card-subtitle class="subtitle">
         <app-button-username [userID]="post.userID"></app-button-username>
-        <p>{{post.lastModificationAt | date:'hh:mm a MMM d, y'}}</p>
+        <div class="date">
+            <p>{{post.lastModificationAt | date:'hh:mm a MMM d, y'}}</p>
+            <p *ngIf="post.lastModificationAt != post.createdAt">edited</p>
+        </div>
     </mat-card-subtitle>
     <mat-card-content>
       <p>{{post.content}}</p>
