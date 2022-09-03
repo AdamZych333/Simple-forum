@@ -12,7 +12,7 @@ export interface IPostQueryParams{
   pageSize: number,
 }
 
-export interface ICreatePostBody{
+export interface IPostBody{
   title: string,
   content: string,
   tags?: {name: string}[],
@@ -50,8 +50,12 @@ export class PostService {
     return this.apiService.get(`/users/${userID}/follows`);
   }
 
-  addPost(body: ICreatePostBody): Observable<void>{
+  add(body: IPostBody): Observable<void>{
     return this.apiService.post('/posts', body);
+  }
+
+  edit(postID: number, body: IPostBody): Observable<void>{
+    return this.apiService.put(`/posts/${postID}`, body);
   }
 
   delete(postID: number): Observable<void>{

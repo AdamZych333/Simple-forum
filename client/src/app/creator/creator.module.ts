@@ -9,12 +9,13 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatChipsModule} from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
+import { EditablePostResolver } from './editable-post-resolver.service';
 
 
 
 @NgModule({
   declarations: [
-    CreatorComponent
+    CreatorComponent,
   ],
   imports: [
     CommonModule,
@@ -25,6 +26,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatInputModule,
     MatChipsModule,
     MatIconModule,
+  ],
+  providers: [
+    EditablePostResolver,
   ]
 })
 export class CreatorModule { }

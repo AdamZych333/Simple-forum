@@ -11,7 +11,7 @@ import { PostService, User, Post } from 'src/app/core';
 })
 export class UsersFollowsComponent {
   user$: Observable<User> | undefined = this.route.parent?.data.pipe(
-    map(data => data[0]),
+    map(data => data['user']),
   );
   follows$ = this.user$?.pipe(
     switchMap(user => this.postService.getFollowedPosts(user.id)),

@@ -11,7 +11,7 @@ import { Comment, CommentService, User } from 'src/app/core';
 })
 export class UsersCommentsComponent {
   user$: Observable<User> | undefined = this.route.parent?.data.pipe(
-    map(data => data[0]),
+    map(data => data['user']),
   );
 
   createdComments$ = this.user$?.pipe(

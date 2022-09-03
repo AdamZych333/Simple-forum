@@ -11,7 +11,7 @@ import { CommentService, PostService, User } from '../core';
 })
 export class UsersComponent {
   user$: Observable<User> = this.route.data.pipe(
-    map(data => data[0]),
+    map(data => data['user']),
   );
   newActivity$ = this.user$.pipe(
     switchMap(user => this.postService.getFollowedPosts(user.id)),

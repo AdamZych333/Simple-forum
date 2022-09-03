@@ -10,9 +10,9 @@ const routes: Routes = [
     {
       path: ':id',
       component: UsersComponent,
-      resolve: [
-        UsersResolver
-      ],
+      resolve: {
+        user: UsersResolver
+      },
       children: [
         {
           path: '',

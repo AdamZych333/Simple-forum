@@ -11,7 +11,7 @@ import { Post, PostService, User } from 'src/app/core';
 })
 export class UsersPostsComponent {
   user$: Observable<User> = this.route.data.pipe(
-    map(data => data[0]),
+    map(data => data['user']),
   );
   createdPosts$ = this.user$.pipe(
     switchMap(user => this.postService.getByUser(user.id)),
