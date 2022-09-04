@@ -35,6 +35,10 @@ export class CommentService {
     return this.apiService.post(`/posts/${postID}/comments`, body);
   }
 
+  edit(commentID: number, postID: number, body: ICommentBody){
+    return this.apiService.put(`/posts/${postID}/comments/${commentID}`, body);
+  }
+
   private mapChildern(comment: Comment): Comment[]{
     let list = [comment];
     if(comment.children == null || comment.children.length === 0){

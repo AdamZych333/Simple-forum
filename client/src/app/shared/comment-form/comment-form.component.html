@@ -11,5 +11,14 @@
     <mat-error *ngIf="contentForm.errors?.['minlength']">Content must be at least 5 characters long</mat-error>
     <mat-error *ngIf="contentForm.errors?.['maxlength']">Content must be at most 300 characters long</mat-error>
 </mat-form-field>
-<button mat-flat-button color="primary" (click)="onSubmit()">Submit</button>
+<div>
+        <button mat-flat-button color="primary" (click)="onSubmit()">Submit</button>
+        <button
+                *ngIf="comment"
+                mat-stroked-button 
+                color="primary" 
+                (click)="onCancelClick()">
+                Cancel
+        </button>
+</div>
 

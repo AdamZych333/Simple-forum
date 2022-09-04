@@ -1,8 +1,32 @@
-<mat-card class="comment">
+<mat-card class="comment" *ngIf="!editing; else editingForm">
     <mat-card-subtitle class="subtitle">
-        <app-button-username *ngIf="showAuthor" [userID]="comment.userID"></app-button-username>
-        <app-button-post *ngIf="showPost" [postID]="comment.postID"></app-button-post>
-        <p>{{comment.lastModificationAt | date:'hh:mm a MMM d, y'}}</p>
+        <div class="info">
+            <app-button-username *ngIf="showAuthor" [userID]="comment.userID"></app-button-username>
+            <app-button-post *ngIf="showPost" [postID]="comment.postID"></app-button-post>
+            <div class="date">
+                <p>{{comment.lastModificationAt | date:'hh:mm a MMM d, y'}}</p>
+                <p *ngIf="comment.lastModificationAt != comment.createdAt">edited</p>
+            </div>
+        </div>
+        <button 
+            class="options"
+            *ngIf="canEdit$ | async"
+            mat-icon-button
+            [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button 
+                mat-menu-item
+                (click)="onEditClick()">
+                Edit
+            </button>
+            <button 
+                mat-menu-item 
+                (click)="onDeleteClick()">
+                Delete
+            </button>
+        </mat-menu>
     </mat-card-subtitle>
     <mat-card-content>
       <p>{{comment.content}}</p>
@@ -26,3 +50,11 @@
     [postID]="comment.postID" 
     [parent]="comment">
 </app-comment-form>
+<ng-template #editingForm>
+    <app-comment-form
+        [postID]="comment.postID"
+        [comment]="comment"
+        (onSuccess)="onSuccessEdit($event.content)"
+        (onCancel)="onCancelClick()">
+    </app-comment-form>
+</ng-template>

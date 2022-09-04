@@ -1,6 +1,24 @@
+@import "~src/app/shared/styles/variables"
+
 .comment
     margin: 5px 0
 
     .subtitle
         display: flex
-        gap: 5vw
+        .info
+            display: flex
+            gap: 5vw
+            alig-items: center
+
+            .date
+                display: flex
+                gap: 3px 
+        
+        .options
+            margin-left: auto
+
+        
+
+@media (max-width: $layout-max-breakpoint-xs)
+    .info
+        flex-direction: column

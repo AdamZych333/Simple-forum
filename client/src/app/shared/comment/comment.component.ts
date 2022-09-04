@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Comment } from 'src/app/core';
+import { map } from 'rxjs';
+import { AuthService, Comment } from 'src/app/core';
 
 @Component({
   selector: 'app-comment[comment]',
@@ -13,11 +14,35 @@ export class CommentComponent {
   @Input() showPost: boolean = false;
   @Input() showAuthor: boolean = true;
   showForm = false;
+  editing = false;
+  canEdit$ = this.authService.getCurrentUser().pipe(
+    map(authUser => authUser.id === this.comment.userID || authUser.roles.map(r => r.name).includes('ADMIN')),
+  )
 
-  constructor() { }
+
+  constructor(
+    private authService: AuthService,
+  ) { }
 
 
   onAnswerClick(){
     this.showForm = !this.showForm;
+  }
+
+  onDeleteClick(){
+
+  }
+
+  onEditClick(){
+    this.editing = true;
+  }
+
+  onSuccessEdit(content: string){
+    this.editing = false;
+    this.comment = {...this.comment, content: content};
+  }
+
+  onCancelClick(){
+    this.editing = false;
   }
 }
