@@ -13,7 +13,7 @@ export class EditablePostResolver implements Resolve<Post> {
     ){}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Post> {
-        
+
         return this.postService.getById(route.params['id']).pipe(
             switchMap(post => this.authService.getCurrentUser().pipe(
                 map(authUser => {

@@ -1,3 +1,5 @@
+@import "~src/app/shared/styles/variables"
+
 .post
     margin: 10px 0
 
@@ -27,3 +29,7 @@
     .actions
         .action
             margin: 0 max(2px, .8vw)
+
+@media (max-width: $layout-max-breakpoint-xs)
+    .subtitle
+        flex-direction: column

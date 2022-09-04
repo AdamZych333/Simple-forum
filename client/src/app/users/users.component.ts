@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, map, switchMap } from 'rxjs';
-import { CommentService, PostService, User } from '../core';
+import { AuthService, PostService, User } from '../core';
 
 @Component({
   selector: 'app-users',
@@ -24,10 +24,16 @@ export class UsersComponent {
       return sum;
     })
   )
+  isOwner$ = this.user$.pipe(
+    switchMap(user => this.authService.getCurrentUser().pipe(
+      map(authUser => authUser.id === user.id),
+    ))
+  )
 
   constructor(
     private route: ActivatedRoute,
     private postService: PostService,
+    private authService: AuthService,
   ) { }
 
 }

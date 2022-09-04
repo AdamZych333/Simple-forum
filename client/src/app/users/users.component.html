@@ -19,7 +19,8 @@
         #followsLink="routerLinkActive"
         [checked]="followsLink.isActive"
         [routerLink]="['/users', user.id, 'follows']">
-        Follows ({{newActivity$ | async}})
+        Follows 
+        <ng-container *ngIf="isOwner$ | async">({{newActivity$ | async}})</ng-container>
     </mat-button-toggle>
 </mat-button-toggle-group>
 

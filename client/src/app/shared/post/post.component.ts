@@ -14,6 +14,7 @@ import { AuthService, FollowService, Post, PostService, VoteService, VoteTypes }
 })
 export class PostComponent {
   @Input() post!: Post;
+  @Input() showActivity: boolean = false;
   @Output() onDelete = new EventEmitter<number>();
   VOTE_UP = VoteTypes.UP;
   VOTE_DOWN = VoteTypes.DOWN;
