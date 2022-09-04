@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
 import { map } from 'rxjs';
-import { AuthService, Comment } from 'src/app/core';
+import { AuthService, Comment, CommentService } from 'src/app/core';
 
 @Component({
   selector: 'app-comment[comment]',
@@ -13,6 +13,7 @@ export class CommentComponent {
   @Input() answering: boolean = true;
   @Input() showPost: boolean = false;
   @Input() showAuthor: boolean = true;
+  @Output() onDelete = new EventEmitter<number>();
   showForm = false;
   editing = false;
   canEdit$ = this.authService.getCurrentUser().pipe(
@@ -22,6 +23,7 @@ export class CommentComponent {
 
   constructor(
     private authService: AuthService,
+    private commentService: CommentService,
   ) { }
 
 
@@ -30,7 +32,9 @@ export class CommentComponent {
   }
 
   onDeleteClick(){
-
+    this.commentService.delete(this.comment.id, this.comment.postID).subscribe({
+      next: () => this.onDelete.emit(this.comment.id),
+    })
   }
 
   onEditClick(){

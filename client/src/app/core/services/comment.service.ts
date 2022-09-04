@@ -39,6 +39,10 @@ export class CommentService {
     return this.apiService.put(`/posts/${postID}/comments/${commentID}`, body);
   }
 
+  delete(commentID: number, postID: number){
+    return this.apiService.delete(`/posts/${postID}/comments/${commentID}`);
+  }
+
   private mapChildern(comment: Comment): Comment[]{
     let list = [comment];
     if(comment.children == null || comment.children.length === 0){
